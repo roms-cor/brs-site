@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="{{meta.lang}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{meta.title}}</title>
+<!-- ============================================================
+     GÉNÉRÉ AU BUILD — ne pas éditer ce fichier à la main.
+     Source : content/site-content.json + templates/index.template.html
+     Régénérer via : node build/generate.mjs
+     ============================================================ -->
+<meta name="description" content="{{meta.description}}">
+<meta name="theme-color" content="{{meta.themeColor}}">
+
+<link rel="icon" type="image/png" href="assets/logos/brs-logomark-square.png">
+<link rel="canonical" href="{{meta.domain}}{{meta.path}}">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="{{meta.locale}}">
+<meta property="og:title" content="{{meta.title}}">
+<meta property="og:description" content="{{meta.ogDescription}}">
+<meta property="og:image" content="{{meta.domain}}/{{meta.ogImage}}">
+
+<!-- Données structurées (JSON-LD), générées depuis content/site-content.json.
+     La FAQPage reprend la MÊME liste (faq.items) que la section #faq
+     visible plus bas : elles ne peuvent pas diverger, elles sortent de
+     la même source. -->
+<!--JSONLD-->
+
+<link rel="preload" href="assets/fonts/Montserrat-Bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/fonts/OpenSans-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/main.css">
+
+<script src="js/main.js" defer></script>
+
+<!-- ====================== STYLE COMPLÉMENTAIRE ======================
+     Composants propres à cette page (habillage Draft2 : cartes blanches,
+     sections à fond plein, bandeau sombre pour l'insight, CTA pilule
+     dégradée, FAQ en accordéon). S'appuient sur les tokens de
+     css/tokens.css pour rester dans la charte du site. -->
+<style>
+  :root{
+    --purple-50:  #F2EFFF;
+    --purple-100: #E1E0FF;
+    --purple-600: #3B3C91;
+  }
+
+  /* --- En-tête : logo empilé + halo flouté --- */
+  .site-header{ background:rgba(255,255,255,.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+
+  .brand--stacked{ align-items:center; }
+  .brand--stacked .brand__mark{ width:40px; height:40px; border-radius:var(--radius-xs); }
+  .brand--stacked .brand__label{ display:flex; flex-direction:column; line-height:1.15; }
+  .brand--stacked .brand__label small{
+    font-family:var(--font-head); font-weight:600; font-size:.66rem;
+    text-transform:uppercase; letter-spacing:.11em; color:var(--muted);
+  }
+  .brand--stacked .brand__label strong{
+    font-family:var(--font-head); font-weight:800; font-size:1.08rem; color:var(--navy);
+  }
+
+  .icon-btn{ display:inline-flex; }
+  .icon-btn svg{ width:16px; height:16px; }
+
+  /* --- Boutons pilule --------------------------------------------------- */
+  .btn-pill{
+    display:inline-flex; align-items:center; gap:var(--space-xs);
+    padding:13px 26px;
+    font-family:var(--font-body); font-size:.94rem; font-weight:700;
+    border-radius:99px; border:1.5px solid transparent;
+    transition:background-color var(--transition), border-color var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+  }
+  .btn-pill:hover{ transform:translateY(-1px); }
+  .btn-pill svg{ width:16px; height:16px; flex:none; }
+  .btn-pill--primary{
+    color:var(--on-dark); background:linear-gradient(135deg,var(--navy),var(--navy-dark));
+    box-shadow:0 10px 24px rgba(45,46,131,.28);
+  }
+  .btn-pill--primary:hover{ background:linear-gradient(135deg,var(--navy-dark),var(--navy-dark)); }
+  .btn-pill--ghost{ color:var(--navy); background:transparent; border-color:rgba(45,46,131,.22); }
+  .btn-pill--ghost:hover{ background:var(--purple-50); }
+  .btn-pill--white{ color:var(--navy); background:var(--surface); box-shadow:0 14px 30px rgba(0,0,0,.18); }
+  .btn-pill--white:hover{ background:var(--purple-50); }
+  .btn-pill--sm{ padding:10px 20px; font-size:.86rem; }
+
+  /* --- Puce badge (héros + eyebrows) --------------------------------- */
+  .badge-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:8px 16px;
+    font-family:var(--font-mono); font-size:.74rem; font-weight:600;
+    text-transform:uppercase; letter-spacing:.05em; color:var(--purple-600);
+    background:var(--purple-50); border:1px solid var(--purple-100);
+    border-radius:99px;
+  }
+  .badge-pill__dot{ width:8px; height:8px; border-radius:50%; background:var(--green); flex:none; }
+
+  /* --- Hero : fond blanc + halo dégradé ------------------------------- */
+  .hero-alt{ position:relative; overflow:hidden; padding-block:var(--space-4xl) var(--space-3xl); }
+  .hero-alt::before{
+    content:""; position:absolute; top:-220px; right:-260px;
+    width:640px; height:640px; border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, var(--purple-50), transparent 70%);
+    filter:blur(6px); pointer-events:none;
+  }
+  .hero-alt__grid{ position:relative; display:grid; gap:var(--space-2xl); align-items:center; }
+  @media (min-width:980px){ .hero-alt__grid{ grid-template-columns:1.15fr .85fr; } }
+  .hero-alt__copy{ max-width:60ch; text-align:center; }
+  @media (min-width:980px){ .hero-alt__copy{ text-align:left; } }
+  @media (max-width:979px){ .hero-alt .badge-pill{ margin-inline:auto; } }
+  .hero-alt h1{ margin-top:var(--space-md); margin-bottom:var(--space-md); }
+  .hero-alt__lede{ font-size:1.06rem; max-width:52ch; }
+  @media (max-width:979px){ .hero-alt__lede{ margin-inline:auto; } }
+  .hero-alt__actions{ display:flex; flex-wrap:wrap; gap:var(--space-md); justify-content:center; margin-top:var(--space-lg); }
+  @media (min-width:980px){ .hero-alt__actions{ justify-content:flex-start; } }
+
+  .hero-alt__visual{ position:relative; display:flex; justify-content:center; }
+  @media (min-width:980px){ .hero-alt__visual{ justify-content:flex-end; } }
+  .hero-alt__visual::before{
+    content:""; position:absolute; inset:8% 4%;
+    background:linear-gradient(180deg,var(--purple-100),var(--purple-50));
+    border-radius:2.4rem; transform:rotate(3deg);
+  }
+  .hero-alt__visual img{ position:relative; max-height:440px; width:auto; filter:drop-shadow(0 24px 40px rgba(23,24,68,.22)); }
+
+  /* --- Sections numérotées : chiffre fantôme en colonne ----------- */
+  .numbered{ padding-block:var(--space-4xl); }
+  .numbered__layout{ display:grid; gap:var(--space-lg); }
+  @media (min-width:980px){ .numbered__layout{ grid-template-columns:150px 1fr; gap:var(--space-2xl); } }
+  .numbered__ghost{
+    display:none;
+    font-family:var(--font-head); font-weight:800; font-size:7.2rem; line-height:.8;
+    color:var(--purple-100); user-select:none;
+  }
+  @media (min-width:980px){ .numbered__ghost{ display:block; } }
+  .numbered--dark .numbered__ghost{ color:rgba(255,255,255,.08); }
+
+  /* --- Section sombre ------------------------------------------------ */
+  .numbered--dark{
+    color:var(--on-dark);
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy) 55%,var(--navy-dark) 100%);
+  }
+  .numbered--dark :is(h1,h2,h3,h4){ color:var(--on-dark); }
+  .numbered--dark p{ color:var(--on-dark-muted); }
+  .numbered--dark .eyebrow{ color:var(--green); }
+  .numbered--dark .eyebrow::before{ border-color:var(--green); }
+  .numbered--dark .title-accent{ border-left-color:var(--green); }
+  .numbered--dark .em{ color:var(--sky); }
+
+  /* --- Cartes génériques -----------------------------------------------*/
+  .icon-badge{
+    display:grid; place-items:center; flex:none;
+    width:40px; height:40px;
+    color:var(--navy); background:var(--purple-100);
+    border-radius:var(--radius-xs);
+  }
+  .icon-badge svg{ width:19px; height:19px; }
+  .icon-badge--lg{ width:48px; height:48px; border-radius:var(--radius-sm); }
+  .icon-badge--lg svg{ width:22px; height:22px; }
+  .icon-badge--on-dark{ color:var(--green); background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.16); }
+  .icon-badge--green{ color:var(--navy); background:rgba(147,189,33,.16); border-radius:99px; }
+
+  .grid-2{ display:grid; gap:var(--space-md); margin-top:var(--space-2xl); }
+  @media (min-width:640px){ .grid-2{ grid-template-columns:repeat(2,1fr); } }
+  .grid-3{ display:grid; gap:var(--space-md); margin-top:var(--space-2xl); }
+  @media (min-width:640px){ .grid-3{ grid-template-columns:repeat(2,1fr); } }
+  @media (min-width:900px){ .grid-3{ grid-template-columns:repeat(3,1fr); } }
+  .grid-4{ display:grid; gap:var(--space-md); margin-top:var(--space-2xl); }
+  @media (min-width:640px){ .grid-4{ grid-template-columns:repeat(2,1fr); } }
+  @media (min-width:900px){ .grid-4{ grid-template-columns:repeat(4,1fr); } }
+
+  .tile{
+    padding:var(--space-lg);
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    transition:border-color var(--transition), transform var(--transition);
+  }
+  .tile:hover{ border-color:var(--navy-light); transform:translateY(-2px); }
+  .tile--surface{ background:var(--surface); box-shadow:var(--shadow-card); }
+  .tile--surface:hover{ box-shadow:var(--shadow-panel); }
+  .tile--on-dark{ background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.15); }
+  .tile--on-dark:hover{ background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.15); transform:translateY(-2px); }
+  .tile__head{ display:flex; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-sm); }
+  .tile__head h3{ margin:0; font-size:1rem; }
+  .tile h3{ font-size:1rem; margin-bottom:var(--space-2xs); }
+  .tile p{ font-size:var(--step-sm); margin:0; }
+
+  /* --- Profils --------------------------------------------------------*/
+  .profile-grid{ display:grid; gap:var(--space-md); margin-top:var(--space-lg); }
+  @media (min-width:860px){ .profile-grid{ grid-template-columns:repeat(3,1fr); } }
+  .profile-card{ padding:var(--space-lg); border-radius:var(--radius-md); background:var(--purple-50); border:1px solid var(--purple-100); }
+  .profile-card__tag{ display:block; margin-bottom:var(--space-xs); font-family:var(--font-mono); font-size:var(--step-xs); font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--purple-600); }
+  .profile-card h3{ font-size:.98rem; margin-bottom:var(--space-2xs); }
+  .profile-card p{ font-size:var(--step-sm); margin:0; color:var(--muted); }
+  .profile-card--solid{ background:var(--navy); border-color:var(--navy); }
+  .profile-card--solid .profile-card__tag{ color:var(--green); }
+  .profile-card--solid h3{ color:var(--on-dark); }
+  .profile-card--solid p{ color:var(--on-dark-muted); }
+
+  /* --- Parcours : étapes en pastille numérotée ---------------------------- */
+  .steps-strip{ background:var(--purple-50); border-block:1px solid var(--purple-100); }
+  .step-tile{ position:relative; padding:var(--space-lg); background:var(--surface); border:1px solid var(--purple-100); border-radius:var(--radius-md); box-shadow:var(--shadow-card); }
+  .step-tile__num{
+    display:inline-block; padding:5px 11px; margin-bottom:var(--space-md);
+    font-family:var(--font-mono); font-size:var(--step-sm); font-weight:700;
+    color:var(--purple-600); background:var(--purple-100); border-radius:var(--radius-xs);
+  }
+  .step-tile h3{ font-size:.98rem; margin-bottom:var(--space-2xs); }
+  .step-tile p{ font-size:var(--step-sm); margin:0; color:var(--muted); }
+
+  /* --- Équipe : panneau visuel + repères de crédibilité ------------------- */
+  .team-layout{ display:grid; gap:var(--space-2xl); margin-top:var(--space-2xl); align-items:start; }
+  @media (min-width:980px){ .team-layout{ grid-template-columns:1fr 1.1fr; } }
+  .team-layout .tile-stack{ display:flex; flex-direction:column; gap:var(--space-md); }
+
+  .team-visual{ padding:var(--space-sm); background:var(--bg); border:1px solid var(--line); border-radius:var(--radius-lg); }
+  .team-visual img{ width:100%; border-radius:var(--radius-md); }
+  .team-visual__caption{ display:flex; align-items:center; gap:var(--space-md); margin-top:var(--space-md); }
+  .team-visual__caption img{ width:44px; height:44px; flex:none; }
+  .team-visual__caption p{ font-size:var(--step-sm); margin:0; color:var(--muted); }
+
+  /* --- Logos de référence -------------------------------------------- */
+  .ref-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-md); margin-top:var(--space-xl); }
+  @media (min-width:640px){ .ref-grid{ grid-template-columns:repeat(4,1fr); } }
+  .ref-chip{
+    display:grid; place-items:center;
+    height:64px; padding:var(--space-sm);
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+  }
+  .ref-chip img{ max-height:30px; width:auto; object-fit:contain; }
+
+  /* --- Bénéfices : badge circulaire vert ----------------------------------*/
+  .benefit-tile{ padding:var(--space-xl) var(--space-lg); background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); box-shadow:var(--shadow-card); transition:box-shadow var(--transition); }
+  .benefit-tile:hover{ box-shadow:var(--shadow-panel); }
+  .benefit-tile h3{ margin-top:var(--space-md); font-size:1.02rem; }
+
+  /* --- FAQ : mêmes cartes, teinte au survol/ouverture --------------------- */
+  .faq-item{ transition:border-color var(--transition), background-color var(--transition); }
+  .faq-item[open]{ border-color:var(--purple-100); background:var(--purple-50); }
+
+  /* --- CTA final : panneau dégradé avec halos ------------------------------*/
+  .cta-panel{ position:relative; overflow:hidden; max-width:920px; margin-inline:auto; padding:var(--space-3xl) var(--space-lg); text-align:center; color:var(--on-dark); background:linear-gradient(135deg,var(--navy) 0%,var(--navy) 55%,var(--navy-dark) 100%); border-radius:var(--radius-lg); box-shadow:var(--shadow-deep); }
+  .cta-panel::before,
+  .cta-panel::after{ content:""; position:absolute; width:280px; height:280px; border-radius:50%; filter:blur(60px); pointer-events:none; }
+  .cta-panel::before{ top:-90px; right:-90px; background:rgba(54,169,225,.25); }
+  .cta-panel::after{ bottom:-90px; left:-90px; background:rgba(147,189,33,.18); }
+  .cta-panel > *{ position:relative; }
+  .cta-panel h2{ max-width:24ch; margin-inline:auto; color:var(--on-dark); }
+  .cta-panel .lede{ margin-inline:auto; }
+  .cta-panel .btn-pill{ margin-top:var(--space-lg); }
+</style>
+
+<!-- ====================== IMPRESSION / EXPORT PDF (A4 paysage) ======================
+     Chaque section imprime comme une diapositive A4 paysage. -->
+<style media="print">
+  @page{ size:A4 landscape; margin:10mm 14mm; }
+
+  *,*::before,*::after{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+  html,body{ background:#fff; }
+
+  .skip-link,
+  .topbar,
+  .site-header,
+  .to-top{ display:none !important; }
+
+  [data-reveal]{ opacity:1 !important; transform:none !important; transition:none !important; }
+
+  a{ text-decoration:none; }
+
+  .hero-alt__grid{ display:grid !important; grid-template-columns:1.15fr .85fr !important; gap:10mm !important; align-items:center; }
+  .hero-alt__copy{ text-align:left !important; max-width:none !important; }
+  .hero-alt .badge-pill{ margin-inline:0 !important; }
+  .hero-alt__lede{ margin-inline:0 !important; }
+  .hero-alt__actions{ justify-content:flex-start !important; }
+  .hero-alt__visual{ justify-content:flex-end !important; }
+  .hero-alt__visual img{ max-height:105mm !important; }
+  .hero-alt::before{ display:none; }
+
+  .grid-2{ display:grid !important; grid-template-columns:repeat(2,1fr) !important; }
+  .grid-3{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; }
+  .grid-4{ display:grid !important; grid-template-columns:repeat(4,1fr) !important; }
+  .profile-grid{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; }
+  .team-layout{ display:grid !important; grid-template-columns:1fr 1.1fr !important; align-items:start; }
+  .ref-grid{ display:grid !important; grid-template-columns:repeat(4,1fr) !important; }
+  .capability-grid{ display:grid !important; grid-template-columns:repeat(4,1fr) !important; }
+  .site-footer__top{ display:grid !important; grid-template-columns:1.4fr .8fr .8fr .9fr !important; }
+  .numbered__layout{ display:block !important; }
+  .numbered__ghost{ display:inline-block !important; }
+
+  main > section{
+    break-after:page; page-break-after:always;
+    padding-block:8mm !important;
+    overflow:visible;
+  }
+  #capacites{ break-after:auto; page-break-after:auto; padding-bottom:0 !important; }
+  main > section:last-of-type{ break-after:auto; page-break-after:auto; }
+
+  .site-footer{
+    break-before:page; page-break-before:always;
+    margin-top:0 !important; padding-block:12mm !important;
+  }
+
+  .tile, .step-tile, .profile-card, .benefit-tile, .ref-chip,
+  details.faq-item, .team-visual{
+    break-inside:avoid; page-break-inside:avoid;
+  }
+
+  .faq-item .faq-item__answer{ display:block !important; }
+  .faq-item__sign{ display:none; }
+
+  .cta-panel::before, .cta-panel::after{ filter:blur(40px); }
+
+  h1{ font-size:1.9rem !important; }
+  h2{ font-size:1.4rem !important; }
+  h3{ font-size:.9rem !important; }
+  p{ font-size:.8rem !important; line-height:1.4 !important; }
+  .lede, .hero-alt__lede{ font-size:.84rem !important; }
+  .eyebrow{ margin-bottom:5px !important; }
+  .numbered__ghost{ font-size:2.4rem !important; margin-bottom:2mm !important; }
+  .lede{ margin-bottom:0 !important; }
+
+  .hero-alt__grid, .team-layout{ gap:8mm !important; }
+  .grid-2, .grid-3, .grid-4, .profile-grid{ gap:5mm !important; margin-top:6mm !important; }
+  .team-layout{ margin-top:6mm !important; }
+  .tile, .step-tile, .benefit-tile{ padding:6mm !important; }
+  .tile__head{ margin-bottom:3mm !important; }
+  .profile-card{ padding:6mm !important; }
+  .icon-badge{ width:30px !important; height:30px !important; margin-bottom:0 !important; }
+  .icon-badge svg{ width:15px !important; height:15px !important; }
+  .benefit-tile h3{ margin-top:3mm !important; }
+  .ref-grid{ margin-top:5mm !important; gap:4mm !important; }
+  .ref-chip{ height:16mm !important; }
+  .team-visual{ padding:3mm !important; }
+  .team-visual img{ max-height:70mm; width:auto; margin-inline:auto; }
+
+  #equipe .tile{ padding:5mm !important; }
+  #equipe .tile p{ font-size:.76rem !important; }
+  #equipe .lede{ font-size:.8rem !important; }
+  #equipe .team-layout{ margin-top:4mm !important; gap:6mm !important; }
+  .team-visual__caption img{ width:28px !important; height:28px !important; }
+  .tile-stack{ gap:4mm !important; }
+  .faq-item summary{ padding:4mm 6mm !important; }
+  .faq-item__answer{ padding:0 6mm 4mm !important; }
+  .faq-list{ gap:3mm !important; margin-top:6mm !important; }
+  .cta-panel{ padding:14mm 10mm !important; }
+  .steps-strip .step-tile p{ font-size:.78rem !important; }
+  .tag-list{ margin-top:5mm !important; }
+</style>
+</head>
+
+<body>
+
+<a class="skip-link" href="#main">Aller au contenu principal</a>
+
+<!-- ====================== EN-TÊTE ====================== -->
+<div class="topbar">
+  <div class="wrap topbar__inner">
+    <ul>
+      <li>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7l9 6 9-6M3 5h18v14H3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <a href="mailto:{{organization.email}}">{{organization.email}}</a>
+      </li>
+      <li>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {{organization.hours}}
+      </li>
+    </ul>
+    <ul>
+      <li>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <a href="tel:{{organization.phoneHref}}">{{organization.phoneDisplay}}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand brand--stacked" href="#top" aria-label="{{organization.name}}, retour en haut">
+      <img class="brand__mark" src="assets/logos/brs-logomark-square.png" alt="" width="40" height="40">
+      <span class="brand__label">
+        <small>{{organization.parentOrganizationName}}</small>
+        <strong>{{organization.brandSuffix}}</strong>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Navigation principale" data-spy>
+      <ul>
+        {{#each nav.primary}}<li><a href="{{href}}">{{label}}</a></li>
+        {{/each}}
+      </ul>
+    </nav>
+
+    <a class="btn-pill btn-pill--primary btn-pill--sm header-cta" href="{{nav.ctaHref}}">
+      {{nav.ctaLabel}}
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+
+    <button type="button" class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="nav-mobile" aria-label="Ouvrir le menu">
+      <span class="nav-toggle__bar"></span>
+    </button>
+  </div>
+
+  <nav class="nav-mobile" id="nav-mobile" data-nav-panel aria-label="Navigation mobile">
+    <ul class="wrap">
+      {{#each nav.primary}}<li><a href="{{href}}">{{label}}</a></li>
+      {{/each}}
+      <li><a href="{{nav.ctaHref}}">{{nav.ctaLabel}}</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+<main id="main">
+
+  <!-- ====================== HERO ====================== -->
+  <section class="hero-alt" id="top" aria-labelledby="hero-title">
+    <div class="wrap hero-alt__grid">
+      <div class="hero-alt__copy">
+        <span class="badge-pill"><span class="badge-pill__dot" aria-hidden="true"></span>{{hero.badge}}</span>
+        <h1 id="hero-title">{{hero.title}}</h1>
+        <p class="hero-alt__lede">{{hero.lede}}</p>
+        <div class="hero-alt__actions">
+          <a class="btn-pill btn-pill--primary" href="{{nav.ctaHref}}" data-cta="hero">
+            {{hero.ctaPrimary}}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn-pill btn-pill--ghost" href="#probleme">
+            {{hero.ctaSecondary}}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16M5 13l7 7 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="hero-alt__visual">
+        <img src="{{hero.image}}" alt="{{hero.imageAlt}}" width="360" height="620" loading="eager">
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================== 01 · CAPACITÉS ====================== -->
+  <section class="numbered section--surface section--edged" id="capacites" aria-labelledby="capacites-title">
+    <div class="wrap numbered__layout">
+      <div class="numbered__ghost" aria-hidden="true">{{sections.capacites.number}}</div>
+      <div>
+        <span class="eyebrow">{{sections.capacites.eyebrow}}</span>
+        <h2 id="capacites-title">{{sections.capacites.title}}</h2>
+
+      <div class="grid-4" data-reveal>
+        {{#each sections.capacites.cards}}<article class="tile tile--surface" style="text-align:left">
+          <img src="{{icon}}" alt="" aria-hidden="true" width="44" height="44" style="margin-bottom:var(--space-md)">
+          <h3>{{title}}</h3>
+          <p>{{text}}</p>
+        </article>
+        {{/each}}
+      </div>
+
+      <ul class="tag-list">
+        {{#each sections.capacites.tags}}<li>{{this}}</li>
+        {{/each}}
+      </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================== ANCRAGE MARCHÉ (strip, non numérotée) ====================== -->
+  <section class="section section--tight" id="ancrage" aria-label="Ancrage marché">
+    <div class="wrap" style="text-align:center">
+      <span class="eyebrow" style="justify-content:center">{{sections.ancrage.eyebrow}}</span>
+      <ul class="tag-list" style="justify-content:center;margin-top:0">
+        {{#each sections.ancrage.tags}}<li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ====================== 02 · LE PROBLÈME ====================== -->
+  <section class="numbered section--edged" id="probleme" aria-labelledby="probleme-title">
+    <div class="wrap numbered__layout">
+      <div class="numbered__ghost" aria-hidden="true">{{sections.probleme.number}}</div>
+      <div>
+        <span class="eyebrow">{{sections.probleme.eyebrow}}</span>
+        <h2 class="title-accent" id="probleme-title">{{sections.probleme.titleMain}} <span class="em">{{sections.probleme.titleEm}}</span></h2>
+        <p class="lede" style="max-width:60ch">{{sections.probleme.lede}}</p>
+
+        <div class="grid-2" data-reveal>
+          {{#each sections.probleme.cards}}<article class="tile">
+            <div class="tile__head">
+              <span class="icon-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">{{{iconSvg}}}</svg>
+              </span>
+              <h3>{{title}}</h3>
+            </div>
+            <p>{{text}}</p>
+          </article>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================== 03 · L'INSIGHT ====================== -->
+  <section class="numbered numbered--dark" id="insight" aria-labelledby="insight-title">
+    <div class="wrap numbered__layout">
+      <div class="numbered__ghost" aria-hidden="true">{{sections.insight.number}}</div>
+      <div>
+        <span class="eyebrow">{{sections.insight.eyebrow}}</span>
+        <h2 class="title-accent" id="insight-title">{{sections.insight.titleMain}} <span class="em">{{sections.insight.titleEm}}</span></h2>
+        {{#each sections.insight.ledes}}<p class="lede" style="max-width:60ch">{{this}}</p>
+        {{/each}}
+
+        <div class="grid-2" style="max-width:52rem" data-reveal>
+          {{#each sections.insight.cards}}<article class="tile tile--on-dark">
+            <div class="tile__head">
+              <span class="icon-badge icon-badge--on-dark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">{{{iconSvg}}}</svg>
+              </span>
+              <h3>{{title}}</h3>
+            </div>
+            <p>{{text}}</p>
+          </article>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================== 04 · LA FORME DE LA SOLUTION ====================== -->
+  <section class="numbered" id="solution" aria-labelledby="solution-title">
+    <div class="wrap numbered__layout">
+      <div class="numbered__ghost" aria-hidden="true">{{sections.solution.number}}</div>
+      <div>
+        <span class="eyebrow">{{sections.solution.eyebrow}}</span>
+        <h2 class="title-accent" id="solution-title">{{sections.solution.titleMain}} <span class="em">{{sections.solution.titleEm}}</span></h2>
+        <p class="lede" style="max-width:60ch">{{sections.solution.lede}}</p>
+
+        <div class="grid-4" data-reveal>
+          {{#each sections.solution.cards}}<article class="tile tile--surface"{{#if accent}} style="border-color:var(--sky);box-shadow:0 0 0 1px var(--sky)"{{/if}}>
+            <span class="icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">{{{iconSvg}}}</svg>
+            </span>
+            <h3 style="margin-top:var(--space-md)">{{title}}</h3>
+            <p>{{text}}</p>
+          </article>
+          {{/each}}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================== 05 · PROFILS D'INSTALLATEURS ====================== -->
+  <section class="numbered section--edged" id="profils" aria-labelledby="profils-title">
+    <div class="wrap numbered__layout">
+      <div class="numbered__ghost" aria-hidden="true">{{sections.profils.number}}</div>
+      <div>
+        <span class="eyebrow">{{sections.profils.eyebrow}}</span>
+        <h2 class="title-accent" id="profils-title">{{sections.profils.titleMain}} <span class="em">{{sections.profils.titleEm}}</span></h2>
+
+        <div class="profile-grid" data-reveal>
+          {{#each sections.profils.cards}}<div class="profile-card{{#if solid}} profile-card--solid{{/if}}">
+            <span class="profile-card__tag">{{tag}}</span>
+            <h3>{{title}}</h3>
+            <p>{{text}}</p>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================== 06 · COMMENT ÇA SE PASSE ====================== -->
+  <section class="numbered steps-strip" id="parcours" aria-labelledby="parcours-title">
+    <div class="wrap numbered__layout">
+      <div class="numbered__ghost" aria-hidden="true">{{sections.parcours.number}}</div>
+      <div>
+        <span class="eyebrow">{{sections.parcours.eyebrow}}</span>
+        <h2 id="parcours-title">{{sections.parcours.titleMain}} <span class="em">{{sections.parcours.titleEm}}</span></h2>
+
+      <div class="grid-4" data-reveal>
+        {{#each sections.parcours.steps}}<article class="step-tile">
+          <span class="step-tile__num">{{num}}</span>
+          <h3>{{title}}</h3>
+          <p>{{text}}</p>
+        </article>
+        {{/each}}
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 07 · POURQUOI CETTE ÉQUIPE ====================== -->
+  <section class="numbered section--edged" id="equipe" aria-labelledby="equipe-title">
+    <div class="wrap numbered__layout">
+      <div class="numbered__ghost" aria-hidden="true">{{sections.equipe.number}}</div>
+      <div>
+        <span class="eyebrow">{{sections.equipe.eyebrow}}</span>
+        <h2 class="title-accent" id="equipe-title">{{sections.equipe.titleMain}} <span class="em">{{sections.equipe.titleEm}}</span></h2>
+        <p class="lede" style="max-width:60ch">{{sections.equipe.lede}}</p>
+
+        <div class="team-layout">
+          <div class="tile-stack" data-reveal>
+            {{#each sections.equipe.cards}}<article class="tile">
+              <div class="tile__head">
+                <span class="icon-badge" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">{{{iconSvg}}}</svg>
+                </span>
+                <h3>{{title}}</h3>
+              </div>
+              <p>{{text}}</p>
+            </article>
+            {{/each}}
+          </div>
+
+          <div class="team-visual" data-reveal>
+            <img src="{{sections.equipe.visual.image}}" alt="{{sections.equipe.visual.imageAlt}}">
+            <div class="team-visual__caption">
+              <img src="{{sections.equipe.visual.captionIcon}}" alt="" aria-hidden="true">
+              <p>{{sections.equipe.visual.captionText}}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================== 08 · RÉFÉRENCES PROJETS ====================== -->
+  <section class="numbered section--edged" id="references" aria-labelledby="references-title">
+    <div class="wrap numbered__layout">
+      <div class="numbered__ghost" aria-hidden="true">{{sections.references.number}}</div>
+      <div>
+        <span class="eyebrow">{{sections.references.eyebrow}}</span>
+        <h2 class="title-accent" id="references-title">{{sections.references.titleMain}} <span class="em">{{sections.references.titleEm}}</span></h2>
+        <p class="lede" style="max-width:60ch">{{sections.references.lede}}</p>
+
+        <div class="ref-grid" data-reveal>
+            {{#each sections.references.logos}}<div class="ref-chip"><img src="{{image}}" alt="{{alt}}"></div>
+            {{/each}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================== 09 · CE QUE CELA PEUT CHANGER ====================== -->
+  <section class="numbered section--surface section--edged" id="benefices" aria-labelledby="benefices-title">
+    <div class="wrap numbered__layout">
+      <div class="numbered__ghost" aria-hidden="true">{{sections.benefices.number}}</div>
+      <div>
+        <span class="eyebrow">{{sections.benefices.eyebrow}}</span>
+        <h2 id="benefices-title">{{sections.benefices.title}}</h2>
+
+      <div class="grid-3" data-reveal>
+        {{#each sections.benefices.cards}}<article class="benefit-tile">
+          <span class="icon-badge icon-badge--green" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">{{{iconSvg}}}</svg>
+          </span>
+          <h3>{{title}}</h3>
+          <p>{{text}}</p>
+        </article>
+        {{/each}}
+      </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================== 10 · FAQ ====================== -->
+  <section class="numbered" id="faq" aria-labelledby="faq-title">
+    <div class="wrap numbered__layout">
+      <div class="numbered__ghost" aria-hidden="true">{{faq.number}}</div>
+      <div style="max-width:820px">
+        <span class="eyebrow">{{faq.eyebrow}}</span>
+        <h2 id="faq-title">{{faq.titleMain}} <span class="em">{{faq.titleEm}}</span></h2>
+
+      <div class="faq-list" style="max-width:none">
+        {{#each faq.items}}<details class="faq-item">
+          <summary>{{question}} <span class="faq-item__sign" aria-hidden="true"></span></summary>
+          <div class="faq-item__answer"><p>{{answer}}</p></div>
+        </details>
+
+        {{/each}}
+      </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================== ÉCHANGE FONDATEUR (CTA, non numérotée) ====================== -->
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div class="cta-panel">
+        <span class="eyebrow" style="justify-content:center;color:var(--green)">{{contact.eyebrow}}</span>
+        <h2 id="contact-title">{{contact.title}}</h2>
+        <p class="lede">{{contact.lede}}</p>
+        <a class="btn-pill btn-pill--white" href="{{nav.ctaHref}}" data-cta="final">
+          {{contact.ctaLabel}}
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ====================== PIED DE PAGE ====================== -->
+<footer class="site-footer" style="background:var(--navy-dark);border-radius:0">
+  <div class="wrap">
+    <div class="site-footer__top">
+      <div>
+        <a class="brand" href="#top">
+          <span class="brand__chip"><img class="brand__logo" src="{{organization.logoHorizontal}}" alt="{{organization.parentOrganizationName}}" width="140" height="32"></span>
+          <span class="brand__suffix">{{organization.brandSuffix}}</span>
+        </a>
+        <p>{{footer.taglineShort}}</p>
+        <p>{{footer.taglineLong}}</p>
+        <ul class="site-footer__socials" aria-label="Réseaux sociaux {{organization.name}}">
+          {{#each organization.social}}<li><a href="{{href}}" aria-label="{{ariaLabel}}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">{{{iconSvg}}}</svg></a></li>
+          {{/each}}
+        </ul>
+      </div>
+
+      <nav aria-label="Navigation de pied de page">
+        <h3>Navigation</h3>
+        <ul>
+          {{#each nav.footer}}<li><a href="{{href}}">{{label}}</a></li>
+          {{/each}}
+        </ul>
+      </nav>
+
+      <div>
+        <h3>Segments desservis</h3>
+        <ul>
+          {{#each footer.segments}}<li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+
+      <div>
+        <h3>Contact</h3>
+        <p style="margin-bottom:var(--space-md)">{{footer.contactBlurb}}</p>
+        <ul>
+          <li><a href="tel:{{organization.phoneHref}}">{{organization.phoneDisplay}}</a></li>
+          <li><a href="mailto:{{organization.email}}">{{organization.email}}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__legal">
+      <ul class="site-footer__legal-links">
+        {{#each footer.legalLinks}}<li><a href="{{href}}">{{label}}</a></li>
+        {{/each}}
+      </ul>
+      <p><span data-year>{{buildYear}}</span> {{footer.copyrightSuffix}}</p>
+    </div>
+  </div>
+</footer>
+
+<button type="button" class="to-top" data-to-top aria-label="Retour en haut de page">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+</body>
+</html>
