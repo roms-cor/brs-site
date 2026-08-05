@@ -22,7 +22,7 @@
     "areaServed": "FR",
     "logo": "assets/logos/brs-logomark-square.png",
     "logoHorizontal": "assets/logos/brs-logo-horizontal.svg",
-    "description": "Réseau partenaire IRVE en pré-lancement, adossé à Borne Recharge Service. Étude, préconfiguration, supervision, exploitation et support mobilisables à la prestation par les installateurs IRVE qualifiés.",
+    "description": "Réseau partenaire IRVE actif, adossé à Borne Recharge Service. Étude, préconfiguration, supervision, exploitation et support mobilisables à la prestation par les installateurs IRVE qualifiés.",
     "social": [
       { "platform": "Facebook", "ariaLabel": "Facebook", "href": "#", "iconSvg": "<path d=\"M15 8.5h2V5h-2a4 4 0 00-4 4v2H9v3.5h2V21h3.5v-6.5H17l.5-3.5h-3V9a.5.5 0 01.5-.5z\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/>" },
       { "platform": "Twitter / X", "ariaLabel": "Twitter / X", "href": "#", "iconSvg": "<path d=\"M4 4l16 16M20 4L4 20\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>" },
@@ -49,37 +49,37 @@
     "ctaHref": "mailto:contact@?subject=Devenir%20partenaire%20-%20BRS%20Connect"
   },
   "hero": {
-    "badge": "Réseau partenaire IRVE · pré-lancement",
-    "title": "Arrêtez de perdre des projets IRVE faute de moyens en interne.",
-    "lede": "BRS Connect s'adresse aux installateurs IRVE qualifiés qui savent poser, mais qui n'ont pas toujours les couches autour du projet : bureau d'études, préconfiguration, supervision, exploitation et support. Le but n'est pas de vous remplacer, mais de vous permettre d'aller plus loin sans tout construire seul.",
+    "badge": "Réseau partenaire IRVE · Actif",
+    "title": "Acceptez enfin les projets IRVE ambitieux",
+    "lede": "BRS Connect s'adresse aux installateurs IRVE qualifiés qui savent poser, mais qui n'ont pas toujours toutes les ressources autour d'un projet IRVE : bureau d'études, préconfiguration multi-bornes, supervision, exploitation et support.",
     "ctaPrimary": "Devenir partenaire",
-    "ctaSecondary": "Voir ce qui bloque aujourd'hui",
+    "ctaSecondary": "En savoir plus",
     "image": "assets/images/eclair-brs.png",
     "imageAlt": "Borne de recharge en cours d'installation, photographiée dans un cadrage en éclair"
   },
   "sections": {
     "capacites": {
       "number": "01",
-      "eyebrow": "Ce que BRS Connect met à disposition",
-      "title": "Quatre briques, mobilisables projet par projet",
+      "eyebrow": "Bénéfices",
+      "title": "Nos savoir-faire, mobilisable sur vos projets",
       "cards": [
         { "iconType": "image", "icon": "assets/icons/icon-etude.png", "title": "Étude et dimensionnement", "text": "Notes de calcul, schémas, cadrage électrique, appui sur les sujets TGBT et puissance disponible." },
-        { "iconType": "image", "icon": "assets/icons/icon-preparation.png", "title": "Préconfiguration", "text": "Ce qui peut être préparé en amont l'est, pour rendre la mise en service plus fluide sur site." },
+        { "iconType": "image", "icon": "assets/icons/icon-preparation.png", "title": "Préconfiguration multi-bornes", "text": "Ce qui peut être préparé en amont l'est, pour rendre la mise en service plus fluide sur site." },
         { "iconType": "image", "icon": "assets/icons/icon-supervision.png", "title": "Supervision et exploitation", "text": "Télérelève, suivi de parc, opérations et continuité de service, sans bâtir votre propre couche d'exploitation." },
         { "iconType": "image", "icon": "assets/icons/icon-exploitation.png", "title": "Support et suivi client", "text": "Un relais opérationnel crédible après l'installation, pour ne pas laisser le client seul après la mise en service." }
       ],
-      "tags": ["IRVE P2 / P3", "À la prestation", "Adossé à Borne Recharge Service"]
+      "tags": ["Certif. IRVE P3 DC", "+15 ans d'expérience"]
     },
     "ancrage": {
-      "eyebrow": "Ancrage marché",
+      "eyebrow": "Nos partenaires",
       "tags": ["Qualifelec", "AVERE France", "ADVENIR", "Logivolt", "AFOR", "AVEM", "CDC Habitat", "Symphonics"]
     },
     "probleme": {
       "number": "02",
       "eyebrow": "Le problème",
-      "titleMain": "Beaucoup d'installateurs IRVE ne manquent pas de savoir-faire terrain.",
-      "titleEm": "Ils manquent surtout de structure autour du projet.",
-      "lede": "Le blocage apparaît souvent quand les projets deviennent plus exigeants : copropriétés, tertiaire, parcs multi-bornes, dossiers avec un dimensionnement plus engageant, ou besoin d'un service après la mise en service. Ce qui manque, c'est la continuité, la conformité et les moyens mobilisables.",
+      "titleMain": "Vous ne manquez pas de savoir-faire terrain.",
+      "titleEm": "Vous manquez d'un partenaire spécialisé",
+      "lede": "Le blocage apparaît souvent quand les projets IRVE deviennent plus exigeants : copropriétés, tertiaire, parcs multi-bornes, dossiers avec un dimensionnement plus engageant, ou besoin d'un service après la mise en service. Ce qui manque, c'est la continuité, la conformité et les moyens mobilisables.",
       "cards": [
         { "iconSvg": "<path d=\"M5 21V6a1 1 0 011-1h6a1 1 0 011 1v15M13 21V10a1 1 0 011-1h4a1 1 0 011 1v11\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><path d=\"M8 8h1M8 12h1M8 16h1M16 13h1M16 17h1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>", "title": "Vous visez déjà des projets plus complexes", "text": "Vous intervenez peut-être déjà sur des projets tertiaires ou en copropriété, mais sans bureau d'études interne ni capacité de supervision propre. Résultat : certaines consultations sont difficiles à cadrer, et la relation client risque de s'arrêter juste après la pose." },
         { "iconSvg": "<path d=\"M4 11l8-7 8 7M6 10v10h12V10\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "title": "Vous êtes encore cantonné au résidentiel individuel", "text": "Vous êtes qualifié IRVE, mais les marchés plus rentables restent hors d'atteinte parce qu'ils demandent des études, des notes de calcul, une lecture fine de la puissance disponible, ou un niveau de suivi que vous n'avez pas encore structuré en interne." },
@@ -89,12 +89,12 @@
     },
     "insight": {
       "number": "03",
-      "eyebrow": "L'insight",
-      "titleMain": "Dans l'IRVE, la croissance est souvent bloquée",
-      "titleEm": "moins par la pose que par tout ce qu'il faut autour.",
+      "eyebrow": "Le marché",
+      "titleMain": "Votre croissance est bloquée",
+      "titleEm": "car les projets IRVE sont complexes.",
       "ledes": [
-        "Le marché a surtout besoin d'installateurs capables d'intervenir avec un socle crédible d'étude, de configuration, de supervision, d'exploitation et de support, plus que de nouveaux installateurs tout court. Pour beaucoup d'acteurs qualifiés, construire toutes ces briques en interne, et trop tôt, n'est ni réaliste ni souhaitable.",
-        "BRS Connect prend son sens ici : une couche de service mobilisable, pas un chantier d'organisation à porter seul."
+        "Le marché a surtout besoin d'installateurs capables d'intervenir avec un socle crédible d'étude, de configuration, de supervision, d'exploitation et de support, plus que de nouveaux installateurs tout court. Pour beaucoup d'acteurs qualifiés, construire toutes ces briques en interne, n'est ni réaliste ni souhaitable.",
+        "Le partenariat prend sons : Nous vous aidons à chaque étape du projet IRVE de votre client."
       ],
       "cards": [
         { "iconSvg": "<circle cx=\"9\" cy=\"9\" r=\"3.2\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M3.5 20c.6-3.4 2.9-5.4 5.5-5.4s4.9 2 5.5 5.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><circle cx=\"17\" cy=\"9.5\" r=\"2.6\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M15.2 14.7c2.2.2 4 1.9 4.6 5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>", "title": "Sans recruter trop tôt", "text": "Accéder à des compétences d'étude et d'exploitation sans devoir constituer d'emblée une équipe complète en interne." },
@@ -103,10 +103,10 @@
     },
     "solution": {
       "number": "04",
-      "eyebrow": "La forme de la solution",
-      "titleMain": "BRS Connect est une couche de service modulaire,",
+      "eyebrow": "La solution",
+      "titleMain": "Le partenariat Connect est une suite de services,",
       "titleEm": "pensée pour être mobilisée projet par projet.",
-      "lede": "Ce n'est ni une franchise, ni un programme à paliers, ni un abonnement SaaS. Le modèle est simple : vous activez les briques dont vous avez besoin, à la prestation, selon le projet et votre niveau d'autonomie.",
+      "lede": "Ce n'est ni une franchise, ni un programme à paliers, ni un abonnement. Le modèle est simple : vous activez les briques dont vous avez besoin, à la prestation, selon le projet et votre niveau d'autonomie.",
       "cards": [
         { "iconSvg": "<path d=\"M7 3h7l4 4v14H7V3z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><path d=\"M14 3v4h4M9 13h6M9 17h6M9 9h2\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>", "title": "Bureau d'études IRVE", "text": "Dimensionnement, notes de calcul, schémas et appui sur la conception électrique pour répondre plus solidement à des dossiers jusque-là hors de portée.", "accent": false },
         { "iconSvg": "<path d=\"M4 21V13M4 9V3M12 21v-4M12 13V3M20 21v-8M20 9V3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><circle cx=\"4\" cy=\"11\" r=\"2\" fill=\"currentColor\"/><circle cx=\"12\" cy=\"15\" r=\"2\" fill=\"currentColor\"/><circle cx=\"20\" cy=\"13\" r=\"2\" fill=\"currentColor\"/>", "title": "Préconfiguration", "text": "Une préparation en amont des équipements pour réduire les aléas au moment de la mise en service et rendre le terrain plus prévisible.", "accent": false },
@@ -118,7 +118,7 @@
       "number": "05",
       "eyebrow": "Profils d'installateurs",
       "titleMain": "Deux points de départ différents,",
-      "titleEm": "une même position : vous restez en première ligne.",
+      "titleEm": "mais vous restez en première ligne.",
       "cards": [
         { "tag": "Profil A", "title": "Pour les installateurs déjà positionnés en tertiaire ou en copropriété", "text": "L'intérêt principal est souvent d'ajouter un après crédible au projet : supervision, exploitation, support, et une mise en service mieux préparée.", "solid": false },
         { "tag": "Profil B", "title": "Pour les acteurs encore centrés sur le résidentiel individuel", "text": "L'enjeu est plutôt d'accéder à des projets plus gros, avec un appui d'étude et de cadrage qui permet de répondre avec plus de confiance.", "solid": false },
@@ -127,22 +127,22 @@
     },
     "parcours": {
       "number": "06",
-      "eyebrow": "Comment cela peut se passer",
+      "eyebrow": "Planning projet",
       "titleMain": "Une collaboration simple, lisible,",
       "titleEm": "sans mécanique de programme rigide.",
       "steps": [
-        { "num": "01", "title": "Vous qualifiez le besoin", "text": "Projet de copropriété, marché tertiaire, besoin d'étude, de supervision ou d'une mise en service mieux préparée." },
-        { "num": "02", "title": "BRS Connect active les briques utiles", "text": "Étude, préconfiguration, supervision, exploitation ou support, selon ce qui manque réellement au projet." },
+        { "num": "01", "title": "Vous qualifiez le besoin de votre client", "text": "Projet de copropriété, marché tertiaire, besoin d'étude, de supervision ou d'une mise en service mieux préparée." },
+        { "num": "02", "title": "Vous actives les briques utiles", "text": "Étude, préconfiguration, supervision, exploitation ou support, selon ce qui manque réellement au projet." },
         { "num": "03", "title": "Vous restez pilote de la relation", "text": "Le partenaire garde la main sur le client, le chantier et le suivi commercial, du premier contact jusqu'à la garantie." },
-        { "num": "04", "title": "Vous payez à la prestation", "text": "Pas d'abonnement, pas de tiers, pas de logique de franchise : seulement les services effectivement mobilisés." }
+        { "num": "04", "title": "Vous réalisez la prestation", "text": "Pas d'abonnement, pas de tiers, pas de logique de franchise : seulement les services effectivement mobilisés." }
       ]
     },
     "equipe": {
       "number": "07",
-      "eyebrow": "Pourquoi cette équipe",
+      "eyebrow": "Qui sommes-nous ?",
       "titleMain": "Ces capacités existent déjà chez Borne Recharge Service.",
       "titleEm": "Une pratique en production, pas une théorie vendue sur une page.",
-      "lede": "Le service s'appuie sur les capacités que Borne Recharge Service utilise déjà dans son activité IRVE en production : étude, aide au financement, installation conforme, mise en service, supervision, exploitation, support, portail client et suivi de consommation.",
+      "lede": "Le partenariat Connect s'appuie sur les capacités que Borne Recharge Service utilise déjà dans son activité IRVE en production : étude, aide au financement, installation conforme, mise en service, supervision, exploitation, support, portail client et suivi de consommation.",
       "cards": [
         { "iconSvg": "<path d=\"M13 2L4 14h6l-1 8 9-12h-6l1-8z\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/>", "title": "Un opérateur déjà actif", "text": "Borne Recharge Service intervient déjà sur quatre segments : copropriétés, bailleurs sociaux, entreprises et maisons individuelles." },
         { "iconSvg": "<path d=\"M12 3l8 4.5-8 4.5-8-4.5L12 3z\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><path d=\"M4 12l8 4.5 8-4.5M4 16.5L12 21l8-4.5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>", "title": "Des fondations opérationnelles réelles", "text": "Qualifelec, expérience terrain, mise en service, supervision et exploitation ne sont pas des options ajoutées pour la page : ce sont des briques déjà exercées." },
@@ -157,10 +157,10 @@
     },
     "references": {
       "number": "08",
-      "eyebrow": "Références de crédibilité BRS",
+      "eyebrow": "Nos références",
       "titleMain": "Des références historiques d'exploitation,",
-      "titleEm": "à ne pas confondre avec des partenaires BRS Connect.",
-      "lede": "Dans cette phase, ces noms soutiennent la crédibilité opérateur de BRS : ils ne représentent pas des résultats déjà produits par le réseau partenaire.",
+      "titleEm": "et un savoir-faire que nous partageons avec vous",
+      "lede": "Ces entreprises font déjà appel à nos services : ils ne représentent pas des résultats déjà produits par le réseau partenaire.",
       "logos": [
         { "image": "assets/images/references/gendarmerie.png", "alt": "Gendarmerie nationale" },
         { "image": "assets/images/references/seine-saint-denis-habitat.png", "alt": "Seine-Saint-Denis Habitat" },
@@ -174,7 +174,7 @@
     },
     "benefices": {
       "number": "09",
-      "eyebrow": "Ce que cela peut changer",
+      "eyebrow": "Ce que cela va changer",
       "title": "Des bénéfices concrets, sans promesse excessive.",
       "cards": [
         { "iconSvg": "<path d=\"M6 3v18M6 3l9 2v14l-9 2M15 5v14\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"12.3\" cy=\"12\" r=\"0.8\" fill=\"currentColor\"/>", "title": "Accéder à des projets auparavant difficiles à adresser", "text": "En mobilisant un appui d'étude et de cadrage électrique là où il manquait." },
@@ -186,7 +186,7 @@
   "faq": {
     "number": "10",
     "eyebrow": "FAQ",
-    "titleMain": "Les objections légitimes à clarifier",
+    "titleMain": "Les points à clarifier",
     "titleEm": "dès maintenant.",
     "items": [
       { "question": "BRS Connect va-t-il prendre la relation avec mon client ?", "answer": "Non. Vous restez pilote de la relation commerciale, du chantier et du suivi client, du premier contact jusqu'à la garantie. BRS Connect intervient en arrière-plan, comme une extension opérationnelle mobilisée sur les briques techniques, pas comme un remplacement." },
@@ -197,14 +197,14 @@
     ]
   },
   "contact": {
-    "eyebrow": "Échange fondateur",
-    "title": "Si vous êtes installateur IRVE qualifié et que certains projets vous échappent faute de couches opérationnelles, parlons-en simplement.",
-    "lede": "BRS Connect est encore en phase de lancement. C'est le bon moment pour discuter de vos projets, de vos limites actuelles, et de la manière dont ce modèle pourrait vous être utile sans alourdir votre structure.",
+    "eyebrow": "Rejoindre le programme",
+    "title": "Si vous êtes installateur IRVE qualifié et que certains projets vous échappent, parlons-en simplement.",
+    "lede": "BRS Connect est en phase de lancement. C'est le bon moment pour discuter de vos projets, de vos limites actuelles, et de la manière dont ce modèle pourrait vous être bénéfique.",
     "ctaLabel": "Devenir partenaire"
   },
   "footer": {
-    "taglineShort": "Réseau partenaire IRVE en pré-lancement, adossé à Borne Recharge Service.",
-    "taglineLong": "Étude, préconfiguration, supervision, exploitation, support : les capacités qui vous manquent pour dire oui à des projets plus ambitieux.",
+    "taglineShort": "Réseau partenaire IRVE actif, adossé à Borne Recharge Service.",
+    "taglineLong": "Étude, préconfiguration multi-bornes, supervision, exploitation, support : les capacités qui vous manquent pour dire oui à des projets plus ambitieux.",
     "segments": ["Copropriétés / immeubles", "Bailleurs sociaux", "Entreprises", "Maisons individuelles"],
     "contactBlurb": "Une question sur votre éligibilité ou sur le réseau ? L'équipe BRS Connect vous répond.",
     "legalLinks": [
