@@ -4,9 +4,9 @@
 
 Généré au build le 2026-08-05. Source de vérité : content/site-content.json.
 
-## Acceptez enfin les projets IRVE ambitieux
+## Développez votre activité avec des projets IRVE ambitieux
 
-BRS Connect s'adresse aux installateurs IRVE qualifiés qui savent poser, mais qui n'ont pas toujours toutes les ressources autour d'un projet IRVE : bureau d'études, préconfiguration multi-bornes, supervision, exploitation et support.
+BRS Connect s'adresse aux installateurs IRVE qualifiés qui savent poser, mais qui n'ont pas toujours toutes les ressources pour mener à bien un projet IRVE complexe : bureau d'études, préconfiguration multi-bornes, supervision, exploitation et support.
 
 ## Nos savoir-faire, mobilisable sur vos projets
 
