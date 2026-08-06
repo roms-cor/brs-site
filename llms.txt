@@ -2,7 +2,7 @@
 
 > BRS Connect s'adresse aux installateurs IRVE qualifiés qui savent poser mais qui n'ont pas toujours les couches autour du projet : étude, préconfiguration, supervision, exploitation, support. Réseau en pré-lancement, adossé à Borne Recharge Service.
 
-Généré au build le 2026-08-05. Source de vérité : content/site-content.json.
+Généré au build le 2026-08-06. Source de vérité : content/site-content.json.
 
 ## Développez votre activité avec des projets IRVE ambitieux
 
@@ -28,7 +28,7 @@ Le blocage apparaît souvent quand les projets IRVE deviennent plus exigeants : 
 
 Le marché a surtout besoin d'installateurs capables d'intervenir avec un socle crédible d'étude, de configuration, de supervision, d'exploitation et de support, plus que de nouveaux installateurs tout court. Pour beaucoup d'acteurs qualifiés, construire toutes ces briques en interne, n'est ni réaliste ni souhaitable.
 
-Le partenariat prend sons : Nous vous aidons à chaque étape du projet IRVE de votre client.
+Le partenariat prend tout son sens : nous vous aidons à chaque étape du projet IRVE de votre client.
 
 - **Sans recruter trop tôt** — Accéder à des compétences d'étude et d'exploitation sans devoir constituer d'emblée une équipe complète en interne.
 - **Sans renoncer à la relation client** — Le partenaire reste au centre du projet et de la relation commerciale, avec un appui technique en arrière-plan.
@@ -92,4 +92,4 @@ Vous n'avez pas à tout externaliser. BRS Connect intervient uniquement sur les 
 
 ## Contact
 
-BRS Connect, réseau partenaire adossé à Borne Recharge Service. Email : contact@brs-connect.fr. Téléphone : +33 1 23 45 67 89. Zone : FR.
+BRS Connect, réseau partenaire adossé à Borne Recharge Service. Email : contact@brsconnect.fr. Téléphone : +33 1 84 25 26 70. Zone : FR.

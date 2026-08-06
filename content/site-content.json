@@ -1,7 +1,7 @@
 {
   "$schema_note": "Source de vérité unique pour brs-site (page BRS Connect). Génère index.html, sitemap.xml, llms.txt et robots.txt via build/generate.mjs. Ne jamais éditer index.html à la main : toute modification doit passer par ce fichier, sinon elle sera écrasée au prochain build.",
   "meta": {
-    "domain": "https://bornerecharge.pro",
+    "domain": "https://brsconnect.fr",
     "path": "/",
     "title": "BRS Connect | Arrêtez de perdre des projets IRVE faute de moyens en interne",
     "description": "BRS Connect s'adresse aux installateurs IRVE qualifiés qui savent poser mais qui n'ont pas toujours les couches autour du projet : étude, préconfiguration, supervision, exploitation, support. Réseau en pré-lancement, adossé à Borne Recharge Service.",
@@ -15,18 +15,16 @@
     "name": "BRS Connect",
     "brandSuffix": "Connect",
     "parentOrganizationName": "Borne Recharge Service",
-    "email": "contact@brs-connect.fr",
-    "phoneDisplay": "+33 1 23 45 67 89",
-    "phoneHref": "+33123456789",
+    "email": "contact@brsconnect.fr",
+    "phoneDisplay": "+33 1 84 25 26 70",
+    "phoneHref": "+33184252670",
     "hours": "Lun – Ven, 9h00 – 18h30",
     "areaServed": "FR",
     "logo": "assets/logos/brs-logomark-square.png",
     "logoHorizontal": "assets/logos/brs-logo-horizontal.svg",
     "description": "Réseau partenaire IRVE actif, adossé à Borne Recharge Service. Étude, préconfiguration, supervision, exploitation et support mobilisables à la prestation par les installateurs IRVE qualifiés.",
     "social": [
-      { "platform": "Facebook", "ariaLabel": "Facebook", "href": "#", "iconSvg": "<path d=\"M15 8.5h2V5h-2a4 4 0 00-4 4v2H9v3.5h2V21h3.5v-6.5H17l.5-3.5h-3V9a.5.5 0 01.5-.5z\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/>" },
-      { "platform": "Twitter / X", "ariaLabel": "Twitter / X", "href": "#", "iconSvg": "<path d=\"M4 4l16 16M20 4L4 20\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>" },
-      { "platform": "Instagram", "ariaLabel": "Instagram", "href": "#", "iconSvg": "<rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"5\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"12\" cy=\"12\" r=\"3.4\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"17\" cy=\"7\" r=\"1\" fill=\"currentColor\"/>" }
+      { "platform": "LinkedIn", "ariaLabel": "LinkedIn", "href": "https://www.linkedin.com/company/borne-recharge-service/", "iconSvg": "<rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"4\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"8.5\" cy=\"8.5\" r=\"1\" fill=\"currentColor\"/><path d=\"M8.5 11v6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><path d=\"M12.5 17v-3.5a2 2 0 012-2 2 2 0 012 2V17\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12.5 11v6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>" }
     ]
   },
   "nav": {
@@ -46,7 +44,7 @@
       { "label": "FAQ", "href": "#faq" }
     ],
     "ctaLabel": "Devenir partenaire",
-    "ctaHref": "mailto:contact@?subject=Devenir%20partenaire%20-%20BRS%20Connect"
+    "ctaHref": "mailto:contact@brsconnect.fr?subject=Devenir%20partenaire%20-%20BRS%20Connect"
   },
   "hero": {
     "badge": "Réseau partenaire IRVE · Actif",
@@ -94,7 +92,7 @@
       "titleEm": "car les projets IRVE sont complexes.",
       "ledes": [
         "Le marché a surtout besoin d'installateurs capables d'intervenir avec un socle crédible d'étude, de configuration, de supervision, d'exploitation et de support, plus que de nouveaux installateurs tout court. Pour beaucoup d'acteurs qualifiés, construire toutes ces briques en interne, n'est ni réaliste ni souhaitable.",
-        "Le partenariat prend sons : Nous vous aidons à chaque étape du projet IRVE de votre client."
+        "Le partenariat prend tout son sens : nous vous aidons à chaque étape du projet IRVE de votre client."
       ],
       "cards": [
         { "iconSvg": "<circle cx=\"9\" cy=\"9\" r=\"3.2\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M3.5 20c.6-3.4 2.9-5.4 5.5-5.4s4.9 2 5.5 5.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><circle cx=\"17\" cy=\"9.5\" r=\"2.6\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M15.2 14.7c2.2.2 4 1.9 4.6 5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>", "title": "Sans recruter trop tôt", "text": "Accéder à des compétences d'étude et d'exploitation sans devoir constituer d'emblée une équipe complète en interne." },
@@ -208,10 +206,12 @@
     "segments": ["Copropriétés / immeubles", "Bailleurs sociaux", "Entreprises", "Maisons individuelles"],
     "contactBlurb": "Une question sur votre éligibilité ou sur le réseau ? L'équipe BRS Connect vous répond.",
     "legalLinks": [
-      { "label": "Conditions d'utilisation", "href": "#" },
-      { "label": "Politique de confidentialité", "href": "#" },
-      { "label": "Politique des cookies", "href": "#" }
+      { "label": "Mentions légales", "href": "https://bornerecharge.fr/mentions-legales/" },
+      { "label": "Politique de confidentialité", "href": "https://bornerecharge.fr/privacy-policy/" },
+      { "label": "Politique des cookies", "href": "https://bornerecharge.fr/politique-de-gestion-des-cookies/" },
+      { "label": "Conditions générales d'utilisation et de vente", "href": "https://bornerecharge.fr/conditions-generales-dutilisation-vente/" },
+      { "label": "Décrets et arrêtés", "href": "https://bornerecharge.fr/decrets-et-arretes/" }
     ],
-    "copyrightSuffix": "BRS Connect · Réseau partenaire IRVE adossé à Borne Recharge Service · Page de démonstration"
+    "copyrightSuffix": "BRS Connect · Réseau partenaire IRVE adossé à Borne Recharge Service"
   }
 }
