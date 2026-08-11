@@ -673,6 +673,11 @@
   color:rgba(255,255,255,.55);
 }
 .site-footer__legal p{ margin:0; }
+.site-footer__legal-meta{
+  display:flex; flex-direction:column; align-items:flex-end;
+  gap:2px; text-align:right;
+}
+.site-footer__updated{ color:rgba(255,255,255,.4); }
 
 
 /* --------------------------------------------------------------------------

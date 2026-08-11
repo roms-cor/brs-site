@@ -18,6 +18,7 @@ const template = readFileSync(path.join(ROOT, 'templates/index.template.html'), 
 const now = new Date();
 const buildYear = String(now.getFullYear());
 const buildDate = now.toISOString().slice(0, 10);
+const buildTimestamp = `${now.toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris', day: '2-digit', month: '2-digit', year: 'numeric' })} à ${now.toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' })}`;
 
 // ---------------------------------------------------------------------------
 // Moteur de templating minimal : {{path.to.value}}, {{{raw.html}}},
@@ -114,7 +115,7 @@ function buildJsonLd(c) {
 // ---------------------------------------------------------------------------
 // index.html
 // ---------------------------------------------------------------------------
-const ctx = { ...content, buildYear, buildDate };
+const ctx = { ...content, buildYear, buildDate, buildTimestamp };
 let html = render(template, ctx);
 html = html.replace('<!--JSONLD-->', buildJsonLd(content));
 writeFileSync(path.join(ROOT, 'index.html'), html, 'utf8');
