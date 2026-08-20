@@ -150,7 +150,7 @@ const sectionOrder = [
   'probleme',
   'insight',
   'solution',
-  'profils',
+  'roles',
   'parcours',
   'equipe',
   'references',
@@ -176,6 +176,20 @@ for (const key of sectionOrder) {
     }
   }
   if (items.length) llms += `\n`;
+  // Colonnes de rôles (section « qui fait quoi ») : listes sans titre/texte.
+  for (const col of [s.partner, s.network]) {
+    if (col && Array.isArray(col.items)) {
+      llms += `### ${col.label}\n\n`;
+      for (const line of col.items) llms += `- ${line}\n`;
+      llms += `\n`;
+    }
+  }
+  // Faits chiffrés (section références).
+  if (Array.isArray(s.facts) && s.facts.length) {
+    if (s.factsLabel) llms += `### ${s.factsLabel}\n\n`;
+    for (const f of s.facts) llms += `- **${f.client}** — ${f.detail}\n`;
+    llms += `\n`;
+  }
 }
 
 llms += `## FAQ\n\n`;

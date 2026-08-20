@@ -85,6 +85,8 @@
   .btn-pill--ghost:hover{ background:var(--purple-50); }
   .btn-pill--white{ color:var(--navy); background:var(--surface); box-shadow:0 14px 30px rgba(0,0,0,.18); }
   .btn-pill--white:hover{ background:var(--purple-50); }
+  .btn-pill--outline-light{ color:var(--on-dark); background:transparent; border:1px solid rgba(255,255,255,.4); }
+  .btn-pill--outline-light:hover{ background:rgba(255,255,255,.12); }
   .btn-pill--sm{ padding:10px 20px; font-size:.86rem; }
 
   /* --- Puce badge (héros + eyebrows) --------------------------------- */
@@ -223,6 +225,19 @@
   .team-visual__caption img{ width:44px; height:44px; flex:none; }
   .team-visual__caption p{ font-size:var(--step-sm); margin:0; color:var(--muted); }
 
+  /* --- Qui fait quoi : deux colonnes de rôles ------------------------- */
+  .role-grid{ display:grid; gap:var(--space-md); margin-top:var(--space-lg); }
+  @media (min-width:860px){ .role-grid{ grid-template-columns:repeat(2,1fr); } }
+  .role-col{ padding:var(--space-lg); border-radius:var(--radius-md); background:var(--purple-50); border:1px solid var(--purple-100); }
+  .role-col__label{ display:block; margin-bottom:var(--space-sm); font-family:var(--font-mono); font-size:var(--step-xs); font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--purple-600); }
+  .role-col ul{ margin:0; padding:0; list-style:none; display:grid; gap:var(--space-sm); }
+  .role-col li{ position:relative; padding-left:1.6em; font-size:var(--step-sm); color:var(--muted); }
+  .role-col li::before{ content:""; position:absolute; left:0; top:.42em; width:.7em; height:.38em; border-left:2px solid var(--green); border-bottom:2px solid var(--green); transform:rotate(-45deg); }
+  .role-col--solid{ background:var(--navy); border-color:var(--navy); }
+  .role-col--solid .role-col__label{ color:var(--green); }
+  .role-col--solid li{ color:var(--on-dark-muted); }
+  .role-footnote{ margin-top:var(--space-md); font-weight:600; }
+
   /* --- Logos de référence -------------------------------------------- */
   .ref-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-md); margin-top:var(--space-xl); }
   @media (min-width:640px){ .ref-grid{ grid-template-columns:repeat(4,1fr); } }
@@ -234,6 +249,11 @@
     border-radius:var(--radius-sm);
   }
   .ref-chip img{ max-height:30px; width:auto; object-fit:contain; }
+  .ref-facts{ margin-top:var(--space-xl); }
+  .ref-facts__label{ display:block; margin-bottom:var(--space-sm); font-family:var(--font-mono); font-size:var(--step-xs); font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--purple-600); }
+  .ref-facts ul{ margin:0; padding:0; list-style:none; display:grid; gap:var(--space-2xs); }
+  .ref-facts li{ font-size:var(--step-sm); color:var(--muted); }
+  .ref-facts li strong{ color:var(--ink); font-weight:600; }
 
   /* --- Bénéfices : badge circulaire vert ----------------------------------*/
   .benefit-tile{ padding:var(--space-xl) var(--space-lg); background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); box-shadow:var(--shadow-card); transition:box-shadow var(--transition); }
@@ -245,6 +265,8 @@
   .faq-item[open]{ border-color:var(--purple-100); background:var(--purple-50); }
 
   /* --- CTA final : panneau dégradé avec halos ------------------------------*/
+  .cta-panel__actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:var(--space-sm); }
+  .cta-panel__note{ margin:var(--space-lg) auto 0; max-width:56ch; font-size:var(--step-sm); color:var(--on-dark-muted); }
   .cta-panel{ position:relative; overflow:hidden; max-width:920px; margin-inline:auto; padding:var(--space-3xl) var(--space-lg); text-align:center; color:var(--on-dark); background:linear-gradient(135deg,var(--navy) 0%,var(--navy) 55%,var(--navy-dark) 100%); border-radius:var(--radius-lg); box-shadow:var(--shadow-deep); }
   .cta-panel::before,
   .cta-panel::after{ content:""; position:absolute; width:280px; height:280px; border-radius:50%; filter:blur(60px); pointer-events:none; }
@@ -428,13 +450,13 @@
         <h1 id="hero-title">{{hero.title}}</h1>
         <p class="hero-alt__lede">{{hero.lede}}</p>
         <div class="hero-alt__actions">
-          <a class="btn-pill btn-pill--primary" href="{{nav.ctaHref}}" data-cta="hero">
+          <a class="btn-pill btn-pill--primary" href="{{hero.ctaPrimaryHref}}" data-cta="hero">
             {{hero.ctaPrimary}}
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a class="btn-pill btn-pill--ghost" href="#probleme">
+          <a class="btn-pill btn-pill--ghost" href="{{hero.ctaSecondaryHref}}" data-cta="hero-secondary">
             {{hero.ctaSecondary}}
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16M5 13l7 7 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
       </div>
@@ -561,22 +583,32 @@
   </section>
 
 
-  <!-- ====================== 05 · PROFILS D'INSTALLATEURS ====================== -->
-  <section class="numbered section--edged" id="profils" aria-labelledby="profils-title">
+  <!-- ====================== 05 · QUI FAIT QUOI ====================== -->
+  <section class="numbered section--edged" id="roles" aria-labelledby="roles-title">
     <div class="wrap numbered__layout">
-      <div class="numbered__ghost" aria-hidden="true">{{sections.profils.number}}</div>
+      <div class="numbered__ghost" aria-hidden="true">{{sections.roles.number}}</div>
       <div>
-        <span class="eyebrow">{{sections.profils.eyebrow}}</span>
-        <h2 class="title-accent" id="profils-title">{{sections.profils.titleMain}} <span class="em">{{sections.profils.titleEm}}</span></h2>
+        <span class="eyebrow">{{sections.roles.eyebrow}}</span>
+        <h2 class="title-accent" id="roles-title">{{sections.roles.titleMain}} <span class="em">{{sections.roles.titleEm}}</span></h2>
+        <p class="lede" style="max-width:60ch">{{sections.roles.lede}}</p>
 
-        <div class="profile-grid" data-reveal>
-          {{#each sections.profils.cards}}<div class="profile-card{{#if solid}} profile-card--solid{{/if}}">
-            <span class="profile-card__tag">{{tag}}</span>
-            <h3>{{title}}</h3>
-            <p>{{text}}</p>
+        <div class="role-grid" data-reveal>
+          <div class="role-col">
+            <span class="role-col__label">{{sections.roles.partner.label}}</span>
+            <ul>
+              {{#each sections.roles.partner.items}}<li>{{this}}</li>
+              {{/each}}
+            </ul>
           </div>
-          {{/each}}
+          <div class="role-col role-col--solid">
+            <span class="role-col__label">{{sections.roles.network.label}}</span>
+            <ul>
+              {{#each sections.roles.network.items}}<li>{{this}}</li>
+              {{/each}}
+            </ul>
+          </div>
         </div>
+        <p class="role-footnote">{{sections.roles.footnote}}</p>
       </div>
     </div>
   </section>
@@ -602,7 +634,7 @@
     </div>
   </section>
 
-  <!-- ====================== 07 · POURQUOI CETTE ÉQUIPE ====================== -->
+  <!-- ====================== 06 · POURQUOI CETTE ÉQUIPE ====================== -->
   <section class="numbered section--edged" id="equipe" aria-labelledby="equipe-title">
     <div class="wrap numbered__layout">
       <div class="numbered__ghost" aria-hidden="true">{{sections.equipe.number}}</div>
@@ -651,6 +683,14 @@
         <div class="ref-grid" data-reveal>
             {{#each sections.references.logos}}<div class="ref-chip"><img src="{{image}}" alt="{{alt}}"></div>
             {{/each}}
+        </div>
+
+        <div class="ref-facts" data-reveal>
+          <span class="ref-facts__label">{{sections.references.factsLabel}}</span>
+          <ul>
+            {{#each sections.references.facts}}<li><strong>{{client}}</strong> — {{detail}}</li>
+            {{/each}}
+          </ul>
         </div>
       </div>
     </div>
@@ -708,10 +748,16 @@
         <span class="eyebrow" style="justify-content:center;color:var(--green)">{{contact.eyebrow}}</span>
         <h2 id="contact-title">{{contact.title}}</h2>
         <p class="lede">{{contact.lede}}</p>
-        <a class="btn-pill btn-pill--white" href="{{nav.ctaHref}}" data-cta="final">
-          {{contact.ctaLabel}}
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        <div class="cta-panel__actions">
+          <a class="btn-pill btn-pill--white" href="{{contact.ctaHref}}" data-cta="final">
+            {{contact.ctaLabel}}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn-pill btn-pill--outline-light" href="{{contact.ctaSecondaryHref}}" data-cta="final-secondary">
+            {{contact.ctaSecondaryLabel}}
+          </a>
+        </div>
+        <p class="cta-panel__note">{{contact.note}}</p>
       </div>
     </div>
   </section>
