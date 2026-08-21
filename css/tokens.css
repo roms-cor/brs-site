@@ -1,56 +1,77 @@
 /* ==========================================================================
    BRS Connect — Design tokens
-   Source unique de vérité : brs-design/tokens.json
-   Toute couleur, police, espacement ou rayon utilisé ailleurs dans le site
-   doit passer par une variable définie ici.
+   Source unique de vérité visuelle du site. Miroir documenté :
+   brs-design/tokens.json + brs-design/design-system.md.
+
+   Architecture : UNE seule couche de rôles sémantiques, valeurs à plat.
+   Chaque variable a un usage précis ; pas de couche « primitives ».
+   Référence : rendu Replit validé le 2026-08-20 (flat design — angles
+   droits sur les cartes, bordures hairline, quasi aucune ombre).
    ========================================================================== */
 
 :root{
 
-  /* --- Couleurs de marque ------------------------------------------------
-     tokens.json > color.brand + color.state
-     Le navy est la couleur dominante, le ciel l'accent, et le vert reste
-     une touche rare ("jamais un grand aplat").                            */
-  --navy:          #2D2E83;
-  --navy-dark:     #171844;
-  --navy-light:    #8B8CD7;
-  --sky:           #36A9E1;
-  --sky-hover:     #1E8FC6;
-  --sky-dark:      #1C5875;
-  --green:         #93BD21;
+  /* --- Couleurs : rôles sémantiques --------------------------------------
+     Fond blanc pur ; le navy est la couleur d'autorité (sections sombres,
+     footer), le bleu ciel l'action (CTA, icônes actives, accents).       */
+  --background:            #FFFFFF;   /* fond de page et des zones claires  */
+  --foreground:            #171844;   /* titres et texte fort sur clair     */
 
-  /* --- Surfaces et texte ------------------------------------------------- */
-  --bg:            #FAFFFD;
-  --surface:       #FFFFFF;
-  --ink:           #212529;
-  --muted:         #5C6B78;
-  --line:          #D9E3E8;
-  --line-soft:     #E7EEF1;
+  --primary:               #36A9E1;   /* CTA, éléments actifs               */
+  --primary-foreground:    #171844;   /* texte posé sur --primary           */
+  --primary-hover:         #1E8FC6;
+  --primary-pressed:       #1C5875;
+  --primary-pressed-foreground: #FFFFFF;
 
-  /* État d'erreur de formulaire (hors tokens.json, choisi pour rester
-     lisible sur fond clair : 5.0:1) */
-  --danger:        #C0392B;
+  --secondary:             #2D2E83;   /* bandes sombres, footer, hero       */
+  --secondary-foreground:  #FFFFFF;
 
-  /* Texte posé sur les fonds sombres */
-  --on-dark:            #FFFFFF;
-  --on-dark-muted:      rgba(255,255,255,.78);
-  --on-dark-line:       rgba(255,255,255,.22);
+  --muted:                 #F5F5F5;   /* fonds atténués, chips, alternances */
+  --muted-foreground:      #303030;   /* corps de texte sur fond clair      */
 
-  /* --- Typographie -------------------------------------------------------
-     tokens.json > typography.fontFamily                                    */
-  --font-head: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --accent:                #8B8CD7;   /* fonds d'icônes, touches douces     */
+  --accent-foreground:     #171844;
+
+  --link:                  #1C5875;   /* liens et sourcils sur fond clair   */
+
+  --border:                #D9D9D9;   /* bordures hairline omniprésentes    */
+  --card:                  #FFFFFF;
+  --card-foreground:       #171844;
+  --ring:                  #1E8FC6;   /* focus visible                      */
+
+  /* États (emplois rares : le vert n'est jamais un grand aplat) */
+  --success:               #93BD21;
+  --danger:                #C0392B;
+
+  /* Texte et bordures posés sur les fonds sombres */
+  --on-dark:               #FFFFFF;
+  --on-dark-muted:         rgba(255,255,255,.78);
+  --on-dark-border:        rgba(255,255,255,.22);
+
+  /* --- Typographie --------------------------------------------------------
+     Inter partout, déclinée par graisses (variable 100–900 auto-hébergée).
+     Pas de seconde famille.                                               */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 
-  /* Échelle fluide : min lisible sur mobile, max maîtrisé sur grand écran */
-  --step-h1:   clamp(2rem,   1.30rem + 2.9vw, 3.05rem);
-  --step-h2:   clamp(1.55rem, 1.20rem + 1.5vw, 2.15rem);
-  --step-h3:   clamp(1.12rem, 1.02rem + 0.4vw, 1.30rem);
+  /* Échelle fluide : bornes = rendu Replit (36→60, 30→48) */
+  --step-h1:   clamp(2.25rem, 1.55rem + 2.9vw, 3.75rem);
+  --step-h2:   clamp(1.875rem, 1.35rem + 2.2vw, 3rem);
+  --step-h3:   1.25rem;
+  --step-lg:   1.125rem;   /* ledes et chapôs                               */
   --step-body: 1rem;
-  --step-sm:   .88rem;
-  --step-xs:   .78rem;
+  --step-sm:   .875rem;    /* nav, boutons, sourcils, cartes                */
+  --step-xs:   .8rem;      /* mentions, légendes                            */
 
-  /* --- Espacement -------------------------------------------------------- */
+  /* Interlignage et approche */
+  --leading-h1:      1.04;
+  --leading-h2:      1.25;
+  --leading-body:    1.7;
+  --tracking-h1:     -.04em;
+  --tracking-h2:     -.025em;
+  --tracking-eyebrow: .16em;
+
+  /* --- Espacement (base 4px) --------------------------------------------- */
   --space-2xs: 4px;
   --space-xs:  8px;
   --space-sm:  12px;
@@ -59,30 +80,26 @@
   --space-xl:  32px;
   --space-2xl: 48px;
   --space-3xl: 64px;
-  --space-4xl: 88px;
+  --space-4xl: 96px;
 
-  /* Rythme vertical des sections */
-  --section-y: clamp(3.5rem, 2.4rem + 4.5vw, 6rem);
+  /* Rythme vertical des sections : 64px mobile → 96px desktop */
+  --section-y: clamp(4rem, 2.9rem + 3.4vw, 6rem);
 
-  /* --- Rayons ------------------------------------------------------------
-     Le thème d'origine travaille par grandes courbes (jusqu'à 50px sur les
-     bandes pleine largeur) : on conserve cette logique.                    */
-  --radius-xs:  6px;
-  --radius-sm:  10px;
-  --radius-md:  18px;
-  --radius-lg:  24px;
-  --radius-band: 50px;
+  /* --- Rayons -------------------------------------------------------------
+     Flat design : les CARTES sont à angles droits (radius 0, en dur dans
+     les composants). Les rayons ci-dessous servent aux petits contrôles. */
+  --radius-sm:   4px;      /* focus ring, petits éléments                   */
+  --radius-md:   6px;      /* boutons, inputs, badges d'icône               */
+  --radius-full: 999px;
 
-  /* --- Ombres ------------------------------------------------------------
-     tokens.json > shadow.ctaButton                                         */
-  --shadow-cta:   0 3px 6px rgba(26,27,76,.10);
-  --shadow-card:  0 2px 10px rgba(23,24,68,.05);
-  --shadow-panel: 0 20px 40px rgba(23,24,68,.12);
-  --shadow-deep:  0 24px 48px rgba(0,0,0,.32);
+  /* --- Ombres -------------------------------------------------------------
+     Quasi absentes : hairlines plutôt qu'ombres. Deux exceptions.        */
+  --shadow-subtle: 0 1px 2px rgba(0,0,0,.05);
+  --shadow-deep:   0 25px 50px -12px rgba(0,0,0,.25);  /* visuel du hero    */
 
-  /* --- Divers ------------------------------------------------------------ */
-  --content-max: 1180px;
+  /* --- Divers ------------------------------------------------------------- */
+  --content-max: 1280px;
   --header-h:    76px;
   --ease:        cubic-bezier(.4,0,.2,1);
-  --transition:  .18s var(--ease);
+  --transition:  .2s var(--ease);
 }

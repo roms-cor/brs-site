@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 400" width="520" height="400" role="img" aria-label="Panneau de supervision BRS Control Room, exploitant en production">
+  <!-- Reproduction statique de la composition « BRS Control Room »
+       de la maquette Replit (hero, colonne droite). Couleurs = tokens :
+       navy #2D2E83, navy profond #171844, ciel #36A9E1, lien #1C5875,
+       bordure #D9D9D9, atténué #F5F5F5. -->
+
+  <!-- Cadre translucide posé sur le fond navy du hero -->
+  <rect x=".5" y=".5" width="519" height="399" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.2)"/>
+
+  <!-- Panneau blanc -->
+  <g>
+    <rect x="32.5" y="128.5" width="455" height="239" fill="#FFFFFF" stroke="#D9D9D9"/>
+
+    <!-- En-tête : badge PlugZap + titre -->
+    <rect x="56" y="152" width="40" height="40" rx="6" fill="#36A9E1"/>
+    <g transform="translate(66,162) scale(0.8333)" fill="none" stroke="#171844" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/>
+      <path d="m2 22 3-3"/>
+      <path d="M7.5 13.5 10 11"/>
+      <path d="M10.5 16.5 13 14"/>
+      <path d="m18 3-4 4h6l-4 4"/>
+    </g>
+    <text x="108" y="178" font-family="Inter, -apple-system, 'Segoe UI', sans-serif" font-size="16" font-weight="700" fill="#171844">BRS Control Room</text>
+
+    <!-- Statut à droite -->
+    <circle cx="318" cy="172" r="4" fill="#36A9E1"/>
+    <text x="330" y="176" font-family="Inter, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1C5875">Exploitant en production</text>
+
+    <!-- Filet d'en-tête -->
+    <line x1="56" y1="208" x2="464" y2="208" stroke="#D9D9D9"/>
+
+    <!-- Corps : borne + barres -->
+    <rect x="58" y="234" width="92" height="92" fill="#F5F5F5" stroke="#1C5875" stroke-width="4"/>
+    <g transform="translate(84,260) scale(1.6667)" fill="none" stroke="#1C5875" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>
+    </g>
+
+    <rect x="172" y="238" width="292" height="12" fill="#F5F5F5"/>
+    <rect x="172" y="262" width="234" height="12" fill="#F5F5F5"/>
+    <rect x="172" y="286" width="175" height="12" fill="rgba(54,169,225,.3)"/>
+
+    <text x="172" y="322" font-family="Inter, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#171844">Étude · Préconfiguration · Supervision</text>
+  </g>
+</svg>

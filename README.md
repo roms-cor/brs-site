@@ -26,9 +26,12 @@ manuelle sera perdue au prochain build.
 
 ## Éditer la structure ou le style visuel
 
-Modifier `templates/index.template.html` (markup + `<style>`) puis régénérer comme
-ci-dessus. Les CSS globales (`css/tokens.css`, `css/base.css`, `css/main.css`) restent
-indépendantes du build.
+Le style vit intégralement dans `css/tokens.css` (tokens sémantiques — source
+unique de vérité visuelle, miroir documenté dans `../brs-design/`), `css/base.css`
+(reset, police Inter, boutons) et `css/main.css` (composants, dans l'ordre de la
+page) : les modifier ne nécessite pas de rebuild. Le markup vit dans
+`templates/index.template.html` (seul le bloc `<style media="print">` y reste) ;
+après toute modification du template, régénérer comme ci-dessus.
 
 ## Ajouter un champ de contenu
 
