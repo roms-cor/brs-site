@@ -7,7 +7,7 @@
     "description": "Répondez aux appels d'offres avec un exploitant IRVE en production désigné dans votre dossier, sous votre nom, avec l'accord de BRS projet par projet. Étude, préconfiguration, supervision, exploitation et support, à la prestation. Réseau adossé à Borne Recharge Service, opérateur depuis 2012.",
     "ogDescription": "L'exploitant en production dans votre dossier d'appel d'offres, sous votre nom. Étude, supervision, exploitation et support, à la prestation, projet par projet.",
     "themeColor": "#2D2E83",
-    "ogImage": "assets/images/hero-photo.png",
+    "ogImage": "assets/images/brs-web-visuals/brs-web-visuals-image1.png",
     "locale": "fr_FR",
     "lang": "fr"
   },
@@ -309,7 +309,7 @@
         }
       ],
       "visual": {
-        "image": "assets/images/illustration-reseau.png",
+        "image": "assets/images/brs-web-visuals/brs-web-visuals-schema1.png",
         "imageAlt": "Schéma du portail de supervision Borne Recharge Service, connecté aux bornes en copropriété, en entreprise et en habitat individuel",
         "captionIcon": "assets/icons/icon-supervision.png",
         "captionText": "Supervision, télérelève et portail client, déjà utilisés par Borne Recharge Service, opérateur qualifié IRVE."
