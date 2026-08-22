@@ -24,11 +24,65 @@
 .section--tight{ padding-block:calc(var(--section-y) * .5); }
 .section--surface{ background:var(--background); }
 .section--edged{ border-block:var(--hairline); }
+/* Bande atténuée : fond muted + filets, comme le tone "muted" du canvas. */
+.section--muted{ background:var(--muted); border-block:var(--hairline); }
 
-/* Conteneur centré — bande « ancrage ». Remplace trois styles inline. */
+/* Conteneur centré — conservé pour un usage ponctuel. */
 .wrap--center{ text-align:center; }
 .wrap--center .eyebrow{ justify-content:center; }
 .wrap--center .tag-list{ justify-content:center; margin-top:0; }
+
+/* --------------------------------------------------------------------------
+   1bis. Motifs d'import design 2026-08-22 — en-têtes en deux colonnes
+   et visuels de section.
+   -------------------------------------------------------------------------- */
+/* En-tête de section en deux colonnes : texte à gauche, visuel à droite. */
+.section-head--split{
+  display:grid; gap:var(--space-2xl); align-items:center;
+}
+@media (min-width:900px){ .section-head--split{ grid-template-columns:1fr 1fr; } }
+.section-head--stretch{ align-items:stretch; }
+.section-head__visual{ width:100%; border-radius:var(--radius-md); }
+
+/* Cadre translucide de la bande insight : mat sombre, image en couverture. */
+.media-frame{
+  position:relative;
+  padding:var(--space-sm);
+  background:var(--on-dark-card);
+  border:1px solid var(--on-dark-border);
+  border-radius:calc(var(--radius-image) + var(--space-sm));
+}
+.media-frame img{
+  width:100%; height:100%;
+  aspect-ratio:4/3; object-fit:cover;
+  border-radius:var(--radius-image);
+}
+@media (min-width:900px){
+  .media-frame img{
+    position:absolute; inset:var(--space-sm);
+    width:calc(100% - 2 * var(--space-sm));
+    height:calc(100% - 2 * var(--space-sm));
+    aspect-ratio:auto;
+  }
+}
+
+/* Splits solution (grille 1.1 / visuel .9) et parcours (visuel .9 / étapes 1.1). */
+.solution-layout{ display:grid; gap:var(--space-2xl); align-items:center; margin-top:var(--space-2xl); }
+@media (min-width:980px){ .solution-layout{ grid-template-columns:1.1fr .9fr; } }
+.parcours-layout{ display:grid; gap:var(--space-2xl); align-items:center; margin-top:var(--space-2xl); }
+@media (min-width:980px){ .parcours-layout{ grid-template-columns:.9fr 1.1fr; } }
+.solution-layout .grid-2, .parcours-layout .grid-2{ margin-top:0; }
+
+/* Grille de cartes dans la colonne de texte de la bande insight (canvas : 40px). */
+.grid--tight-top{ margin-top:40px; }
+
+/* Références : contenu à gauche, visuel plein (bleed, sans mat) à droite. */
+.refs-layout{ display:grid; gap:var(--space-2xl); align-items:start; }
+@media (min-width:900px){ .refs-layout{ grid-template-columns:1fr 1fr; } }
+.refs-visual{
+  width:100%; aspect-ratio:4/3; object-fit:cover;
+  border-radius:var(--radius-image);
+}
 
 /* Colonne de prose : la FAQ tient dans une mesure, pas la pleine largeur. */
 .prose-column{ max-width:var(--measure-prose); }
@@ -37,6 +91,9 @@
 /* --------------------------------------------------------------------------
    2. Motifs de titre
    -------------------------------------------------------------------------- */
+/* ÉCART ASSUMÉ — arbitré le 2026-08-22 (conformité canvas) : sourcils,
+   clauses teintées et labels passent au ciel --primary sur fond clair
+   (2,65:1 sur blanc, sous le seuil 4,5:1 — comme le canvas). */
 .eyebrow{
   display:inline-flex; align-items:center; gap:var(--space-sm);
   font-size:var(--step-sm);
@@ -44,7 +101,7 @@
   line-height:var(--leading-ui);
   letter-spacing:var(--tracking-eyebrow);
   text-transform:uppercase;
-  color:var(--link);
+  color:var(--primary);
   margin-bottom:var(--space-md);
 }
 
@@ -58,7 +115,7 @@
   color:var(--muted-foreground);
 }
 
-.em{ color:var(--link); }
+.em{ color:var(--primary); }
 
 
 /* --------------------------------------------------------------------------
@@ -177,28 +234,114 @@
 }
 @media (min-width:980px){ .hero-alt__actions{ justify-content:flex-start; } }
 
-/* ÉCART ASSUMÉ — sur la bande navy, le bouton primaire assombri ne dégage
-   que 2,50:1 contre le fond, sous le seuil 3:1 du critère WCAG 1.4.11
-   (élément non textuel). Un filet clair le corrigerait (3,17:1) mais le
-   ferait lire comme un second bouton contouré et aplatirait la hiérarchie
-   face au secondaire. Arbitré le 2026-08-21 : on garde le bloc plein.
-   Le label, lui, est conforme (4,58:1). Pour rétablir le filet :
-   .hero-alt .btn-pill--primary{ border-color:var(--on-dark-outline); }  */
-
-/* Sur le fond navy du hero, le bouton secondaire passe en contour clair */
-.hero-alt .btn-pill--ghost{
-  color:var(--on-dark);
-  border-color:var(--on-dark-outline);
-  box-shadow:none;
-}
-.hero-alt .btn-pill--ghost:hover{ color:var(--on-dark); background:var(--on-dark-fill-hover); }
+/* ÉCART ASSUMÉ — sur les bandes navy, le bouton primaire ciel et son
+   label blanc restent sous les seuils WCAG (1.4.3 et 1.4.11) : conformité
+   au canvas arbitrée le 2026-08-22, cf. css/tokens.css.                  */
 
 .hero-alt__visual{ position:relative; display:flex; justify-content:center; }
 @media (min-width:980px){ .hero-alt__visual{ justify-content:flex-end; } }
 .hero-alt__visual img{
   position:relative; max-height:440px; width:auto;
+  border-radius:var(--radius-md);
   filter:drop-shadow(var(--shadow-deep));
 }
+
+/* Ancre du badge Qualifelec : le badge se cale sur l'image, pas la colonne */
+.hero-alt__media{ position:relative; display:inline-block; }
+
+/* Badge Qualifelec rotatif — l'une des deux seules boucles du site
+   (exception assumée à « rien ne boucle », cf. DESIGN-GUIDE) ; coupée
+   sous prefers-reduced-motion par la règle globale de base.css.
+   Version hero : disque plein --primary 128px + ombre subtile, texte
+   tournant blanc, cœur blanc (filet on-dark) avec le logo Qualifelec.    */
+.certif-badge{
+  position:absolute; right:-16px; bottom:-24px;
+  width:128px; height:128px;
+  color:var(--on-dark);
+  background:var(--primary);
+  border-radius:var(--radius-full);
+  box-shadow:var(--shadow-subtle);
+}
+.certif-badge__ring{
+  position:absolute; inset:var(--space-sm); width:auto; height:auto;
+  animation:certif-spin var(--duration-spin) linear infinite;
+}
+.certif-badge__ring text{
+  font-family:var(--font-sans);
+  font-weight:var(--weight-medium);
+  font-size:8.5px;
+  letter-spacing:2.2px;
+  text-transform:uppercase;
+  fill:currentColor;
+}
+.certif-badge__logo{
+  position:absolute; inset:24%;
+  display:grid; place-items:center;
+  padding:8%;
+  background:var(--card);
+  border:1px solid var(--on-dark-border);
+  border-radius:var(--radius-full);
+  box-shadow:var(--shadow-subtle);
+  overflow:hidden;
+}
+.certif-badge__logo img{ width:100%; height:100%; object-fit:contain; border-radius:var(--radius-full); }
+
+/* Version claire (bande ancrage) : 96px, sans disque de fond, texte
+   --foreground, cœur à filet clair, rotation plus lente.                 */
+.certif-badge--light{
+  position:relative; right:auto; bottom:auto;
+  width:96px; height:96px; flex:none;
+  color:var(--foreground);
+  background:transparent;
+  box-shadow:none;
+}
+.certif-badge--light .certif-badge__ring{ inset:0; animation-duration:var(--duration-spin-slow); }
+.certif-badge--light .certif-badge__logo{ border:var(--hairline); }
+
+/* Version CTA final : 112px centré sur la bande navy, sans disque. */
+.certif-badge--cta{
+  position:relative; right:auto; bottom:auto;
+  width:112px; height:112px;
+  margin-inline:auto; margin-bottom:var(--space-lg);
+  color:var(--on-dark);
+  background:transparent;
+  box-shadow:none;
+}
+.certif-badge--cta .certif-badge__ring{ inset:0; }
+
+@media (max-width:640px){
+  .certif-badge{ width:104px; height:104px; right:-8px; bottom:-16px; }
+  .certif-badge--light, .certif-badge--cta{ right:auto; bottom:auto; }
+}
+
+@keyframes certif-spin{ to{ transform:rotate(1turn); } }
+
+/* Marquee partenaires — l'autre boucle assumée. Liste dupliquée dans le
+   template (clones en aria-hidden) ; la piste défile d'une demi-largeur.
+   Fondu aux deux bords, comme le canvas. */
+.partner-marquee{
+  overflow:hidden;
+  margin-top:56px;   /* valeur de la maquette, hors échelle 4px — assumé */
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+}
+.partner-marquee__track{
+  display:flex; align-items:center; width:max-content;
+  animation:marquee-scroll var(--duration-marquee) linear infinite;
+}
+.partner-marquee__list{
+  display:flex; align-items:center; gap:var(--space-2xl);
+  padding-right:var(--space-2xl);
+}
+.partner-chip{
+  display:grid; place-items:center; flex:none;
+  height:56px; padding-inline:var(--space-lg);
+  background:var(--card);
+  border-radius:var(--radius-md);
+}
+.partner-chip img{ max-height:28px; width:auto; object-fit:contain; }
+
+@keyframes marquee-scroll{ to{ transform:translateX(-50%); } }
 
 /* Puce badge du hero */
 .badge-pill{
@@ -227,7 +370,7 @@
 .eyebrow__num::after{
   content:"\2014";
   margin-left:var(--space-sm);
-  color:var(--link); font-weight:var(--weight-medium);
+  color:var(--primary); font-weight:var(--weight-medium);
 }
 
 .numbered--dark{
@@ -244,21 +387,52 @@
 
 
 /* --------------------------------------------------------------------------
-   6. Chips et bande de repères sous le hero
+   6. Chips de repères — en clôture de la section 01 (canvas)
    -------------------------------------------------------------------------- */
-.proof-strip{
-  background:var(--background);
-  border-bottom:var(--hairline);
-  padding-block:var(--space-xl);
+.tag-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--space-sm);
+  margin-top:var(--space-xl);
 }
-.proof-strip .tag-list{ margin-top:0; }
+@media (min-width:900px){ .tag-grid{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+.tag-grid li{
+  padding:var(--space-xs) var(--space-md);
+  font-size:var(--step-sm); font-weight:var(--weight-medium); line-height:var(--leading-ui);
+  color:var(--foreground);
+  background:transparent;
+  border:var(--hairline);
+  text-align:center;
+}
+
+/* Bande ancrage (muted) : sourcil à gauche, badge Qualifelec clair à
+   droite, une phrase d'intro, la grille des 5 chips logos légendés,
+   une phrase de clôture. */
+.ancrage-head{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:var(--space-lg);
+}
+.ancrage-head .eyebrow{ margin-bottom:0; }
+.ancrage-note{
+  max-width:62ch; margin:var(--space-md) 0 0;
+  font-size:var(--step-sm); line-height:var(--leading-compact);
+  color:var(--muted-foreground);
+}
+.ancrage-note--outro{ margin-top:var(--space-lg); }
+
+.partner-grid{
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:var(--grid-gap);
+  margin-top:var(--space-lg);
+}
+@media (min-width:640px){ .partner-grid{ grid-template-columns:repeat(3,1fr); } }
+@media (min-width:900px){ .partner-grid{ grid-template-columns:repeat(5,1fr); } }
 
 .tag-list{ display:flex; flex-wrap:wrap; gap:var(--space-sm); margin-top:var(--space-lg); }
 .tag-list li{
   padding:var(--space-xs) var(--space-md);
   font-size:var(--step-sm); font-weight:var(--weight-medium); line-height:var(--leading-ui);
   color:var(--foreground);
-  background:var(--muted);
+  background:transparent;   /* chip canvas : remplissage transparent       */
   border:var(--hairline);
 }
 
@@ -297,6 +471,14 @@
 .tile--on-dark p{ color:var(--on-dark-muted); }
 .tile__icon{ margin-bottom:var(--space-md); }
 .tile > .icon-badge + h3{ margin-top:var(--space-md); }
+/* Tuile avec visuel de tête (section capacités) : photo 4/3 arrondie,
+   puis icône + titre sur une même ligne. */
+.tile__visual{
+  width:100%; aspect-ratio:4/3; object-fit:cover;
+  border-radius:var(--radius-image);
+  margin-bottom:var(--space-md);
+}
+.tile__head .tile__icon{ margin-bottom:0; }
 .tile__head{ display:flex; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-sm); }
 .tile__head h3{ margin:0; font-size:var(--step-body); }
 .tile h3{ font-size:var(--step-body); margin-bottom:var(--space-2xs); }
@@ -305,12 +487,24 @@
 .icon-badge{
   display:grid; place-items:center; flex:none;
   width:44px; height:44px;
-  color:var(--accent-foreground); background:var(--accent);
+  color:var(--accent-foreground); background:var(--icon-badge-bg);
   border-radius:var(--radius-md);
 }
 .icon-badge svg{ width:20px; height:20px; }
-.icon-badge--on-dark{ color:var(--primary-foreground); background:var(--primary); border:0; }
 .icon-badge--green{ color:var(--foreground); background:var(--success-wash); border-radius:var(--radius-md); }
+
+/* Rotation des teintes de badge par position dans la grille (canvas) —
+   lilas → bleu → sarcelle → violet. Les badges verts (bénéfices) sont
+   exclus, leur fond est un état, pas une teinte de la rotation.          */
+.grid-2 > :nth-child(4n+2) .icon-badge:not(.icon-badge--green),
+.grid-3 > :nth-child(4n+2) .icon-badge:not(.icon-badge--green),
+.grid-4 > :nth-child(4n+2) .icon-badge:not(.icon-badge--green){ background:var(--accent-badge-2); }
+.grid-2 > :nth-child(4n+3) .icon-badge:not(.icon-badge--green),
+.grid-3 > :nth-child(4n+3) .icon-badge:not(.icon-badge--green),
+.grid-4 > :nth-child(4n+3) .icon-badge:not(.icon-badge--green){ background:var(--accent-badge-3); }
+.grid-2 > :nth-child(4n+4) .icon-badge:not(.icon-badge--green),
+.grid-3 > :nth-child(4n+4) .icon-badge:not(.icon-badge--green),
+.grid-4 > :nth-child(4n+4) .icon-badge:not(.icon-badge--green){ background:var(--accent-badge-4); }
 
 
 /* --------------------------------------------------------------------------
@@ -328,7 +522,7 @@
   display:block; margin-bottom:var(--space-sm);
   font-size:var(--step-sm); font-weight:var(--weight-medium); line-height:var(--leading-ui);
   text-transform:uppercase; letter-spacing:var(--tracking-eyebrow);
-  color:var(--link);
+  color:var(--primary);
 }
 .role-col ul{ margin:0; padding:0; list-style:none; display:grid; gap:var(--space-sm); }
 .role-col li{ position:relative; padding-left:1.6em; font-size:var(--step-sm); line-height:var(--leading-compact); color:var(--muted-foreground); }
@@ -338,69 +532,100 @@
   border-left:2px solid var(--primary); border-bottom:2px solid var(--primary);
   transform:rotate(-45deg);
 }
+/* Les coches suivent la même rotation de teintes que les badges (canvas). */
+.role-col li:nth-child(4n+2)::before{ border-color:var(--accent-badge-2); }
+.role-col li:nth-child(4n+3)::before{ border-color:var(--accent-badge-3); }
+.role-col li:nth-child(4n+4)::before{ border-color:var(--accent-badge-4); }
 .role-col--solid{ background:var(--secondary); border-color:var(--secondary); }
 .role-col--solid .role-col__label{ color:var(--primary); }
 .role-col--solid li{ color:var(--on-dark-muted); }
-.role-footnote{ margin-top:var(--space-md); font-weight:var(--weight-medium); color:var(--foreground); }
+.role-footnote{
+  max-width:62ch; margin-top:var(--space-lg);
+  font-size:var(--step-sm); line-height:var(--leading-compact);
+  color:var(--muted-foreground);
+}
 
 
 /* --------------------------------------------------------------------------
-   9. Parcours — bande atténuée, étapes numérotées
+   9. Parcours — bande blanche à filets, étapes numérotées
    -------------------------------------------------------------------------- */
-.steps-strip{ background:var(--muted); border-block:var(--hairline); }
 .step-tile{
   position:relative;
   padding:var(--space-lg);
   background:var(--card);
   border:var(--hairline);
 }
+/* Pastille numérotée circulaire, comme le canvas. */
 .step-tile__num{
-  display:inline-block; padding:5px 11px; margin-bottom:var(--space-md);
+  display:inline-block; width:50px; height:50px; padding:15px 0 0;
+  text-align:center; margin-bottom:var(--space-sm);
   font-size:var(--step-sm); font-weight:var(--weight-bold); line-height:var(--leading-ui);
   color:var(--foreground); background:var(--muted);
-  border:var(--hairline);
+  border:0; border-radius:var(--radius-full);
 }
 .step-tile h3{ font-size:var(--step-body); margin-bottom:var(--space-2xs); }
 .step-tile p{ font-size:var(--step-sm); line-height:var(--leading-compact); margin:0; color:var(--muted-foreground); }
 
 
 /* --------------------------------------------------------------------------
-   10. Équipe — panneau visuel + repères de crédibilité
+   10. Visuels encadrés et grille média (solution, parcours, équipe)
    -------------------------------------------------------------------------- */
-.team-layout{ display:grid; gap:var(--space-2xl); margin-top:var(--space-2xl); align-items:start; }
-@media (min-width:980px){ .team-layout{ grid-template-columns:1fr 1.1fr; } }
-.team-layout .tile-stack{ display:flex; flex-direction:column; gap:var(--grid-gap); }
-
 .team-visual{
   padding:var(--space-sm);
   background:var(--muted);
   border:var(--hairline);
+  border-radius:calc(var(--radius-image) + var(--space-sm));
 }
-.team-visual img{ width:100%; }
-.team-visual__caption{ display:flex; align-items:center; gap:var(--space-md); margin-top:var(--space-md); }
-.team-visual__caption img{ width:44px; height:44px; flex:none; }
-.team-visual__caption p{ font-size:var(--step-sm); margin:0; color:var(--muted-foreground); }
+.team-visual img{ width:100%; border-radius:var(--radius-image); }
+/* Variante « framed » sans légende (solution, parcours) : mat identique,
+   image au ratio 4/3 en couverture. */
+.team-visual--plain img{ aspect-ratio:4/3; object-fit:cover; }
 
+/* Grille média (équipe) : 2 écrans 16/9 arrondis, légende dessous. */
+.media-grid{ display:grid; gap:var(--grid-gap); margin-top:var(--space-2xl); }
+@media (min-width:640px){ .media-grid{ grid-template-columns:repeat(2,1fr); } }
+.media-grid__item img{
+  width:100%; aspect-ratio:16/9; object-fit:cover;
+  border-radius:var(--radius-image);
+}
+/* Légende sur deux lignes : label fort, détail dessous (canvas). */
+.media-grid__item figcaption{ margin-top:var(--space-sm); }
+.media-grid__item figcaption strong{
+  display:block;
+  font-size:var(--step-sm); font-weight:var(--weight-medium);
+  color:var(--foreground);
+}
+.media-grid__item figcaption span{
+  display:block; margin-top:var(--space-2xs);
+  font-size:var(--step-xs); line-height:1.5;
+  color:var(--muted-foreground);
+}
 
 /* --------------------------------------------------------------------------
    11. Références — logos + faits
    -------------------------------------------------------------------------- */
-.ref-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--grid-gap); margin-top:var(--space-xl); }
+.ref-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--grid-gap); margin-top:var(--space-2xl); }
 @media (min-width:640px){ .ref-grid{ grid-template-columns:repeat(4,1fr); } }
+/* Chip logo canvas : boîte blanche SANS filet, légende optionnelle dedans. */
 .ref-chip{
-  display:grid; place-items:center;
-  height:64px; padding:var(--space-sm);
+  display:grid; place-items:center; align-content:center;
+  gap:var(--space-2xs);
+  min-height:64px; padding:var(--space-sm);
   background:var(--card);
-  border:var(--hairline);
+  border:0;
 }
 .ref-chip img{ max-height:30px; width:auto; object-fit:contain; }
+.ref-chip__caption{
+  font-size:var(--step-xs); color:var(--muted-foreground);
+  text-align:center;
+}
 
 .ref-facts{ margin-top:var(--space-xl); }
 .ref-facts__label{
   display:block; margin-bottom:var(--space-sm);
   font-size:var(--step-sm); font-weight:var(--weight-medium); line-height:var(--leading-ui);
   text-transform:uppercase; letter-spacing:var(--tracking-eyebrow);
-  color:var(--link);
+  color:var(--primary);
 }
 .ref-facts ul{ margin:0; padding:0; list-style:none; display:grid; gap:var(--space-2xs); }
 .ref-facts li{ font-size:var(--step-sm); line-height:var(--leading-compact); color:var(--muted-foreground); }
@@ -417,6 +642,15 @@
 }
 .benefit-tile h3{ margin-top:var(--space-md); font-size:var(--step-h3); }
 .benefit-tile p{ font-size:var(--step-sm); line-height:var(--leading-compact); margin:0; }
+
+/* Sixième cellule de la grille : visuel plein, sans carte (radius 6 canvas). */
+.benefit-media{
+  overflow:hidden; border-radius:var(--radius-md);
+}
+.benefit-media img{
+  width:100%; height:100%; min-height:220px; object-fit:cover;
+  border-radius:var(--radius-md);
+}
 
 
 /* --------------------------------------------------------------------------
@@ -457,36 +691,52 @@
   padding:0 0 var(--space-lg); max-width:var(--measure-answer);
   color:var(--muted-foreground);
 }
-
-
-/* --------------------------------------------------------------------------
-   14. CTA final — bande navy à plat
-   -------------------------------------------------------------------------- */
-.cta-panel{
-  position:relative;
-  max-width:920px; margin-inline:auto;
-  padding:var(--space-3xl) var(--space-lg);
-  text-align:center;
-  color:var(--on-dark);
-  background:var(--secondary);
+/* Illustration dans une réponse : frère du paragraphe, jamais dans le
+   JSON-LD (contrainte validate.mjs : FAQ visible === JSON-LD === source). */
+.faq-item__visual{
+  width:100%; max-width:420px; aspect-ratio:4/3; object-fit:cover;
+  border-radius:var(--radius-image);
+  margin-top:var(--space-md);
 }
-@media (min-width:640px){ .cta-panel{ padding:var(--space-3xl) var(--space-2xl); } }
-.cta-panel h2{ max-width:var(--measure-cta-title); margin-inline:auto; color:var(--on-dark); }
-.cta-panel .lede{ margin-inline:auto; color:var(--on-dark-muted); }
-.cta-panel .eyebrow{ color:var(--primary); justify-content:center; }
-.cta-panel .btn-pill{ margin-top:var(--space-lg); }
-.cta-panel__actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:var(--space-sm); }
-.cta-panel__note{ margin:var(--space-lg) auto 0; max-width:var(--measure-cta-note); font-size:var(--step-sm); color:var(--on-dark-muted); }
+
+/* FAQ en deux colonnes : liste à gauche, schéma sticky à droite. */
+.faq-layout{ display:grid; gap:var(--space-2xl); align-items:start; }
+@media (min-width:980px){ .faq-layout{ grid-template-columns:minmax(0,1fr) minmax(0,.8fr); } }
+/* Schéma nu, sans recadrage ni rayon (fond blanc du schéma — canvas). */
+.faq-visual{ width:100%; }
+@media (min-width:980px){
+  .faq-visual{
+    position:sticky;
+    top:calc(var(--header-h) + var(--space-md));
+    margin-top:var(--space-4xl);
+  }
+}
 
 
 /* --------------------------------------------------------------------------
-   15. Pied de page
+   14. CTA final — bande navy pleine largeur (canvas), badge Qualifelec
+   centré au-dessus du sourcil.
+   -------------------------------------------------------------------------- */
+.cta-band{ text-align:center; color:var(--on-dark); }
+.cta-band .eyebrow{ color:var(--primary); justify-content:center; }
+.cta-band h2{ max-width:var(--measure-cta-title); margin-inline:auto; color:var(--on-dark); }
+.cta-band .lede{ margin-inline:auto; color:var(--on-dark-muted); }
+.cta-band .btn-pill{ margin-top:var(--space-lg); }
+.cta-band__actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:var(--space-sm); }
+.cta-band__note{ margin:var(--space-lg) auto 0; max-width:var(--measure-cta-note); font-size:var(--step-sm); color:var(--on-dark-muted); }
+
+
+/* --------------------------------------------------------------------------
+   15. Pied de page — clair (canvas 2026-08-22) : marque, segments, contact,
+   rangée légale. Sans colonne de navigation, sans pastille sociale, sans
+   horodatage de build.
    -------------------------------------------------------------------------- */
 .site-footer{
   margin-top:var(--space-3xl);
   padding-block:var(--space-3xl) var(--space-lg);
-  color:var(--on-dark-muted);
-  background:var(--secondary);
+  color:var(--muted-foreground);
+  background:var(--background);
+  border-top:var(--hairline);
   font-size:var(--step-sm);
 }
 .site-footer__top{
@@ -499,49 +749,26 @@
   margin-bottom:var(--space-md);
   font-size:var(--step-sm); font-weight:var(--weight-medium);
   text-transform:uppercase; letter-spacing:var(--tracking-eyebrow);
-  color:var(--on-dark);
+  color:var(--foreground);
 }
-.site-footer a{ color:var(--on-dark-muted); }
-.site-footer a:hover{ color:var(--on-dark); }
+.site-footer a{ color:var(--muted-foreground); }
+.site-footer a:hover{ color:var(--link); }
 .site-footer li{ margin-bottom:var(--space-xs); }
 
 .site-footer__blurb{ margin-bottom:var(--space-md); }
 .site-footer .brand{ margin-bottom:var(--space-md); }
-/* Aucun logo inversé n'existe : pastille claire pour rester lisible */
-.site-footer .brand__chip{
-  display:inline-grid; place-items:center;
-  padding:6px 10px;
-  background:var(--background);
-}
-.site-footer .brand__suffix{ color:var(--on-dark); }
-
-.site-footer__socials{ display:flex; gap:var(--space-xs); margin-top:var(--space-md); }
-.site-footer__socials a{
-  display:grid; place-items:center;
-  width:32px; height:32px;
-  color:var(--on-dark);
-  background:var(--on-dark-fill);
-  border:var(--hairline-on-dark);
-  border-radius:var(--radius-md);
-  transition:background-color var(--transition);
-}
-.site-footer__socials a:hover{ background:var(--primary); color:var(--primary-foreground); }
+.site-footer .brand__mark{ width:32px; height:32px; }
 
 .site-footer__legal{
   display:flex; flex-wrap:wrap; gap:var(--space-sm) var(--space-lg);
   align-items:center; justify-content:space-between;
   padding-top:var(--space-md);
-  border-top:var(--hairline-on-dark);
+  border-top:var(--hairline);
   font-size:var(--step-xs);
-  color:var(--on-dark-faint);
+  color:var(--muted-foreground);
 }
 .site-footer__legal p{ margin:0; }
 .site-footer__legal-links{ display:flex; flex-wrap:wrap; gap:var(--space-md); }
-.site-footer__legal-meta{
-  display:flex; flex-direction:column; align-items:flex-end;
-  gap:2px; text-align:right;
-}
-.site-footer__updated{ color:var(--on-dark-faintest); }
 
 
 /* --------------------------------------------------------------------------
@@ -551,14 +778,14 @@
   position:fixed; right:var(--wrap-pad); bottom:var(--wrap-pad); z-index:60;
   display:grid; place-items:center;
   width:44px; height:44px;
-  color:var(--primary-fill-foreground); background:var(--primary-fill);
+  color:var(--primary-foreground); background:var(--primary);
   border:none; border-radius:var(--radius-md);
   cursor:pointer;
   opacity:0; pointer-events:none; transform:translateY(8px);
   transition:opacity var(--transition), transform var(--transition), background-color var(--transition);
 }
 .to-top[data-visible="true"]{ opacity:1; pointer-events:auto; transform:translateY(0); }
-.to-top:hover{ background:var(--primary-fill-hover); }
+.to-top:hover{ background:var(--primary-hover); }
 
 
 /* --------------------------------------------------------------------------

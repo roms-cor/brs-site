@@ -17,25 +17,20 @@
   --background:            #FFFFFF;   /* fond de page et des zones claires  */
   --foreground:            #171844;   /* titres et texte fort sur clair     */
 
-  --primary:               #36A9E1;   /* sourcils, clauses teintées, icônes */
-  --primary-foreground:    #171844;   /* texte posé sur --primary           */
+  --primary:               #36A9E1;   /* action : boutons, sourcils, clauses
+                                         teintées, badges, dot              */
+  --primary-foreground:    #FFFFFF;   /* label posé sur --primary           */
   --primary-hover:         #1E8FC6;
-  /* Réservés : aucun élément interactif ne consomme --primary comme surface
-     aujourd'hui (les boutons passent par --primary-fill). Conservés pour
-     rester complets si un composant le fait un jour.                     */
   --primary-pressed:       #1C5875;
   --primary-pressed-foreground: #FFFFFF;
 
-  /* Fond des boutons primaires — rôle distinct de --primary.
-     --primary (#36A9E1) reste la couleur de marque : sourcils, clauses de
-     titre teintées, badges d'icônes, point du badge, nav active. Le fond des
-     boutons est un rôle séparé parce que les deux critères WCAG s'opposent :
-     le label doit atteindre 4,5:1 contre le bouton (1.4.3) et le bouton 3:1
-     contre le fond de section (1.4.11). Voir le rapport de conformance.
-     Arbitré le 2026-08-21 (variante B) : bleu assombri, label blanc, une
-     seule nuance de bouton sur toute la page. Échelle monotone
-     #1A7DAD → #17739F → #1C5875, blanc lisible sur les trois
-     (4,58 / 5,26 / 7,77:1).                                               */
+  /* ÉCART ASSUMÉ — arbitré par Roms le 2026-08-22 (conformité au canvas
+     « BRS Connect - Design ») : les boutons primaires reviennent au ciel
+     --primary sous label blanc (2,65:1, sous le seuil 4,5:1 du critère
+     1.4.3). La scission --primary-fill de la v3.1 est ANNULÉE à l'usage ;
+     l'échelle assombrie reste documentée ci-dessous, en réserve, si
+     l'arbitrage devait être reconsidéré (#1A7DAD → #17739F → #1C5875,
+     blanc à 4,58 / 5,26 / 7,77:1).                                        */
   --primary-fill:          #1A7DAD;
   --primary-fill-foreground: #FFFFFF;
   --primary-fill-hover:    #17739F;
@@ -50,6 +45,13 @@
 
   --accent:                #8B8CD7;   /* fonds d'icônes, touches douces     */
   --accent-foreground:     #171844;
+  /* Rotation des badges d'icônes par position dans une grille (import
+     canvas 2026-08-22) : même clarté et même chroma que --accent, teinte
+     tournée. S'applique aussi aux coches des colonnes de rôles.          */
+  --icon-badge-bg:         var(--accent);
+  --accent-badge-2:        oklch(0.66 0.11 240);
+  --accent-badge-3:        oklch(0.66 0.11 200);
+  --accent-badge-4:        oklch(0.66 0.11 320);
 
   --link:                  #1C5875;   /* liens et sourcils sur fond clair   */
 
@@ -121,7 +123,7 @@
   --measure-prose:     820px;  /* colonne de prose (FAQ)                   */
   --measure-grid-narrow: 52rem;/* grille resserrée de la bande insight     */
   --measure-hero-copy: 60ch;   /* colonne de texte du hero                 */
-  --measure-hero-lede: 52ch;   /* chapô du hero                            */
+  --measure-hero-lede: 62ch;   /* chapô du hero (aligné canvas 2026-08-22) */
   --measure-answer:    68ch;   /* réponses de la FAQ                       */
   --measure-cta-title: 24ch;   /* titre du panneau CTA                     */
   --measure-cta-note:  56ch;   /* mention sous le panneau CTA              */
@@ -156,7 +158,10 @@
   --radius-none: 0;        /* cartes, tuiles, chips, étapes, colonnes rôles */
   --radius-sm:   4px;      /* focus ring, petits éléments                   */
   --radius-md:   6px;      /* boutons, inputs, badges d'icône               */
-  --radius-full: 999px;    /* point d'état du badge uniquement              */
+  --radius-full: 999px;    /* point d'état du badge, badge Qualifelec       */
+  /* Exception images (import design 2026-08-22) : photos, screenshots et
+     schémas portent un rayon 20px. Les cartes restent à angles droits.   */
+  --radius-image: 20px;    /* photos, screenshots, schémas                  */
 
   /* --- Ombres -------------------------------------------------------------
      Quasi absentes : hairlines plutôt qu'ombres. Deux exceptions.        */
@@ -181,4 +186,12 @@
   --duration-reveal: .5s;
   --reveal-offset:   14px;
   --reveal-threshold: .12;  /* miroir JS — voir js/main.js                  */
+
+  /* Deux boucles, et deux seulement — exception assumée à la règle
+     « rien ne boucle » (import design 2026-08-22) : le marquee partenaires
+     du hero et le badge Qualifelec rotatif. Toutes deux coupées sous
+     prefers-reduced-motion par la règle globale de base.css.             */
+  --duration-marquee:   28s;   /* défilement des chips partenaires          */
+  --duration-spin:      18s;   /* badge Qualifelec du hero (128px)          */
+  --duration-spin-slow: 24s;   /* badge Qualifelec d'ancrage (96px)         */
 }

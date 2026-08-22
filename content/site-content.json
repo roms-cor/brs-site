@@ -47,7 +47,7 @@
         "href": "#parcours"
       },
       {
-        "label": "L'équipe",
+        "label": "Qui sommes-nous ?",
         "href": "#equipe"
       },
       {
@@ -92,8 +92,31 @@
     "ctaPrimaryHref": "https://bornerecharge.fr/nous-contacter/",
     "ctaSecondary": "Devenir partenaire",
     "ctaSecondaryHref": "mailto:contact@brsconnect.fr?subject=Devenir%20partenaire%20-%20BRS%20Connect",
-    "image": "assets/images/hero-control-room.svg",
-    "imageAlt": "Panneau de supervision BRS Control Room : exploitant en production, étude, préconfiguration, supervision"
+    "image": "assets/images/brs-web-visuals/brs-web-visuals-image8.png",
+    "imageAlt": "Pistolet de recharge branché sur un véhicule électrique, reflet dans la carrosserie",
+    "certifBadge": "Réseau certifié",
+    "partners": [
+      {
+        "image": "assets/images/partenaires/logo-qualifelec-irve.jpg",
+        "alt": "Qualifelec IRVE"
+      },
+      {
+        "image": "assets/images/partenaires/logo-advenir.png",
+        "alt": "ADVENIR"
+      },
+      {
+        "image": "assets/images/partenaires/logo-logivolt.png",
+        "alt": "Logivolt"
+      },
+      {
+        "image": "assets/images/partenaires/logo-symphonics.png",
+        "alt": "Symphonics"
+      },
+      {
+        "image": "assets/images/partenaires/logo-vertigo.png",
+        "alt": "Vertigo"
+      }
+    ]
   },
   "sections": {
     "capacites": {
@@ -104,24 +127,32 @@
         {
           "iconType": "image",
           "icon": "assets/icons/icon-etude.png",
+          "image": "assets/images/brs-web-visuals/brs-web-visuals-schema2.png",
+          "imageAlt": "Vérification d'un schéma électrique IRVE sur plan",
           "title": "Étude et dimensionnement",
           "text": "Notes de calcul, schémas électriques et dimensionnement, par des équipes qui exploitent des parcs de bornes au quotidien."
         },
         {
           "iconType": "image",
           "icon": "assets/icons/icon-preparation.png",
+          "image": "assets/images/brs-web-visuals/brs-web-visuals-schema7.png",
+          "imageAlt": "Bornes préconfigurées et suivies en préparation",
           "title": "Préconfiguration multi-bornes",
           "text": "On prépare vos bornes en amont, pour une mise en service plus fluide sur site."
         },
         {
           "iconType": "image",
           "icon": "assets/icons/icon-supervision.png",
+          "image": "assets/images/brs-web-visuals/brs-web-visuals-schema1.png",
+          "imageAlt": "Bornes en parking, copropriété et site tertiaire reliées à la plateforme de supervision",
           "title": "Supervision et exploitation",
           "text": "Télérelève, suivi de parc et continuité de service, sans construire votre propre plateforme. Et un exploitant en production, désignable dans vos dossiers d'appels d'offres avec l'accord de BRS, projet par projet."
         },
         {
           "iconType": "image",
           "icon": "assets/icons/icon-exploitation.png",
+          "image": "assets/images/brs-web-visuals/brs-web-visuals-schema11.png",
+          "imageAlt": "Suivi client multi-supports : bornes reliées à la plateforme, restitution sur ordinateur et mobile",
           "title": "Support et suivi client",
           "text": "Un support opérationnel après l'installation, pour que votre client ne soit jamais seul."
         }
@@ -135,15 +166,29 @@
     },
     "ancrage": {
       "eyebrow": "Nos partenaires",
-      "tags": [
-        "Qualifelec",
-        "AVERE France",
-        "ADVENIR",
-        "Logivolt",
-        "AFOR",
-        "AVEM",
-        "CDC Habitat",
-        "Symphonics"
+      "intro": "Qualification IRVE, dispositifs de financement et partenaires techniques sur lesquels s'appuie l'opérateur Borne Recharge Service.",
+      "outro": "Cet écosystème se complète d'associations de la filière de la mobilité électrique — AVERE France, AFOR, AVEM — et d'acteurs du logement comme CDC Habitat.",
+      "logos": [
+        {
+          "image": "assets/images/partenaires/logo-qualifelec-irve.jpg",
+          "alt": "Qualifelec IRVE"
+        },
+        {
+          "image": "assets/images/partenaires/logo-advenir.png",
+          "alt": "ADVENIR"
+        },
+        {
+          "image": "assets/images/partenaires/logo-logivolt.png",
+          "alt": "Logivolt"
+        },
+        {
+          "image": "assets/images/partenaires/logo-symphonics.png",
+          "alt": "Symphonics"
+        },
+        {
+          "image": "assets/images/partenaires/logo-vertigo.png",
+          "alt": "Vertigo"
+        }
       ]
     },
     "probleme": {
@@ -151,6 +196,8 @@
       "eyebrow": "Le problème",
       "titleMain": "Une ligne du cahier des charges",
       "titleEm": "vous élimine avant même le chiffrage",
+      "image": "assets/images/brs-web-visuals/brs-web-visuals-image1.png",
+      "imageAlt": "Recharge d'un véhicule électrique sur une borne",
       "lede": "Devenir exploitant vous-même supposerait une plateforme, une astreinte et des références en production : des années d'investissement pour cocher une ligne. Alors soit vous passez votre tour, soit vous nommez un concurrent dans votre propre dossier. Et ce n'est pas le seul endroit où le métier se rétrécit.",
       "cards": [
         {
@@ -180,6 +227,8 @@
       "eyebrow": "Le vrai choix",
       "titleMain": "Exécutant sur votre propre marché,",
       "titleEm": "ou propriétaire de vos clients.",
+      "image": "assets/images/brs-web-visuals/brs-web-visuals-image3.png",
+      "imageAlt": "Borne de recharge en parking souterrain, véhicules en arrière-plan",
       "ledes": [
         "L'ubérisation gagne le métier : des plateformes de leads et des donneurs d'ordres distribuent les chantiers, écrasent les marges et confisquent le client. L'installateur devient exécutant sur son propre marché.",
         "BRS Connect prend le chemin inverse, point par point. Vous gardez le client. Vous fixez votre marge. Et l'exploitant joue dans votre dossier : les briques d'un opérateur en production, mobilisées sous votre nom, projet par projet, en coulisses."
@@ -202,6 +251,8 @@
       "eyebrow": "La solution",
       "titleMain": "Les briques d'un opérateur,",
       "titleEm": "que vous activez projet par projet.",
+      "image": "assets/images/brs-web-visuals/brs-web-visuals-image6.png",
+      "imageAlt": "Flotte de véhicules électriques en charge sous ombrière",
       "lede": "Ce n'est ni une franchise, ni un abonnement, ni un programme à paliers. Un accord-cadre léger et non engageant cadre l'entrée, puis chaque projet fait l'objet de son propre devis. Et un référent unique chez BRS, nommé, suit tous vos projets et vous route vers les bonnes compétences.",
       "cards": [
         {
@@ -220,7 +271,7 @@
           "iconSvg": "<path d=\"M3 12h4l2-7 4 14 2-7h6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
           "title": "Supervision et exploitation",
           "text": "Télérelève, reporting et support, pour prolonger la relation client après l'installation sans construire votre propre plateforme.",
-          "accent": true
+          "accent": false
         },
         {
           "iconSvg": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.8\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.8\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.8\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.8\"/>",
@@ -235,6 +286,8 @@
       "eyebrow": "Qui fait quoi",
       "titleMain": "Le partage des rôles,",
       "titleEm": "sans zone grise.",
+      "image": "assets/images/brs-web-visuals/brs-web-visuals-image2.png",
+      "imageAlt": "Véhicule électrique en charge sur une borne en parking couvert",
       "lede": "La question qui revient en premier : est-ce que déléguer la technique, c'est risquer sa relation client ? Voici la répartition, point par point. Et rien ne se passe auprès de votre client final sans votre décision, facturation comprise.",
       "partner": {
         "label": "Vous, partenaire",
@@ -262,6 +315,8 @@
       "eyebrow": "Premier chantier",
       "titleMain": "Un premier chantier réel,",
       "titleEm": "pas un dossier de candidature.",
+      "image": "assets/images/brs-web-visuals/brs-web-visuals-image5.png",
+      "imageAlt": "Borne murale de recharge en parking souterrain, véhicule au premier plan",
       "steps": [
         {
           "num": "01",
@@ -308,18 +363,28 @@
           "text": "BRS Connect démarre : il n'y a pas encore de témoignages partenaires à afficher. En contrepartie, les premiers partenaires construisent le réseau avec BRS : accès direct aux équipes, référent nommé, Premier chantier co-construit."
         }
       ],
-      "visual": {
-        "image": "assets/images/brs-web-visuals/brs-web-visuals-schema1.png",
-        "imageAlt": "Schéma du portail de supervision Borne Recharge Service, connecté aux bornes en copropriété, en entreprise et en habitat individuel",
-        "captionIcon": "assets/icons/icon-supervision.png",
-        "captionText": "Supervision, télérelève et portail client, déjà utilisés par Borne Recharge Service, opérateur qualifié IRVE."
-      }
+      "screens": [
+        {
+          "image": "assets/images/brs-web-visuals/brs-web-visuals-schema1.png",
+          "imageAlt": "Outil de pilotage de parc",
+          "label": "Pilotage de parc",
+          "detail": "Suivi des bornes, des sessions et des alertes sur l'ensemble d'un site."
+        },
+        {
+          "image": "assets/images/brs-web-visuals/brs-web-visuals-schema4.png",
+          "imageAlt": "Espace client de suivi de consommation",
+          "label": "Espace client",
+          "detail": "Télérelève et suivi de consommation, restitués à l'utilisateur final."
+        }
+      ]
     },
     "references": {
       "number": "08",
       "eyebrow": "Nos références",
       "titleMain": "Des parcs déjà en service,",
       "titleEm": "pas des références de brochure.",
+      "image": "assets/images/brs-web-visuals/brs-web-visuals-image3.png",
+      "imageAlt": "Parking équipé de bornes de recharge en service",
       "lede": "Ces entreprises font déjà appel à Borne Recharge Service. Elles ne sont pas des clients du réseau BRS Connect.",
       "factsLabel": "Quelques déploiements opérés par Borne Recharge Service",
       "facts": [
@@ -379,21 +444,13 @@
       "number": "09",
       "eyebrow": "Ce que cela va changer",
       "title": "Cinq changements, dès le prochain projet.",
+      "image": "assets/images/brs-web-visuals/brs-web-visuals-image7.png",
+      "imageAlt": "Prise de recharge branchée sur un véhicule électrique, gros plan",
       "cards": [
         {
           "iconSvg": "<path d=\"M7 3h7l4 4v14H7V3z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><path d=\"M14 3v4h4M9 13h6M9 17h6M9 9h2\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>",
           "title": "Répondre aux appels d'offres avec un exploitant désigné",
           "text": "Un exploitant en production dans votre dossier, sous votre nom, avec l'accord de BRS projet par projet, références d'opérateur à l'appui. Des marchés directs redevenus accessibles, sans vous adosser à un concurrent."
-        },
-        {
-          "iconSvg": "<path d=\"M4 16l5-5 3 3 7-7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M15 7h5v5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
-          "title": "Un revenu qui continue après la pose",
-          "text": "Supervision, télémaintenance, reporting et support prolongent la relation client après la mise en service. Vous portez le contrat récurrent vous-même, ou BRS le porte et vous en reverse une part définie ensemble, projet par projet."
-        },
-        {
-          "iconSvg": "<path d=\"M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><path d=\"M9 12l2 2 4-4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
-          "title": "Un après-garantie qui rapporte au lieu de coûter",
-          "text": "Les appels subis deviennent un contrat de support et de télémaintenance facturable, adossé aux outils de l'opérateur."
         },
         {
           "iconSvg": "<path d=\"M4 20h16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M7 20v-5M12 20v-9M17 20v-13\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>",
@@ -404,6 +461,16 @@
           "iconSvg": "<path d=\"M9 3v5M15 3v5M7 8h10v3a5 5 0 01-10 0V8z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12 16v5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>",
           "title": "Une mise en service rapide et prévisible",
           "text": "Équipements préconfigurés en amont du chantier : moins de temps passé sur site, un planning qui tient."
+        },
+        {
+          "iconSvg": "<path d=\"M4 16l5-5 3 3 7-7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M15 7h5v5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+          "title": "Un revenu qui continue après la pose",
+          "text": "Supervision, télémaintenance, reporting et support prolongent la relation client après la mise en service. Vous portez le contrat récurrent vous-même, ou BRS le porte et vous en reverse une part définie ensemble, projet par projet."
+        },
+        {
+          "iconSvg": "<path d=\"M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><path d=\"M9 12l2 2 4-4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+          "title": "Un après-garantie qui rapporte au lieu de coûter",
+          "text": "Les appels subis deviennent un contrat de support et de télémaintenance facturable, adossé aux outils de l'opérateur."
         }
       ]
     }
@@ -413,6 +480,8 @@
     "eyebrow": "FAQ",
     "titleMain": "Ce que vous voulez savoir",
     "titleEm": "avant d'engager un projet.",
+    "image": "assets/images/brs-web-visuals/brs-web-visuals-schema4.png",
+    "imageAlt": "Schéma : suivi des consommations et restitution au client",
     "items": [
       {
         "question": "BRS Connect va-t-il prendre la relation avec mon client ?",
@@ -432,7 +501,9 @@
       },
       {
         "question": "Peut-on vraiment déléguer la supervision ou l'exploitation sereinement ?",
-        "answer": "La fiabilité n'est pas théorique : télérelève, supervision, exploitation et support sont déjà exercés par Borne Recharge Service sur ses propres parcs (copropriétés, bailleurs sociaux, entreprises). Et la responsabilité suit le contrat : qui le porte répond à son client. Quand vous portez le contrat, vous répondez à votre client et BRS vous répond. Chaque partenaire a par ailleurs un référent unique, nommé, qui suit tous ses projets."
+        "answer": "La fiabilité n'est pas théorique : télérelève, supervision, exploitation et support sont déjà exercés par Borne Recharge Service sur ses propres parcs (copropriétés, bailleurs sociaux, entreprises). Et la responsabilité suit le contrat : qui le porte répond à son client. Quand vous portez le contrat, vous répondez à votre client et BRS vous répond. Chaque partenaire a par ailleurs un référent unique, nommé, qui suit tous ses projets.",
+        "image": "assets/images/brs-web-visuals/brs-web-visuals-schema6.png",
+        "imageAlt": "Borne préconfigurée et validée, prête à la mise en service"
       },
       {
         "question": "Et si j'ai déjà un peu de capacité en interne ?",

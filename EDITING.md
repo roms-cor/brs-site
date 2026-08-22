@@ -45,21 +45,21 @@ Dans l'ordre de la page, du haut vers le bas :
 | Hero — grand titre | `hero.title` |
 | Hero — paragraphe | `hero.lede` |
 | Hero — les 2 boutons | `hero.ctaPrimary(+Href)`, `hero.ctaSecondary(+Href)` |
-| Hero — visuel Control Room | `hero.image` + `hero.imageAlt` |
-| Bande de repères sous le hero (4 chips) | `sections.capacites.tags[]` |
-| 01 Bénéfices — titre + 4 cartes | `sections.capacites.title`, `.cards[]` (title/text/icon) |
-| Bande « Nos partenaires » | `sections.ancrage.eyebrow`, `.tags[]` |
-| 02 Le problème — titre en 2 tons + intro + 4 cartes | `sections.probleme.titleMain` / `.titleEm`, `.lede`, `.cards[]` |
-| 03 Le vrai choix (bande navy) — titre + 2 paragraphes + 2 cartes | `sections.insight.titleMain` / `.titleEm`, `.ledes[]`, `.cards[]` |
-| 04 La solution — titre + intro + 4 cartes | `sections.solution.*` (la carte mise en avant a `"accent": true`) |
-| 05 Qui fait quoi — 2 colonnes | `sections.roles.partner.*`, `.network.*`, `.footnote` |
-| 06 Parcours (bande grise) — 4 étapes | `sections.parcours.steps[]` (num/title/text) |
-| 07 Qui sommes-nous — 3 cartes + schéma | `sections.equipe.cards[]`, `.visual.image(+Alt)`, `.visual.captionText` |
-| 08 Références — 8 logos + 4 faits | `sections.references.logos[]`, `.facts[]` (client/detail) |
-| 09 Bénéfices concrets — 5 cartes | `sections.benefices.cards[]` |
-| 10 FAQ — 7 questions/réponses | `faq.items[]` (question/answer) |
-| CTA final (panneau navy) | `contact.title`, `.lede`, `.ctaLabel(+Href)`, `.note` |
-| Footer — taglines, segments, liens légaux | `footer.*` |
+| Hero — photo + badge Qualifelec rotatif | `hero.image` + `hero.imageAlt`, `hero.certifBadge` (texte tournant, aussi utilisé par le badge d'ancrage) |
+| Hero — marquee des 5 logos partenaires | `hero.partners[]` (image/alt) |
+| 01 Bénéfices — titre + 4 cartes illustrées + 4 chips de repères en bas | `sections.capacites.title`, `.cards[]` (title/text/icon/image/imageAlt), `.tags[]` |
+| Bande « Nos partenaires » — badge + phrase d'intro + 5 chips légendés + phrase de clôture | `sections.ancrage.eyebrow`, `.intro`, `.logos[]` (image/alt = légende), `.outro` |
+| 02 Le problème — titre en 2 tons + photo + intro + 4 cartes | `sections.probleme.titleMain` / `.titleEm`, `.image(+Alt)`, `.lede`, `.cards[]` |
+| 03 Le vrai choix (bande navy) — titre + photo encadrée + 2 cartes | `sections.insight.titleMain` / `.titleEm`, `.image(+Alt)`, `.ledes[]`, `.cards[]` |
+| 04 La solution — titre + intro + 4 cartes + photo | `sections.solution.*`, `.image(+Alt)` (la carte mise en avant a `"accent": true`) |
+| 05 Qui fait quoi — photo + 2 colonnes | `sections.roles.image(+Alt)`, `.partner.*`, `.network.*`, `.footnote` |
+| 06 Parcours (bande grise) — photo + 4 étapes | `sections.parcours.image(+Alt)`, `.steps[]` (num/title/text) |
+| 07 Qui sommes-nous — 2 écrans légendés + 3 cartes | `sections.equipe.screens[]` (image/alt/label/detail), `.cards[]` |
+| 08 Références — photo + 4 faits + 8 logos | `sections.references.image(+Alt)`, `.facts[]` (client/detail), `.logos[]` |
+| 09 Bénéfices concrets — 5 cartes + photo en 6e cellule | `sections.benefices.cards[]`, `.image(+Alt)` |
+| 10 FAQ — 7 questions/réponses + schéma sticky | `faq.items[]` (question/answer, item 5 : `image`/`imageAlt`), `faq.image(+Alt)` |
+| CTA final (bande navy pleine largeur, badge centré) | `contact.title`, `.lede`, `.ctaLabel(+Href)`, `.note` |
+| Footer clair — taglines, segments, contact, liens légaux, copyright | `footer.*` (les clés `nav.footer` et `organization.social` ne sont plus rendues) |
 | Coordonnées (partout) | `organization.email`, `.phoneDisplay` / `.phoneHref` |
 
 Le style (couleurs, typo Inter, espacements) ne se règle pas ici : il vit

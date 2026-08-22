@@ -90,10 +90,10 @@ Ces entreprises font déjà appel à Borne Recharge Service. Elles ne sont pas d
 ## Cinq changements, dès le prochain projet.
 
 - **Répondre aux appels d'offres avec un exploitant désigné** — Un exploitant en production dans votre dossier, sous votre nom, avec l'accord de BRS projet par projet, références d'opérateur à l'appui. Des marchés directs redevenus accessibles, sans vous adosser à un concurrent.
-- **Un revenu qui continue après la pose** — Supervision, télémaintenance, reporting et support prolongent la relation client après la mise en service. Vous portez le contrat récurrent vous-même, ou BRS le porte et vous en reverse une part définie ensemble, projet par projet.
-- **Un après-garantie qui rapporte au lieu de coûter** — Les appels subis deviennent un contrat de support et de télémaintenance facturable, adossé aux outils de l'opérateur.
 - **Un dossier technique solide dès la première version** — Étude et dimensionnement par des équipes qui exploitent des parcs de bornes au quotidien, pas par un bureau d'études généraliste. Moins d'allers-retours.
 - **Une mise en service rapide et prévisible** — Équipements préconfigurés en amont du chantier : moins de temps passé sur site, un planning qui tient.
+- **Un revenu qui continue après la pose** — Supervision, télémaintenance, reporting et support prolongent la relation client après la mise en service. Vous portez le contrat récurrent vous-même, ou BRS le porte et vous en reverse une part définie ensemble, projet par projet.
+- **Un après-garantie qui rapporte au lieu de coûter** — Les appels subis deviennent un contrat de support et de télémaintenance facturable, adossé aux outils de l'opérateur.
 
 ## FAQ
 
