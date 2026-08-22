@@ -70,5 +70,7 @@ après toute modification du template, régénérer comme ci-dessus.
 
 ## Déploiement
 
-Voir la section « Déploiement » du [README racine](../README.md) — non configuré
-actuellement, action à faire côté GitHub.
+GitHub Pages sur le domaine `brsconnect.fr` (fichier `CNAME`). Flux : éditer →
+générer → valider → commiter → pousser sur `main` ; Pages sert les fichiers
+statiques commités, sans build côté serveur. Contexte et décision :
+[ADR-0001](docs/adr/0001-connexion-github-pages.md).

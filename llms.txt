@@ -2,29 +2,29 @@
 
 > Répondez aux appels d'offres avec un exploitant IRVE en production désigné dans votre dossier, sous votre nom, avec l'accord de BRS projet par projet. Étude, préconfiguration, supervision, exploitation et support, à la prestation. Réseau adossé à Borne Recharge Service, opérateur depuis 2012.
 
-Généré au build le 2026-08-21. Source de vérité : content/site-content.json.
+Généré au build le 2026-08-22. Source de vérité : content/site-content.json.
 
-## L'exploitant en production, dans votre dossier d'appel d'offres
+## Sans exploitant désigné, votre dossier ne passe pas
 
-Sur les appels d'offres tertiaires et copropriétés, le cahier des charges exige un exploitant désigné. Sans cette ligne, vous êtes éliminé, ou vous vous adossez à un concurrent qui peut vous prendre le client. Avec BRS Connect, vous répondez avec les briques d'un opérateur IRVE en production, sous votre nom, avec son accord projet par projet. Étude, préconfiguration, supervision, exploitation, support : à la prestation. Votre client reste votre client. Votre marge reste libre.
+Sur les appels d'offres tertiaires et copropriétés, le cahier des charges exige un exploitant désigné. À défaut, vous vous adossez à un concurrent qui peut vous prendre le client. Avec BRS Connect, vous répondez avec les briques d'un opérateur IRVE en production, sous votre nom, avec son accord projet par projet. Étude, préconfiguration, supervision, exploitation, support : à la prestation. Votre client reste votre client. Votre marge reste libre.
 
-## Ce que BRS Connect met à votre disposition
+## Ce que vous n'avez pas à construire
 
 - **Étude et dimensionnement** — Notes de calcul, schémas électriques et dimensionnement, par des équipes qui exploitent des parcs de bornes au quotidien.
 - **Préconfiguration multi-bornes** — On prépare vos bornes en amont, pour une mise en service plus fluide sur site.
 - **Supervision et exploitation** — Télérelève, suivi de parc et continuité de service, sans construire votre propre plateforme. Et un exploitant en production, désignable dans vos dossiers d'appels d'offres avec l'accord de BRS, projet par projet.
 - **Support et suivi client** — Un support opérationnel après l'installation, pour que votre client ne soit jamais seul.
 
-## Ce n'est pas la pose qui vous fait perdre des marchés. C'est la ligne « exploitant » du cahier des charges
+## Une ligne du cahier des charges vous élimine avant même le chiffrage
 
-Sur les appels d'offres tertiaires et copropriétés, le dossier exige un exploitant ou une supervision désignés. Devenir exploitant vous-même supposerait une plateforme, une astreinte et des références en production : des années d'investissement pour cocher une ligne. Alors soit vous passez votre tour, soit vous nommez un concurrent dans votre propre dossier. Et ce n'est pas le seul endroit où le métier se rétrécit.
+Devenir exploitant vous-même supposerait une plateforme, une astreinte et des références en production : des années d'investissement pour cocher une ligne. Alors soit vous passez votre tour, soit vous nommez un concurrent dans votre propre dossier. Et ce n'est pas le seul endroit où le métier se rétrécit.
 
 - **La relation s'arrête à la mise en service** — Une fois la borne en service, vous n'avez rien à proposer pour la suite. Le client contracte sa supervision ailleurs, ou reste sans solution, et vous perdez le contact au moment où le revenu récurrent commence.
 - **Le SAV continue d'arriver chez vous** — Après la garantie, les appels ne s'arrêtent pas : borne en panne, badge, facturation de recharge. Sans outil de télémaintenance ni modèle de support, chaque appel se traite à perte, ou ne se traite pas.
 - **L'étude dépend d'un BE qui connaît mal l'IRVE** — Sur les projets multi-bornes complexes (TGBT, note de calcul, puissances DC), un bureau d'études généraliste coûte cher en délais : erreurs de dimensionnement, allers-retours. Et monter un BE spécialisé en interne ne se justifie pas tant que ces projets restent irréguliers.
 - **La mise en service se paie sur site** — Sans préconfiguration en amont, la mise en service prend plus de temps que prévu et complique la planification du chantier. C'est un savoir-faire logiciel et réseau, distinct du geste électrique.
 
-## Le choix n'est pas de poser plus. C'est de rester propriétaire de vos marchés
+## Exécutant sur votre propre marché, ou propriétaire de vos clients.
 
 L'ubérisation gagne le métier : des plateformes de leads et des donneurs d'ordres distribuent les chantiers, écrasent les marges et confisquent le client. L'installateur devient exécutant sur son propre marché.
 
@@ -33,7 +33,7 @@ BRS Connect prend le chemin inverse, point par point. Vous gardez le client. Vou
 - **Vos marchés restent les vôtres** — Pas de chantiers distribués, pas de client confisqué. Vous arrivez avec votre projet, et BRS Connect intervient en arrière-plan, sur les seules briques que vous décidez d'activer.
 - **Votre marge reste libre** — Chaque prestation se refacture à votre client au prix que vous fixez, pose comprise. Personne ne décide de votre marge à votre place.
 
-## Une suite de services, que vous activez projet par projet.
+## Les briques d'un opérateur, que vous activez projet par projet.
 
 Ce n'est ni une franchise, ni un abonnement, ni un programme à paliers. Un accord-cadre léger et non engageant cadre l'entrée, puis chaque projet fait l'objet de son propre devis. Et un référent unique chez BRS, nommé, suit tous vos projets et vous route vers les bonnes compétences.
 
@@ -61,14 +61,14 @@ La question qui revient en premier : est-ce que déléguer la technique, c'est r
 - Supervision et exploitation
 - Support technique après installation
 
-## On démarre par un Premier chantier, pas par un engagement.
+## Un premier chantier réel, pas un dossier de candidature.
 
 - **Venez avec un projet** — Copropriété, tertiaire, appel d'offres à sécuriser : le Premier chantier démarre sur un projet réel, pas sur une déclaration d'intention. Un accord-cadre léger et non engageant cadre l'entrée.
 - **Vous activez les briques utiles** — Étude, préconfiguration, supervision, exploitation, support, exploitant désigné pour un dossier d'appel d'offres : chaque projet fait l'objet de son propre devis, sans abonnement ni palier.
 - **Un référent vous accompagne de bout en bout** — Le Premier chantier est suivi de près : un interlocuteur nommé chez BRS route le projet vers les bonnes compétences et le débriefe avec vous à la fin.
 - **La suite, vous en décidez** — Pas de volume imposé, pas d'exclusivité territoriale. Vous mobilisez le réseau quand un projet le justifie, et vous restez pilote de la relation client, du premier contact à la garantie.
 
-## Ces capacités existent déjà chez Borne Recharge Service. Une pratique réelle, pas une promesse sur une page.
+## Opérateur IRVE depuis 2012, avant d'être un réseau.
 
 Opérateur IRVE depuis 2012, certifié Qualifelec, Borne Recharge Service pilote déjà l'ensemble du cycle de vie de la recharge sur ses propres parcs : conception, financement, installation, mise en service, supervision, exploitation, maintenance, gestion de l'énergie et support client. BRS Connect met cette organisation à disposition de ses installateurs partenaires.
 
@@ -76,7 +76,7 @@ Opérateur IRVE depuis 2012, certifié Qualifelec, Borne Recharge Service pilote
 - **Des fondations opérationnelles réelles** — Qualifelec, expérience terrain, supervision, exploitation : ce sont des compétences déjà exercées, pas des arguments ajoutés pour la page.
 - **Les premiers partenaires façonnent le réseau** — BRS Connect démarre : il n'y a pas encore de témoignages partenaires à afficher. En contrepartie, les premiers partenaires construisent le réseau avec BRS : accès direct aux équipes, référent nommé, Premier chantier co-construit.
 
-## Des références historiques d'exploitation, et un savoir-faire que nous partageons avec vous
+## Des parcs déjà en service, pas des références de brochure.
 
 Ces entreprises font déjà appel à Borne Recharge Service. Elles ne sont pas des clients du réseau BRS Connect.
 
@@ -87,7 +87,7 @@ Ces entreprises font déjà appel à Borne Recharge Service. Elles ne sont pas d
 - **Ville de Thonon-les-Bains** — 28 bornes au Centre Technique Municipal
 - **Néolia, groupe Action Logement** — 12 bornes partagées sur 4 sites
 
-## Des bénéfices concrets, sans promesse excessive.
+## Cinq changements, dès le prochain projet.
 
 - **Répondre aux appels d'offres avec un exploitant désigné** — Un exploitant en production dans votre dossier, sous votre nom, avec l'accord de BRS projet par projet, références d'opérateur à l'appui. Des marchés directs redevenus accessibles, sans vous adosser à un concurrent.
 - **Un revenu qui continue après la pose** — Supervision, télémaintenance, reporting et support prolongent la relation client après la mise en service. Vous portez le contrat récurrent vous-même, ou BRS le porte et vous en reverse une part définie ensemble, projet par projet.

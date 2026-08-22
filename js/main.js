@@ -9,6 +9,18 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Lit un token CSS pour éviter qu'une valeur vive à deux endroits.
+     css/tokens.css reste la source unique ; le JS s'y aligne au chargement. */
+  function token(name, fallback) {
+    try {
+      var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      var n = parseFloat(v);
+      return isNaN(n) ? fallback : n;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
   /* --- Menu mobile ------------------------------------------------------ */
   function initNav() {
     var toggle = document.querySelector('[data-nav-toggle]');
@@ -37,65 +49,6 @@
     });
   }
 
-  /* --- Compteurs animés -------------------------------------------------- */
-  function initCounters() {
-    var nodes = document.querySelectorAll('[data-count-to]');
-    if (!nodes.length) return;
-
-    function run(el) {
-      var target = parseInt(el.dataset.countTo, 10) || 0;
-      if (reduceMotion) { el.textContent = String(target); return; }
-
-      var duration = 900;
-      var start = null;
-
-      function frame(ts) {
-        if (start === null) start = ts;
-        var p = Math.min((ts - start) / duration, 1);
-        // easeOutCubic
-        el.textContent = String(Math.floor((1 - Math.pow(1 - p, 3)) * target));
-        if (p < 1) requestAnimationFrame(frame);
-        else el.textContent = String(target);
-      }
-      requestAnimationFrame(frame);
-    }
-
-    if (!('IntersectionObserver' in window)) {
-      nodes.forEach(function (el) { el.textContent = el.dataset.countTo; });
-      return;
-    }
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        run(entry.target);
-        io.unobserve(entry.target);
-      });
-    }, { threshold: 0.4 });
-
-    nodes.forEach(function (el) { io.observe(el); });
-  }
-
-  /* --- Animation du mot "Connect" ---------------------------------------- */
-  function initSpinWord() {
-    var el = document.querySelector('[data-spin-word]');
-    if (!el || reduceMotion) return;
-
-    var text = el.textContent.trim();
-    var frag = document.createDocumentFragment();
-
-    text.split('').forEach(function (ch, i) {
-      var span = document.createElement('span');
-      span.className = 'spin-word__letter';
-      span.style.animationDelay = i * 55 + 'ms';
-      span.textContent = ch;
-      frag.appendChild(span);
-    });
-
-    el.textContent = '';
-    el.appendChild(frag);
-  }
-
   /* --- Apparition au défilement ------------------------------------------ */
   function initReveal() {
     var nodes = document.querySelectorAll('[data-reveal]');
@@ -112,7 +65,7 @@
         entry.target.dataset.revealed = 'true';
         io.unobserve(entry.target);
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: token('--reveal-threshold', 0.12), rootMargin: '0px 0px -40px 0px' });
 
     nodes.forEach(function (el) { io.observe(el); });
   }
@@ -172,29 +125,6 @@
     update();
   }
 
-  /* --- Formulaire de démonstration ---------------------------------------
-     Tant qu'aucun endpoint réel n'est branché, l'envoi est intercepté et
-     seul un message de confirmation est affiché. Voir README.             */
-  function initForm() {
-    var form = document.querySelector('[data-demo-form]');
-    var status = document.querySelector('[data-form-status]');
-    if (!form || !status) return;
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-
-      status.dataset.visible = 'true';
-      status.setAttribute('tabindex', '-1');
-      status.focus();
-      form.reset();
-    });
-  }
-
   /* --- Année courante dans le pied de page -------------------------------- */
   function initYear() {
     var el = document.querySelector('[data-year]');
@@ -204,12 +134,9 @@
   /* --- Amorçage ----------------------------------------------------------- */
   function init() {
     initNav();
-    initCounters();
-    initSpinWord();
     initReveal();
     initScrollSpy();
     initToTop();
-    initForm();
     initYear();
   }
 

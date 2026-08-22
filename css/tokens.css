@@ -17,11 +17,30 @@
   --background:            #FFFFFF;   /* fond de page et des zones claires  */
   --foreground:            #171844;   /* titres et texte fort sur clair     */
 
-  --primary:               #36A9E1;   /* CTA, éléments actifs               */
+  --primary:               #36A9E1;   /* sourcils, clauses teintées, icônes */
   --primary-foreground:    #171844;   /* texte posé sur --primary           */
   --primary-hover:         #1E8FC6;
+  /* Réservés : aucun élément interactif ne consomme --primary comme surface
+     aujourd'hui (les boutons passent par --primary-fill). Conservés pour
+     rester complets si un composant le fait un jour.                     */
   --primary-pressed:       #1C5875;
   --primary-pressed-foreground: #FFFFFF;
+
+  /* Fond des boutons primaires — rôle distinct de --primary.
+     --primary (#36A9E1) reste la couleur de marque : sourcils, clauses de
+     titre teintées, badges d'icônes, point du badge, nav active. Le fond des
+     boutons est un rôle séparé parce que les deux critères WCAG s'opposent :
+     le label doit atteindre 4,5:1 contre le bouton (1.4.3) et le bouton 3:1
+     contre le fond de section (1.4.11). Voir le rapport de conformance.
+     Arbitré le 2026-08-21 (variante B) : bleu assombri, label blanc, une
+     seule nuance de bouton sur toute la page. Échelle monotone
+     #1A7DAD → #17739F → #1C5875, blanc lisible sur les trois
+     (4,58 / 5,26 / 7,77:1).                                               */
+  --primary-fill:          #1A7DAD;
+  --primary-fill-foreground: #FFFFFF;
+  --primary-fill-hover:    #17739F;
+  --primary-fill-pressed:  #1C5875;
+  --primary-fill-pressed-foreground: #FFFFFF;
 
   --secondary:             #2D2E83;   /* bandes sombres, footer, hero       */
   --secondary-foreground:  #FFFFFF;
@@ -35,18 +54,34 @@
   --link:                  #1C5875;   /* liens et sourcils sur fond clair   */
 
   --border:                #D9D9D9;   /* bordures hairline omniprésentes    */
+  --border-subtle:         rgba(0,0,0,.1); /* contour du bouton ghost       */
   --card:                  #FFFFFF;
   --card-foreground:       #171844;
   --ring:                  #1E8FC6;   /* focus visible                      */
 
-  /* États (emplois rares : le vert n'est jamais un grand aplat) */
+  /* États (emplois rares : le vert n'est jamais un grand aplat).
+     --success est la couleur de marque de l'état ; sur la page, seul
+     --success-wash est réellement posé (fond des badges de bénéfices).  */
   --success:               #93BD21;
   --danger:                #C0392B;
 
-  /* Texte et bordures posés sur les fonds sombres */
+  /* Texte, fonds et bordures posés sur les bandes sombres.
+     Trois alphas de texte (plein / atténué / discret), deux de surface
+     (fond translucide / bordure), une bordure de carte plus discrète.     */
   --on-dark:               #FFFFFF;
-  --on-dark-muted:         rgba(255,255,255,.78);
-  --on-dark-border:        rgba(255,255,255,.22);
+  --on-dark-muted:         rgba(255,255,255,.78);   /* chapôs, corps        */
+  --on-dark-faint:         rgba(255,255,255,.55);   /* mentions légales     */
+  --on-dark-faintest:      rgba(255,255,255,.40);   /* horodatage de build  */
+  --on-dark-fill:          rgba(255,255,255,.08);   /* fonds translucides   */
+  --on-dark-fill-hover:    rgba(255,255,255,.12);
+  --on-dark-border:        rgba(255,255,255,.22);   /* filets              */
+  --on-dark-card-border:   rgba(255,255,255,.16);   /* bordures de cartes  */
+  --on-dark-outline:       rgba(255,255,255,.40);   /* bouton outline-light */
+  --on-dark-card:          rgba(255,255,255,.06);   /* fond de carte        */
+
+  /* Deux fonds nommés, chacun avec un seul emploi dans tout le système. */
+  --header-bg:             rgba(255,255,255,.95);   /* en-tête collant      */
+  --success-wash:          rgba(147,189,33,.16);    /* derrière les icônes  */
 
   /* --- Typographie --------------------------------------------------------
      Inter partout, déclinée par graisses (variable 100–900 auto-hébergée).
@@ -66,10 +101,30 @@
   /* Interlignage et approche */
   --leading-h1:      1.04;
   --leading-h2:      1.25;
+  --leading-h3:      1.4;
+  --leading-compact: 1.6;      /* chapôs, texte de carte, réponses FAQ      */
   --leading-body:    1.7;
+  --leading-ui:      1.25rem;  /* sourcils, boutons, nav, labels — en rem   */
   --tracking-h1:     -.04em;
   --tracking-h2:     -.025em;
   --tracking-eyebrow: .16em;
+
+  /* Graisses réellement employées : 400 corps, 600 UI/sourcils, 700 titres */
+  --weight-body:   400;
+  --weight-medium: 600;
+  --weight-bold:   700;
+
+  /* Largeurs de lecture (mesure) */
+  --measure-lede:      60ch;   /* chapô de section — valeur réellement
+                                  rendue : le CSS disait 62ch mais les 6
+                                  usages l'écrasaient en inline à 60ch     */
+  --measure-prose:     820px;  /* colonne de prose (FAQ)                   */
+  --measure-grid-narrow: 52rem;/* grille resserrée de la bande insight     */
+  --measure-hero-copy: 60ch;   /* colonne de texte du hero                 */
+  --measure-hero-lede: 52ch;   /* chapô du hero                            */
+  --measure-answer:    68ch;   /* réponses de la FAQ                       */
+  --measure-cta-title: 24ch;   /* titre du panneau CTA                     */
+  --measure-cta-note:  56ch;   /* mention sous le panneau CTA              */
 
   /* --- Espacement (base 4px) --------------------------------------------- */
   --space-2xs: 4px;
@@ -85,21 +140,45 @@
   /* Rythme vertical des sections : 64px mobile → 96px desktop */
   --section-y: clamp(4rem, 2.9rem + 3.4vw, 6rem);
 
+  /* Gouttière des grilles de cartes : 20px à plat, hors échelle 4px.
+     C'est une valeur du rendu de référence, pas un pas de l'échelle —
+     d'où son propre token plutôt qu'un arrondi vers --space-lg.          */
+  --grid-gap: 20px;
+
+  /* --- Traits --------------------------------------------------------------
+     Épaisseur des glyphes dessinés en CSS (chevron FAQ), alignée sur le
+     stroke-width des SVG inline 24×24 du système.                        */
+  --stroke-icon: 1.8px;
+
   /* --- Rayons -------------------------------------------------------------
-     Flat design : les CARTES sont à angles droits (radius 0, en dur dans
-     les composants). Les rayons ci-dessous servent aux petits contrôles. */
+     Flat design : les CARTES sont à angles droits. --radius-none le dit
+     explicitement plutôt que de compter sur l'absence de déclaration.    */
+  --radius-none: 0;        /* cartes, tuiles, chips, étapes, colonnes rôles */
   --radius-sm:   4px;      /* focus ring, petits éléments                   */
   --radius-md:   6px;      /* boutons, inputs, badges d'icône               */
-  --radius-full: 999px;
+  --radius-full: 999px;    /* point d'état du badge uniquement              */
 
   /* --- Ombres -------------------------------------------------------------
      Quasi absentes : hairlines plutôt qu'ombres. Deux exceptions.        */
-  --shadow-subtle: 0 1px 2px rgba(0,0,0,.05);
+  --shadow-subtle: 0 1px 2px rgba(0,0,0,.05);          /* bouton ghost      */
   --shadow-deep:   0 25px 50px -12px rgba(0,0,0,.25);  /* visuel du hero    */
 
-  /* --- Divers ------------------------------------------------------------- */
+  /* Le filet est la vraie signature du système : on le nomme. */
+  --hairline:         1px solid var(--border);
+  --hairline-on-dark: 1px solid var(--on-dark-border);
+
+  /* --- Mise en page -------------------------------------------------------- */
   --content-max: 1280px;
   --header-h:    76px;
-  --ease:        cubic-bezier(.4,0,.2,1);
-  --transition:  .2s var(--ease);
+  --wrap-pad:    20px;     /* 32px ≥640px, 48px ≥1024px — cf. main.css      */
+
+  /* --- Mouvement -----------------------------------------------------------
+     Une seule courbe, une seule durée pour les transitions de couleur.
+     Une seule entrée : le reveal au défilement (14px de montée + fondu).  */
+  --ease:            cubic-bezier(.4,0,.2,1);
+  --duration:        .2s;
+  --transition:      var(--duration) var(--ease);
+  --duration-reveal: .5s;
+  --reveal-offset:   14px;
+  --reveal-threshold: .12;  /* miroir JS — voir js/main.js                  */
 }
