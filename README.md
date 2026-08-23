@@ -6,9 +6,10 @@ build zéro-dépendance** qui génère tout le reste.
 
 ## Règle n°1
 
-**Ne jamais éditer `index.html`, `sitemap.xml`, `llms.txt` ou `robots.txt` à la main.**
-Ces quatre fichiers sont écrasés à chaque `node build/generate.mjs`. Toute correction
-manuelle sera perdue au prochain build. Même logique côté design : le canvas
+**Ne jamais éditer `index.html`, `index-flat.html`, `sitemap.xml`, `llms.txt` ou
+`robots.txt` à la main.** Ces fichiers sont écrasés à chaque build
+(`generate.mjs` pour les quatre premiers, `flatten.mjs` pour le flat). Toute
+correction manuelle sera perdue au prochain build. Même logique côté design : le canvas
 Claude Design est un bac à sable visuel, il ne fait pas foi — rien de ce qui
 n'existe que dans le canvas n'est en ligne.
 
@@ -21,6 +22,7 @@ n'existe que dans le canvas n'est en ligne.
    ```bash
    node build/generate.mjs
    node build/validate.mjs
+   node build/flatten.mjs
    ```
 4. Si `validate.mjs` échoue, lire le message — il pointe l'erreur exacte (token oublié,
    FAQ désynchronisée, coordonnée qui ne correspond pas, etc.).
@@ -104,6 +106,13 @@ après toute modification du template, régénérer comme ci-dessus.
 | `llms.txt` | Digest markdown curaté pour crawlers IA (spec [llmstxt.org](https://llmstxt.org)). |
 | `robots.txt` | Ouvert à tous les crawlers, référence `sitemap.xml`. |
 
+## Ce que génère `flatten.mjs`
+
+`index-flat.html` : dérivé autoportant de `index.html` (CSS et JS inlinés,
+assets en URLs absolues sur `meta.domain`), pour tout usage où la page doit
+vivre seule, hors de ce dossier. À lancer après `generate.mjs` + `validate.mjs` ;
+le script sort en erreur s'il reste une référence relative.
+
 ## Ce que vérifie `validate.mjs` (exit 1 si échec)
 
 - Aucun token `{{...}}` non résolu dans les fichiers générés.
@@ -140,6 +149,6 @@ après toute modification du template, régénérer comme ci-dessus.
 ## Déploiement
 
 GitHub Pages sur le domaine `brsconnect.fr` (fichier `CNAME`). Flux : éditer →
-générer → valider → commiter → pousser sur `main` ; Pages sert les fichiers
+générer → valider → flatten → commiter → pousser sur `main` ; Pages sert les fichiers
 statiques commités, sans build côté serveur. Contexte et décision :
 [ADR-0001](docs/adr/0001-connexion-github-pages.md).
