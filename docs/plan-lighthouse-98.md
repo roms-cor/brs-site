@@ -5,6 +5,22 @@
 (grilling Promptor) : correction de contraste **chirurgicale** (option B),
 script d'images **intégré au pipeline de build** avant `flatten.mjs`.
 
+> **ÉTAT : EXÉCUTÉ le 2026-08-23** (même session, branche
+> `claude/pagespeed-insights-analysis-b5jenb`). Résultats Lighthouse locaux
+> (serveur gzip émulant GitHub Pages, médiane) : **perf mobile 98-99**
+> (référence : 92-93), **accessibilité 100** (contraste vert), BP/SEO
+> inchangés, llms.txt avec liens. Écarts d'implémentation vs plan initial :
+> `images.mjs` passe en PREMIÈRE étape (generate consomme son manifest —
+> la contrainte validée « avant le flat » reste tenue) ; `font-display`
+> basculé sur `optional` (porte de décision du §Lot 1 prise : la simulation
+> liait le LCP texte au chargement d'Inter même compensée) ; deux nouveaux
+> contrôles dans `validate.mjs` (n°10 existence des fichiers référencés,
+> n°11 verrou de contraste WCAG). Décisions actées :
+> [ADR-0002](adr/0002-pipeline-images-sharp.md) (dépendance sharp),
+> [ADR-0003](adr/0003-contraste-option-b.md) (deux bleus). Restent : la
+> recette PageSpeed sur https://brsconnect.fr après merge + déploiement, et
+> le report des teintes dans le canvas « BRS Connect - Design ».
+
 ## 1. Situation et cibles
 
 | Catégorie | Mobile | Desktop | Cible |

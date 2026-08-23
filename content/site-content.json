@@ -9,7 +9,8 @@
     "themeColor": "#2D2E83",
     "ogImage": "assets/images/brs-web-visuals/brs-web-visuals-image1.webp",
     "locale": "fr_FR",
-    "lang": "fr"
+    "lang": "fr",
+    "feedbackWidget": true
   },
   "organization": {
     "name": "BRS Connect",

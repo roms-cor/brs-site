@@ -641,7 +641,9 @@
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
 
-<!-- Ybug (widget feedback) -->
+{{#if meta.feedbackWidget}}<!-- Ybug (widget feedback) — piloté par meta.feedbackWidget
+     dans content/site-content.json : passer à false (ou retirer la clé)
+     pour le couper avant la mise en prod définitive. -->
 <script>
   (function () {
     window.ybug_settings = { id: 'hwds846m5jt3qw7j80xg' };
@@ -652,7 +654,7 @@
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(ybug, s);
   })();
-</script>
+</script>{{/if}}
 
 </body>
 </html>
