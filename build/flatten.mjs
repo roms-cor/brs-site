@@ -36,25 +36,16 @@ const flatBanner = `<!-- =======================================================
 html = html.replace(generatedBanner, flatBanner + generatedBanner);
 
 // ---------------------------------------------------------------------------
-// 2. CSS : remplacer les trois <link rel="stylesheet"> par un <style> unique.
-//    Les url('../assets/…') des feuilles deviennent absolues.
+// 2. CSS : generate.mjs inline déjà les trois feuilles minifiées dans un
+//    <style> — vérifier sa présence, puis absolutiser ses url('assets/…').
 // ---------------------------------------------------------------------------
-const cssFiles = ['css/tokens.css', 'css/base.css', 'css/main.css'];
-const inlinedCss = cssFiles
-  .map((f) => {
-    const css = readFileSync(path.join(ROOT, f), 'utf8')
-      .replaceAll("url('../assets/", `url('${BASE}assets/`)
-      .replaceAll('url("../assets/', `url("${BASE}assets/`);
-    return `/* ==================== ${f} ==================== */\n${css}`;
-  })
-  .join('\n');
-
-const linkBlock = cssFiles.map((f) => `<link rel="stylesheet" href="${f}">`).join('\n');
-if (!html.includes(linkBlock)) {
-  console.error('flatten.mjs : bloc des <link rel="stylesheet"> introuvable dans index.html — abandon.');
+if (!/<style>[\s\S]*?--font-sans[\s\S]*?<\/style>/.test(html)) {
+  console.error('flatten.mjs : <style> inline (tokens/base/main) introuvable dans index.html — abandon.');
   process.exit(1);
 }
-html = html.replace(linkBlock, `<style>\n${inlinedCss}\n</style>`);
+html = html
+  .replaceAll("url('assets/", `url('${BASE}assets/`)
+  .replaceAll('url("assets/', `url("${BASE}assets/`);
 
 // ---------------------------------------------------------------------------
 // 3. JS : inliner js/main.js à la place du <script src>. Sans risque :
@@ -70,9 +61,11 @@ html = html.replace(scriptTag, `<script>\n${js}\n</script>`);
 
 // ---------------------------------------------------------------------------
 // 4. Assets : toutes les références relatives "assets/…" deviennent absolues
-//    (src, href, preload, favicon…).
+//    (src, href, preload, favicon…), y compris les entrées suivantes des
+//    srcset (préfixées d'une virgule, pas d'un guillemet).
 // ---------------------------------------------------------------------------
 html = html.replaceAll('"assets/', `"${BASE}assets/`);
+html = html.replaceAll(', assets/', `, ${BASE}assets/`);
 
 // ---------------------------------------------------------------------------
 // 5. Garde-fous : aucune référence relative ne doit subsister.

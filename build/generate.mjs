@@ -113,11 +113,88 @@ function buildJsonLd(c) {
 }
 
 // ---------------------------------------------------------------------------
+// Images : srcset responsive des visuels + width/height manquants, depuis le
+// manifest produit par build/images.mjs (lancé AVANT generate dans le
+// pipeline : npm run build). Le moteur de template n'a pas de helpers, donc
+// c'est une passe de post-traitement sur le HTML rendu.
+// ---------------------------------------------------------------------------
+const DIMENSIONS = JSON.parse(
+  readFileSync(path.join(ROOT, 'assets/images/image-dimensions.json'), 'utf8')
+);
+// Les visuels s'affichent à ~566 px sur desktop (grille 2 colonnes) et
+// pleine largeur sur mobile ; une seule constante, affinable à la mesure.
+const VISUAL_SIZES = '(min-width: 720px) 566px, 92vw';
+
+function postProcessImages(html) {
+  return html.replace(/<img\b[^>]*>/g, (tag) => {
+    const srcMatch = tag.match(/src="(assets\/[^"]+)"/);
+    if (!srcMatch) return tag;
+    const src = srcMatch[1];
+    // 1. Visuels : les variantes -640w (et -960w si générée) entrent en srcset.
+    if (/brs-web-visuals-[\w-]+\.webp$/.test(src) && !tag.includes('srcset=')) {
+      const width = DIMENSIONS[src] ? DIMENSIONS[src].w : 1200;
+      const candidates = [`${src.replace(/\.webp$/, '-640w.webp')} 640w`];
+      const mid = src.replace(/\.webp$/, '-960w.webp');
+      if (DIMENSIONS[mid]) candidates.push(`${mid} 960w`);
+      candidates.push(`${src} ${width}w`);
+      tag = tag.replace(
+        `src="${src}"`,
+        `src="${src}" srcset="${candidates.join(', ')}" sizes="${VISUAL_SIZES}"`
+      );
+    }
+    // 2. Dimensions explicites pour tout <img> qui n'en a pas (CLS).
+    if (!/\bwidth="/.test(tag) && DIMENSIONS[src]) {
+      const { w, h } = DIMENSIONS[src];
+      tag = tag.replace('<img ', `<img width="${w}" height="${h}" `);
+    }
+    return tag;
+  });
+}
+
+// ---------------------------------------------------------------------------
+// CSS : les trois feuilles sont minifiées et inlinées dans un <style> unique.
+// Site une page + cache GitHub Pages de 10 min : des <link> séparés ne font
+// que retarder le premier rendu (chaîne critique de 3 requêtes bloquantes).
+// css/*.css restent la source d'édition ; seul le HTML généré change.
+// ---------------------------------------------------------------------------
+const CSS_FILES = ['css/tokens.css', 'css/base.css', 'css/main.css'];
+
+function minifyCss(css) {
+  return css
+    .replace(/\/\*[\s\S]*?\*\//g, '')   // commentaires
+    .replace(/\s+/g, ' ')               // espaces/retours multiples → un espace
+    .replace(/\s*([{}>;,])\s*/g, '$1')  // espaces autour de la ponctuation sûre
+    .replace(/:\s+/g, ':')              // espace APRÈS les deux-points seulement
+    .replace(/;}/g, '}')                //  (l'espace avant reste : « .a :hover »
+    .trim();                            //   est un sélecteur descendant valide)
+}
+
+function inlineCss(html) {
+  const linkBlock = CSS_FILES.map((f) => `<link rel="stylesheet" href="${f}">`).join('\n');
+  if (!html.includes(linkBlock)) {
+    console.error('generate.mjs : bloc des <link rel="stylesheet"> introuvable dans le template — abandon.');
+    process.exit(1);
+  }
+  const css = CSS_FILES.map((f) =>
+    minifyCss(
+      readFileSync(path.join(ROOT, f), 'utf8')
+        // Les url() des feuilles étaient relatives à css/ ; inlinées dans le
+        // document, elles deviennent relatives à la racine.
+        .replaceAll("url('../assets/", "url('assets/")
+        .replaceAll('url("../assets/', 'url("assets/')
+    )
+  ).join('\n');
+  return html.replace(linkBlock, `<style>\n${css}\n</style>`);
+}
+
+// ---------------------------------------------------------------------------
 // index.html
 // ---------------------------------------------------------------------------
 const ctx = { ...content, buildYear, buildDate, buildTimestamp };
 let html = render(template, ctx);
 html = html.replace('<!--JSONLD-->', buildJsonLd(content));
+html = postProcessImages(html);
+html = inlineCss(html);
 writeFileSync(path.join(ROOT, 'index.html'), html, 'utf8');
 
 // ---------------------------------------------------------------------------
@@ -157,6 +234,21 @@ const sectionOrder = [
   'benefices',
 ];
 
+// Ancre réelle de chaque section dans le HTML (les clés de contenu ne
+// correspondent pas toutes aux ids : insight vit dans #solution, solution
+// dans #offre — vérifié dans templates/index.template.html).
+const sectionAnchors = {
+  capacites: 'capacites',
+  probleme: 'probleme',
+  insight: 'solution',
+  solution: 'offre',
+  roles: 'roles',
+  parcours: 'parcours',
+  equipe: 'equipe',
+  references: 'references',
+  benefices: 'benefices',
+};
+
 let llms = `# ${content.organization.name}\n\n`;
 llms += `> ${content.meta.description}\n\n`;
 llms += `Généré au build le ${buildDate}. Source de vérité : content/site-content.json.\n\n`;
@@ -165,6 +257,21 @@ if (Array.isArray(content.hero.points) && content.hero.points.length) {
   llms += content.hero.points.map((p) => `- ${p}`).join('\n') + '\n\n';
 }
 if (content.hero.visualLede) llms += `${content.hero.visualLede}\n\n`;
+
+// Liste de liens de navigation — requise par la spec llmstxt.org (le fichier
+// doit contenir des liens Markdown) ; libellés et résumés repris de la copy
+// des sections, aucune formulation nouvelle.
+llms += `## Sections\n\n`;
+for (const key of sectionOrder) {
+  const s = content.sections[key];
+  if (!s) continue;
+  const title = s.title || [s.titleMain, s.titleEm].filter(Boolean).join(' ');
+  const summarySource = s.lede || (Array.isArray(s.ledes) ? s.ledes[0] : '') || '';
+  const summary = summarySource.split(/(?<=\.)\s/)[0];
+  llms += `- [${title}](${content.meta.domain}/#${sectionAnchors[key]})${summary ? ` : ${summary}` : ''}\n`;
+}
+llms += `- [FAQ](${content.meta.domain}/#faq)\n`;
+llms += `- [Contact](${content.meta.domain}/#contact)\n\n`;
 
 for (const key of sectionOrder) {
   const s = content.sections[key];
@@ -201,7 +308,12 @@ for (const item of content.faq.items) {
   llms += `**${item.question}**\n${item.answer}\n\n`;
 }
 
-llms += `## Contact\n\n${content.organization.name}, réseau partenaire adossé à ${content.organization.parentOrganizationName}. Email : ${content.organization.email}. Téléphone : ${content.organization.phoneDisplay}. Zone : ${content.organization.areaServed}.\n`;
+llms += `## Contact\n\n${content.organization.name}, réseau partenaire adossé à ${content.organization.parentOrganizationName}. Email : ${content.organization.email}. Téléphone : ${content.organization.phoneDisplay}. Zone : ${content.organization.areaServed}.\n\n`;
+
+llms += `## Ressources\n\n`;
+llms += `- [Page complète](${content.meta.domain}/)\n`;
+llms += `- [Plan du site](${content.meta.domain}/sitemap.xml)\n`;
+llms += `- [Borne Recharge Service](https://bornerecharge.fr/) : opérateur IRVE auquel le réseau est adossé.\n`;
 
 writeFileSync(path.join(ROOT, 'llms.txt'), llms, 'utf8');
 

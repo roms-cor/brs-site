@@ -13,7 +13,7 @@
 <meta name="description" content="{{meta.description}}">
 <meta name="theme-color" content="{{meta.themeColor}}">
 
-<link rel="icon" type="image/png" href="assets/logos/brs-logomark-square.png">
+<link rel="icon" type="image/png" href="assets/logos/brs-logomark-favicon.png">
 <link rel="canonical" href="{{meta.domain}}{{meta.path}}">
 
 <meta property="og:type" content="website">
@@ -28,7 +28,7 @@
      la même source. -->
 <!--JSONLD-->
 
-<link rel="preload" href="assets/fonts/Inter-Variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Inter-Variable-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
 
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
@@ -152,7 +152,7 @@
 <header class="site-header">
   <div class="wrap site-header__inner">
     <a class="brand brand--stacked" href="#top" aria-label="{{organization.name}}, retour en haut">
-      <img class="brand__mark" src="assets/logos/brs-logomark-square.png" alt="" width="40" height="40">
+      <img class="brand__mark" src="assets/logos/brs-logomark-square.webp" alt="" width="40" height="40">
       <span class="brand__label">
         <small>{{organization.parentOrganizationName}}</small>
         <strong>{{organization.brandSuffix}}</strong>
@@ -213,13 +213,13 @@
       <div class="hero-alt__visual">
         <p class="hero-alt__lede hero-alt__visual-lede">{{hero.visualLede}}</p>
         <div class="hero-alt__media">
-          <img src="{{hero.image}}" alt="{{hero.imageAlt}}" width="1200" height="896" loading="eager">
+          <img src="{{hero.image}}" alt="{{hero.imageAlt}}" width="1200" height="896" loading="eager" fetchpriority="high">
           <div class="certif-badge">
             <svg class="certif-badge__ring" viewBox="0 0 100 100" aria-hidden="true">
               <defs><path id="certif-circle-hero" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
               <text><textPath href="#certif-circle-hero">{{hero.certifBadge}} • {{hero.certifBadge}} •</textPath></text>
             </svg>
-            <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.jpg" alt="Réseau certifié Qualifelec IRVE" loading="eager"></span>
+            <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="Réseau certifié Qualifelec IRVE" loading="eager"></span>
           </div>
         </div>
       </div>
@@ -284,7 +284,7 @@
             <defs><path id="certif-circle-ancrage" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
             <text><textPath href="#certif-circle-ancrage">{{hero.certifBadge}} • {{hero.certifBadge}} •</textPath></text>
           </svg>
-          <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.jpg" alt="Réseau certifié Qualifelec IRVE" loading="lazy"></span>
+          <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="Réseau certifié Qualifelec IRVE" loading="lazy"></span>
         </div>
       </div>
       <p class="ancrage-note">{{sections.ancrage.intro}}</p>
@@ -572,7 +572,7 @@
           <defs><path id="certif-circle-cta" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
           <text><textPath href="#certif-circle-cta">{{hero.certifBadge}} • {{hero.certifBadge}} •</textPath></text>
         </svg>
-        <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.jpg" alt="Réseau certifié Qualifelec IRVE" loading="lazy"></span>
+        <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="Réseau certifié Qualifelec IRVE" loading="lazy"></span>
       </div>
       <span class="eyebrow">{{contact.eyebrow}}</span>
       <h2 id="contact-title">{{contact.title}}</h2>
@@ -599,7 +599,7 @@
     <div class="site-footer__top">
       <div>
         <a class="brand brand--stacked" href="#top">
-          <img class="brand__mark" src="assets/logos/brs-logomark-square.png" alt="" width="32" height="32">
+          <img class="brand__mark" src="assets/logos/brs-logomark-square.webp" alt="" width="32" height="32">
           <span class="brand__label">
             <small>{{organization.parentOrganizationName}}</small>
             <strong>{{organization.brandSuffix}}</strong>
@@ -641,7 +641,9 @@
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
 
-<!-- Ybug (widget feedback) -->
+{{#if meta.feedbackWidget}}<!-- Ybug (widget feedback) — piloté par meta.feedbackWidget
+     dans content/site-content.json : passer à false (ou retirer la clé)
+     pour le couper avant la mise en prod définitive. -->
 <script>
   (function () {
     window.ybug_settings = { id: 'hwds846m5jt3qw7j80xg' };
@@ -652,7 +654,7 @@
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(ybug, s);
   })();
-</script>
+</script>{{/if}}
 
 </body>
 </html>

@@ -41,10 +41,28 @@
       if (e.target.closest('a')) setOpen(false);
     });
 
+    /* Panneau ouvert : Échap ferme, Tab reste dans le cycle
+       toggle → liens du panneau → toggle (pas de fuite de focus
+       vers la page masquée derrière). */
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && panel.dataset.open === 'true') {
+      if (panel.dataset.open !== 'true') return;
+      if (e.key === 'Escape') {
         setOpen(false);
         toggle.focus();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      var items = panel.querySelectorAll('a[href]');
+      if (!items.length) return;
+      var first = items[0];
+      var last = items[items.length - 1];
+      var active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first) { e.preventDefault(); toggle.focus(); }
+        else if (active === toggle) { e.preventDefault(); last.focus(); }
+      } else {
+        if (active === last) { e.preventDefault(); toggle.focus(); }
+        else if (active === toggle) { e.preventDefault(); first.focus(); }
       }
     });
   }

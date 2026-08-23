@@ -13,6 +13,20 @@ Sur les appels d'offres tertiaires et copropriétés, le cahier des charges exig
 
 Avec BRS Connect, appuyez-vous sur les compétences d'un opérateur IRVE en production. Étude, préconfiguration, supervision, exploitation, support : à la prestation.
 
+## Sections
+
+- [Ce que vous n'avez pas à construire](https://brsconnect.fr/#capacites)
+- [Une ligne du cahier des charges vous élimine avant même le chiffrage](https://brsconnect.fr/#probleme) : Devenir exploitant vous-même supposerait une plateforme, une astreinte et des références en production : des années d'investissement pour cocher une ligne.
+- [Exécutant sur votre propre marché, ou propriétaire de vos clients.](https://brsconnect.fr/#solution) : L'ubérisation gagne le métier : des plateformes de leads et des donneurs d'ordres distribuent les chantiers, écrasent les marges et confisquent le client.
+- [Les briques d'un opérateur, que vous activez projet par projet.](https://brsconnect.fr/#offre) : Ce n'est ni une franchise, ni un abonnement, ni un programme à paliers.
+- [Le partage des rôles, sans zone grise.](https://brsconnect.fr/#roles) : La question qui revient en premier : est-ce que déléguer la technique, c'est risquer sa relation client ? Voici la répartition, point par point.
+- [Un premier chantier réel, pas un dossier de candidature.](https://brsconnect.fr/#parcours)
+- [Opérateur IRVE depuis 2012, avant d'être un réseau.](https://brsconnect.fr/#equipe) : Opérateur IRVE depuis 2012, certifié Qualifelec, Borne Recharge Service pilote déjà l'ensemble du cycle de vie de la recharge sur ses propres parcs : conception, financement, installation, mise en service, supervision, exploitation, maintenance, gestion de l'énergie et support client.
+- [Des parcs déjà en service, pas des références de brochure.](https://brsconnect.fr/#references) : Ces entreprises font déjà appel à Borne Recharge Service.
+- [Cinq changements, dès le prochain projet.](https://brsconnect.fr/#benefices)
+- [FAQ](https://brsconnect.fr/#faq)
+- [Contact](https://brsconnect.fr/#contact)
+
 ## Ce que vous n'avez pas à construire
 
 - **Étude et dimensionnement** — Notes de calcul, schémas électriques et dimensionnement, par des équipes qui exploitent des parcs de bornes au quotidien.
@@ -126,3 +140,9 @@ Sur certains marchés, nous pouvons nous croiser : la coexistence est assumée. 
 ## Contact
 
 BRS Connect, réseau partenaire adossé à Borne Recharge Service. Email : contact@brsconnect.fr. Téléphone : +33 1 84 25 26 70. Zone : FR.
+
+## Ressources
+
+- [Page complète](https://brsconnect.fr/)
+- [Plan du site](https://brsconnect.fr/sitemap.xml)
+- [Borne Recharge Service](https://bornerecharge.fr/) : opérateur IRVE auquel le réseau est adossé.

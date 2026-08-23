@@ -1,8 +1,10 @@
 # brs-site — pipeline de contenu
 
 Ce dossier est le site déployé. Il a une **source de vérité
-unique** pour le contenu, un **template** pour la structure/CSS, et un **script de
-build zéro-dépendance** qui génère tout le reste.
+unique** pour le contenu, un **template** pour la structure/CSS, et une **chaîne
+de build** (`npm run build`) qui génère tout le reste. Seule l'étape images
+(`build/images.mjs`) dépend d'un paquet npm (sharp — [ADR-0002](docs/adr/0002-pipeline-images-sharp.md)) ;
+`generate.mjs`, `validate.mjs` et `flatten.mjs` restent zéro-dépendance.
 
 ## Règle n°1
 
@@ -21,14 +23,14 @@ n'est en ligne tant que le report dans le code n'est pas fait.
 1. Ouvrir `content/site-content.json` (toute la page y vit ; voir la carte
    des clés ci-dessous).
 2. Modifier le texte voulu (hero, sections, FAQ, coordonnées, métadonnées…).
-3. Régénérer :
+3. Régénérer (`npm ci` une fois au premier clone, pour sharp) :
    ```bash
-   node build/generate.mjs
-   node build/validate.mjs
-   node build/flatten.mjs
+   npm run build
+   # = node build/images.mjs && node build/generate.mjs \
+   #   && node build/validate.mjs && node build/flatten.mjs
    ```
 4. Si `validate.mjs` échoue, lire le message — il pointe l'erreur exacte (token oublié,
-   FAQ désynchronisée, coordonnée qui ne correspond pas, etc.).
+   FAQ désynchronisée, fichier image manquant, contraste sous 4,5:1, etc.).
 5. Prévisualiser : `python3 -m http.server 8000` puis ouvrir `http://localhost:8000/`.
 6. Commit + push.
 
@@ -43,13 +45,20 @@ copywriting, qui vérifie les claims — voir « Garde-fous » plus bas.
 2. Changer le chemin dans la clé correspondante du JSON
    (ex. `hero.image`, `sections.equipe.visual.image`,
    `sections.references.logos[].image`).
-3. Mettre à jour le texte alternatif voisin (`…Alt`), puis rebuilder.
+3. Mettre à jour le texte alternatif voisin (`…Alt`), puis rebuilder :
+   `build/images.mjs` (première étape de `npm run build`) régénère
+   automatiquement les variantes responsives (`-640w.webp`), les logos WebP
+   redimensionnés et le manifest `assets/images/image-dimensions.json` —
+   les variantes se committent avec le reste (GitHub Pages ne génère rien).
+   Pour un nouveau logo, ajouter son entrée (source → largeur cible) dans la
+   table `LOGOS` de `build/images.mjs`.
 
 Formats : SVG ou WebP de préférence (PNG accepté si besoin), poids raisonnable
 (< 300 Ko), pas de nom avec espaces. Les visuels `brs-web-visuals-*` sont en
 WebP qualité 80 (converti depuis les PNG source du canvas Claude Design) ;
 si un schéma se dégrade visiblement à cette qualité (texte fin qui devient
-flou), monter la qualité pour ce fichier plutôt que d'accepter la perte.
+flou), monter la qualité pour CE fichier via `QUALITY_OVERRIDES` dans
+`build/images.mjs` plutôt que d'accepter la perte. `--force` régénère tout.
 
 ## Carte de la page → clés JSON
 
@@ -86,7 +95,10 @@ Dans l'ordre de la page, du haut vers le bas :
 Le style vit intégralement dans `css/tokens.css` (tokens sémantiques — source
 unique de vérité visuelle, miroir documenté dans `../brs-design/`), `css/base.css`
 (reset, police Inter, boutons) et `css/main.css` (composants, dans l'ordre de la
-page) : les modifier ne nécessite pas de rebuild. Le markup vit dans
+page). **Toute modification CSS nécessite un rebuild** : depuis l'optimisation
+du chemin critique, `generate.mjs` minifie et inline les trois feuilles dans le
+`<style>` de `index.html` (les fichiers `css/` restent la source d'édition,
+plus des ressources servies). Le markup vit dans
 `templates/index.template.html` (seul le bloc `<style media="print">` y reste) ;
 après toute modification du template, régénérer comme ci-dessus.
 
@@ -111,10 +123,23 @@ après toute modification du template, régénérer comme ci-dessus.
 
 ## Ce que génère `flatten.mjs`
 
-`index-flat.html` : dérivé autoportant de `index.html` (CSS et JS inlinés,
-assets en URLs absolues sur `meta.domain`), pour tout usage où la page doit
-vivre seule, hors de ce dossier. À lancer après `generate.mjs` + `validate.mjs` ;
-le script sort en erreur s'il reste une référence relative.
+`index-flat.html` : dérivé autoportant de `index.html` (JS inliné — le CSS
+l'est déjà par `generate.mjs` —, assets en URLs absolues sur `meta.domain`),
+pour tout usage où la page doit vivre seule, hors de ce dossier. À lancer
+après `generate.mjs` + `validate.mjs` ; le script sort en erreur s'il reste
+une référence relative.
+
+## Ce que génère `images.mjs`
+
+Première étape du pipeline (seule dépendance npm : sharp) — idempotente, ne
+régénère que ce dont la source a changé (`--force` pour tout refaire) :
+
+| Sortie | Rôle |
+| --- | --- |
+| `brs-web-visuals-*-640w.webp` (+ `-960w` pour le héros) | Variantes responsives injectées en `srcset` par `generate.mjs`. |
+| Logos partenaires/références en `.webp` redimensionnés | ~2× la taille d'affichage (spie 83 → 6,6 Kio, Qualifelec 46 → 2,3 Kio…). |
+| `assets/logos/brs-logomark-favicon.png` (48 px) | Favicon léger. |
+| `assets/images/image-dimensions.json` | Manifest consommé par `generate.mjs` pour le `srcset` et les `width`/`height` (anti-CLS). |
 
 ## Ce que vérifie `validate.mjs` (exit 1 si échec)
 
@@ -131,6 +156,11 @@ le script sort en erreur s'il reste une référence relative.
 - `robots.txt` référence bien `sitemap.xml`.
 - Le titre du hero apparaît dans le HTML statique généré (donc visible sans JavaScript,
   donc visible des crawlers).
+- Tout fichier local référencé par `index.html` (`src`, `href`, `srcset`,
+  `ogImage`, logo) existe sur disque — sinon Pages servirait des 404.
+- Contraste WCAG 1.4.3 : les paires texte/fond déclarées (encres d'accent,
+  CTA, corps de texte) tiennent 4,5:1 — verrou de l'arbitrage deux-bleus du
+  2026-08-23 ([ADR-0003](docs/adr/0003-contraste-option-b.md)).
 
 ## Garde-fous
 
@@ -154,6 +184,9 @@ le script sort en erreur s'il reste une référence relative.
 ## Déploiement
 
 GitHub Pages sur le domaine `brsconnect.fr` (fichier `CNAME`). Flux : éditer →
-générer → valider → flatten → commiter → pousser sur `main` ; Pages sert les fichiers
-statiques commités, sans build côté serveur. Contexte et décision :
-[ADR-0001](docs/adr/0001-connexion-github-pages.md).
+`npm run build` → commiter → pousser sur `main` ; Pages sert les fichiers
+statiques commités (variantes d'images incluses), sans build côté serveur.
+Contexte et décision : [ADR-0001](docs/adr/0001-connexion-github-pages.md).
+Limites assumées de Pages : en-têtes HTTP non personnalisables (cache 10 min,
+pas de HSTS/CSP) — non notés par Lighthouse ; si besoin un jour, passer le DNS
+derrière Cloudflare (cf. `docs/plan-lighthouse-98.md`, annexe).
