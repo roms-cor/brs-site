@@ -4,9 +4,14 @@
 
 Généré au build le 2026-08-23. Source de vérité : content/site-content.json.
 
-## Sans exploitant désigné, votre dossier ne passe pas
+## Une ligne de l'appel d'offres vous élimine avant le chiffrage
 
-Sur les appels d'offres tertiaires et copropriétés, le cahier des charges exige un exploitant désigné. À défaut, vous vous adossez à un concurrent qui peut vous prendre le client. Avec BRS Connect, vous répondez avec les briques d'un opérateur IRVE en production, sous votre nom, avec son accord projet par projet. Étude, préconfiguration, supervision, exploitation, support : à la prestation. Votre client reste votre client. Votre marge reste libre.
+Sur les appels d'offres tertiaires et copropriétés, le cahier des charges exige un exploitant désigné. À défaut, vous vous adossez à un concurrent qui peut vous prendre le client.
+
+- Votre client reste votre client.
+- Votre marge reste libre.
+
+Avec BRS Connect, appuyez-vous sur les compétences d'un opérateur IRVE en production. Étude, préconfiguration, supervision, exploitation, support : à la prestation.
 
 ## Ce que vous n'avez pas à construire
 

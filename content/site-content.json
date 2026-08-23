@@ -86,8 +86,14 @@
   },
   "hero": {
     "badge": "Réseau partenaire IRVE · Candidatures ouvertes",
-    "title": "Sans exploitant désigné, votre dossier ne passe pas",
-    "lede": "Sur les appels d'offres tertiaires et copropriétés, le cahier des charges exige un exploitant désigné. À défaut, vous vous adossez à un concurrent qui peut vous prendre le client. Avec BRS Connect, vous répondez avec les briques d'un opérateur IRVE en production, sous votre nom, avec son accord projet par projet. Étude, préconfiguration, supervision, exploitation, support : à la prestation. Votre client reste votre client. Votre marge reste libre.",
+    "titleMain": "Une ligne de l'appel d'offres",
+    "titleEm": "vous élimine avant le chiffrage",
+    "lede": "Sur les appels d'offres tertiaires et copropriétés, le cahier des charges exige un exploitant désigné. À défaut, vous vous adossez à un concurrent qui peut vous prendre le client.",
+    "points": [
+      "Votre client reste votre client.",
+      "Votre marge reste libre."
+    ],
+    "visualLede": "Avec BRS Connect, appuyez-vous sur les compétences d'un opérateur IRVE en production. Étude, préconfiguration, supervision, exploitation, support : à la prestation.",
     "ctaPrimary": "Échanger 15 min sur un projet",
     "ctaPrimaryHref": "https://bornerecharge.fr/nous-contacter/",
     "ctaSecondary": "Devenir partenaire",
