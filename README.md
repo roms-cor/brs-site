@@ -6,11 +6,15 @@ build zéro-dépendance** qui génère tout le reste.
 
 ## Règle n°1
 
-**Ne jamais éditer `index.html`, `sitemap.xml`, `llms.txt` ou `robots.txt` à la main.**
-Ces quatre fichiers sont écrasés à chaque `node build/generate.mjs`. Toute correction
-manuelle sera perdue au prochain build. Même logique côté design : le canvas
-Claude Design est un bac à sable visuel, il ne fait pas foi — rien de ce qui
-n'existe que dans le canvas n'est en ligne.
+**Ne jamais éditer `index.html`, `index-flat.html`, `sitemap.xml`, `llms.txt` ou
+`robots.txt` à la main.** Ces fichiers sont écrasés à chaque build
+(`generate.mjs` pour les quatre premiers, `flatten.mjs` pour le flat). Toute
+correction manuelle sera perdue au prochain build. Côté design, le canvas Claude
+Design (« BRS Connect - Design ») est l'éditeur et la source de vérité depuis son
+import du 2026-08-22 : toute évolution visuelle s'y décide d'abord, puis se reporte
+dans `css/tokens.css` et `../brs-design/`. En cas d'écart entre canvas et code,
+c'est le canvas qui a raison — mais rien de ce qui n'existe que dans le canvas
+n'est en ligne tant que le report dans le code n'est pas fait.
 
 ## Éditer le contenu
 
@@ -21,6 +25,7 @@ n'existe que dans le canvas n'est en ligne.
    ```bash
    node build/generate.mjs
    node build/validate.mjs
+   node build/flatten.mjs
    ```
 4. Si `validate.mjs` échoue, lire le message — il pointe l'erreur exacte (token oublié,
    FAQ désynchronisée, coordonnée qui ne correspond pas, etc.).
@@ -104,6 +109,13 @@ après toute modification du template, régénérer comme ci-dessus.
 | `llms.txt` | Digest markdown curaté pour crawlers IA (spec [llmstxt.org](https://llmstxt.org)). |
 | `robots.txt` | Ouvert à tous les crawlers, référence `sitemap.xml`. |
 
+## Ce que génère `flatten.mjs`
+
+`index-flat.html` : dérivé autoportant de `index.html` (CSS et JS inlinés,
+assets en URLs absolues sur `meta.domain`), pour tout usage où la page doit
+vivre seule, hors de ce dossier. À lancer après `generate.mjs` + `validate.mjs` ;
+le script sort en erreur s'il reste une référence relative.
+
 ## Ce que vérifie `validate.mjs` (exit 1 si échec)
 
 - Aucun token `{{...}}` non résolu dans les fichiers générés.
@@ -131,15 +143,17 @@ après toute modification du template, régénérer comme ci-dessus.
   session Claude plutôt que d'éditer à la main — le skill copywriting
   applique la discipline de claims. Corriger une coquille à la main : oui.
   Réécrire le hero à la main : non.
-- **Le canvas Claude Design est un bac à sable** : on y essaie une variante
-  visuellement, puis on reporte la version retenue dans le JSON en session.
-  Rien de ce qui n'existe que dans le canvas n'est en ligne.
+- **Le canvas Claude Design fait foi sur le visuel** (import du 2026-08-22) :
+  toute variante s'y essaie et s'y décide, puis la version retenue se reporte
+  dans le code en session (`tokens.css`, JSON). Un écart entre canvas et code se
+  résout dans le sens du canvas — et rien de ce qui n'existe que dans le canvas
+  n'est en ligne tant qu'il n'est pas reporté.
 - `foundations.json` (stratégie, dans `brs-connect-strategy/`) ne bouge que
   si le fond du message change — jamais pour une reformulation.
 
 ## Déploiement
 
 GitHub Pages sur le domaine `brsconnect.fr` (fichier `CNAME`). Flux : éditer →
-générer → valider → commiter → pousser sur `main` ; Pages sert les fichiers
+générer → valider → flatten → commiter → pousser sur `main` ; Pages sert les fichiers
 statiques commités, sans build côté serveur. Contexte et décision :
 [ADR-0001](docs/adr/0001-connexion-github-pages.md).
