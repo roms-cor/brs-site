@@ -9,9 +9,12 @@ build zéro-dépendance** qui génère tout le reste.
 **Ne jamais éditer `index.html`, `index-flat.html`, `sitemap.xml`, `llms.txt` ou
 `robots.txt` à la main.** Ces fichiers sont écrasés à chaque build
 (`generate.mjs` pour les quatre premiers, `flatten.mjs` pour le flat). Toute
-correction manuelle sera perdue au prochain build. Même logique côté design : le canvas
-Claude Design est un bac à sable visuel, il ne fait pas foi — rien de ce qui
-n'existe que dans le canvas n'est en ligne.
+correction manuelle sera perdue au prochain build. Côté design, le canvas Claude
+Design (« BRS Connect - Design ») est l'éditeur et la source de vérité depuis son
+import du 2026-08-22 : toute évolution visuelle s'y décide d'abord, puis se reporte
+dans `css/tokens.css` et `../brs-design/`. En cas d'écart entre canvas et code,
+c'est le canvas qui a raison — mais rien de ce qui n'existe que dans le canvas
+n'est en ligne tant que le report dans le code n'est pas fait.
 
 ## Éditer le contenu
 
@@ -140,9 +143,11 @@ le script sort en erreur s'il reste une référence relative.
   session Claude plutôt que d'éditer à la main — le skill copywriting
   applique la discipline de claims. Corriger une coquille à la main : oui.
   Réécrire le hero à la main : non.
-- **Le canvas Claude Design est un bac à sable** : on y essaie une variante
-  visuellement, puis on reporte la version retenue dans le JSON en session.
-  Rien de ce qui n'existe que dans le canvas n'est en ligne.
+- **Le canvas Claude Design fait foi sur le visuel** (import du 2026-08-22) :
+  toute variante s'y essaie et s'y décide, puis la version retenue se reporte
+  dans le code en session (`tokens.css`, JSON). Un écart entre canvas et code se
+  résout dans le sens du canvas — et rien de ce qui n'existe que dans le canvas
+  n'est en ligne tant qu'il n'est pas reporté.
 - `foundations.json` (stratégie, dans `brs-connect-strategy/`) ne bouge que
   si le fond du message change — jamais pour une reformulation.
 
