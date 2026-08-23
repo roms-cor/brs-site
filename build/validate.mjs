@@ -132,6 +132,45 @@ for (const ref of localRefs) {
   if (!existsSync(path.join(ROOT, ref))) fail(`Fichier référencé introuvable : ${ref}`);
 }
 
+// 11. Contraste WCAG 1.4.3 : les paires texte/fond déclarées ci-dessous
+//     doivent tenir 4,5:1. Casse le build si une retouche de tokens.css
+//     repasse sous le seuil (verrou de l'arbitrage du 2026-08-23, cf.
+//     docs/adr/0003-contraste-option-b.md).
+const tokensCss = req('css/tokens.css');
+function tokenHex(name) {
+  const m = tokensCss.match(new RegExp(`${name}:\\s*(#[0-9A-Fa-f]{6})`));
+  if (!m) fail(`Token couleur introuvable dans css/tokens.css : ${name}`);
+  return m ? m[1] : '#000000';
+}
+function luminance(hex) {
+  const c = [1, 3, 5].map((i) => {
+    const v = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+function ratio(fg, bg) {
+  const [a, b] = [luminance(fg), luminance(bg)].sort((x, y) => y - x);
+  return (a + 0.05) / (b + 0.05);
+}
+const contrastPairs = [
+  ['--accent-ink', '--background'],            // sourcils, .em, labels / blanc
+  ['--accent-ink', '--muted'],                 // idem / fonds atténués
+  ['--accent-ink-on-dark', '--secondary'],     // accents / bandes navy
+  ['--primary-fill-foreground', '--primary-fill'],           // CTA primaire
+  ['--primary-fill-foreground', '--primary-fill-hover'],     // CTA hover
+  ['--primary-fill-pressed-foreground', '--primary-fill-pressed'],
+  ['--foreground', '--background'],            // titres / fond de page
+  ['--muted-foreground', '--background'],      // corps de texte / fond
+  ['--muted-foreground', '--muted'],           // corps de texte / fonds atténués
+];
+for (const [fgName, bgName] of contrastPairs) {
+  const r = ratio(tokenHex(fgName), tokenHex(bgName));
+  if (r < 4.5) {
+    fail(`Contraste insuffisant ${fgName} sur ${bgName} : ${r.toFixed(2)}:1 (< 4,5:1).`);
+  }
+}
+
 // ---------------------------------------------------------------------------
 if (errors.length) {
   console.error(`\n✗ Validation échouée (${errors.length} erreur(s)) :\n`);

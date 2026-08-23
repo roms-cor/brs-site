@@ -24,18 +24,27 @@
   --primary-pressed:       #1C5875;
   --primary-pressed-foreground: #FFFFFF;
 
-  /* ÉCART ASSUMÉ — arbitré par Roms le 2026-08-22 (conformité au canvas
-     « BRS Connect - Design ») : les boutons primaires reviennent au ciel
-     --primary sous label blanc (2,65:1, sous le seuil 4,5:1 du critère
-     1.4.3). La scission --primary-fill de la v3.1 est ANNULÉE à l'usage ;
-     l'échelle assombrie reste documentée ci-dessous, en réserve, si
-     l'arbitrage devait être reconsidéré (#1A7DAD → #17739F → #1C5875,
-     blanc à 4,58 / 5,26 / 7,77:1).                                        */
+  /* ARBITRAGE AMENDÉ le 2026-08-23 (option B « chirurgicale », validée par
+     Roms en session — remplace l'écart assumé du 2026-08-22, cf.
+     docs/adr/0003-contraste-option-b.md) : logique DEUX BLEUS.
+     Le ciel --primary reste la teinte de marque partout où il est
+     DÉCORATIF (icônes, filets, dots, bordures, badges non textuels).
+     Tout usage TEXTUEL passe sur les encres conformes WCAG 1.4.3 :
+       - boutons primaires → échelle --primary-fill (blanc à 4,58:1) ;
+       - sourcils, .em, labels sur fonds clairs → --accent-ink
+         (5,27:1 sur blanc, 4,83:1 sur --muted) ;
+       - accents sur bandes navy → --accent-ink-on-dark (5,0:1 sur
+         --secondary).
+     validate.mjs (contrôle n°11) casse le build si ces paires repassent
+     sous 4,5:1. À reporter dans le canvas « BRS Connect - Design ».      */
   --primary-fill:          #1A7DAD;
   --primary-fill-foreground: #FFFFFF;
   --primary-fill-hover:    #17739F;
   --primary-fill-pressed:  #1C5875;
   --primary-fill-pressed-foreground: #FFFFFF;
+
+  --accent-ink:            #17739F;   /* accents textuels sur fonds clairs  */
+  --accent-ink-on-dark:    #4FB5E8;   /* accents textuels sur bandes navy   */
 
   --secondary:             #2D2E83;   /* bandes sombres, footer, hero       */
   --secondary-foreground:  #FFFFFF;

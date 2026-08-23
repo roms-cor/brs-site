@@ -110,10 +110,10 @@ code{ font-family:var(--font-mono); font-size:.92em; }
 
 
 /* --- Boutons ---------------------------------------------------------------
-   Rectangles à rayon 6px. L'action principale consomme --primary (ciel,
-   label blanc) — conformité au canvas arbitrée le 2026-08-22 ; l'écart de
-   contraste est assumé et documenté dans css/tokens.css (l'échelle
-   --primary-fill reste en réserve). La classe historique .btn-pill est
+   Rectangles à rayon 6px. L'action principale consomme l'échelle
+   --primary-fill (bleu encre, blanc à 4,58:1) — arbitrage amendé le
+   2026-08-23, logique deux-bleus documentée dans css/tokens.css : le ciel
+   --primary reste réservé au décoratif. La classe historique .btn-pill est
    conservée dans le markup ; son rendu n'est plus une pilule.             */
 .btn-pill{
   display:inline-flex; align-items:center; justify-content:center;
@@ -136,19 +136,19 @@ code{ font-family:var(--font-mono); font-size:.92em; }
 .btn-pill--sm{ min-height:40px; padding:8px 16px; }
 
 .btn-pill--primary{
-  color:var(--primary-foreground);
-  background:var(--primary);
-  border-color:var(--primary);
+  color:var(--primary-fill-foreground);
+  background:var(--primary-fill);
+  border-color:var(--primary-fill);
 }
 .btn-pill--primary:hover{
-  color:var(--primary-foreground);
-  background:var(--primary-hover);
-  border-color:var(--primary-hover);
+  color:var(--primary-fill-foreground);
+  background:var(--primary-fill-hover);
+  border-color:var(--primary-fill-hover);
 }
 .btn-pill--primary:active{
-  color:var(--primary-pressed-foreground);
-  background:var(--primary-pressed);
-  border-color:var(--primary-pressed);
+  color:var(--primary-fill-pressed-foreground);
+  background:var(--primary-fill-pressed);
+  border-color:var(--primary-fill-pressed);
 }
 
 .btn-pill--ghost{

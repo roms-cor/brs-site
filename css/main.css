@@ -91,9 +91,10 @@
 /* --------------------------------------------------------------------------
    2. Motifs de titre
    -------------------------------------------------------------------------- */
-/* ÉCART ASSUMÉ — arbitré le 2026-08-22 (conformité canvas) : sourcils,
-   clauses teintées et labels passent au ciel --primary sur fond clair
-   (2,65:1 sur blanc, sous le seuil 4,5:1 — comme le canvas). */
+/* Arbitrage amendé le 2026-08-23 (option B, cf. tokens.css) : sourcils,
+   clauses teintées et labels textuels passent aux encres conformes
+   --accent-ink / --accent-ink-on-dark ; le ciel --primary reste réservé
+   aux usages décoratifs (icônes, filets, dots, bordures). */
 .eyebrow{
   display:inline-flex; align-items:center; gap:var(--space-sm);
   font-size:var(--step-sm);
@@ -101,7 +102,7 @@
   line-height:var(--leading-ui);
   letter-spacing:var(--tracking-eyebrow);
   text-transform:uppercase;
-  color:var(--primary);
+  color:var(--accent-ink);
   margin-bottom:var(--space-md);
 }
 
@@ -115,7 +116,7 @@
   color:var(--muted-foreground);
 }
 
-.em{ color:var(--primary); }
+.em{ color:var(--accent-ink); }
 
 
 /* --------------------------------------------------------------------------
@@ -214,6 +215,9 @@
   color:var(--on-dark);
   background:var(--secondary);
 }
+/* Bande navy hors .numbered--dark : les accents textuels reprennent
+   l'encre claire conforme (arbitrage 2026-08-23, cf. tokens.css). */
+.hero-alt .em{ color:var(--accent-ink-on-dark); }
 @media (min-width:1024px){ .hero-alt{ padding-block:var(--space-4xl); } }
 
 .hero-alt h1{ color:var(--on-dark); margin-top:var(--space-md); margin-bottom:var(--space-md); }
@@ -396,7 +400,7 @@
 .eyebrow__num::after{
   content:"\2014";
   margin-left:var(--space-sm);
-  color:var(--primary); font-weight:var(--weight-medium);
+  color:var(--accent-ink); font-weight:var(--weight-medium);
 }
 
 .numbered--dark{
@@ -406,10 +410,10 @@
 .numbered--dark :is(h1,h2,h3,h4){ color:var(--on-dark); }
 .numbered--dark p{ color:var(--on-dark-muted); }
 .numbered--dark .lede{ color:var(--on-dark-muted); }
-.numbered--dark .eyebrow{ color:var(--primary); }
+.numbered--dark .eyebrow{ color:var(--accent-ink-on-dark); }
 .numbered--dark .eyebrow__num{ color:var(--on-dark); }
-.numbered--dark .eyebrow__num::after{ color:var(--primary); }
-.numbered--dark .em{ color:var(--primary); }
+.numbered--dark .eyebrow__num::after{ color:var(--accent-ink-on-dark); }
+.numbered--dark .em{ color:var(--accent-ink-on-dark); }
 
 
 /* --------------------------------------------------------------------------
@@ -548,7 +552,7 @@
   display:block; margin-bottom:var(--space-sm);
   font-size:var(--step-sm); font-weight:var(--weight-medium); line-height:var(--leading-ui);
   text-transform:uppercase; letter-spacing:var(--tracking-eyebrow);
-  color:var(--primary);
+  color:var(--accent-ink);
 }
 .role-col ul{ margin:0; padding:0; list-style:none; display:grid; gap:var(--space-sm); }
 .role-col li{ position:relative; padding-left:1.6em; font-size:var(--step-sm); line-height:var(--leading-compact); color:var(--muted-foreground); }
@@ -563,7 +567,7 @@
 .role-col li:nth-child(4n+3)::before{ border-color:var(--accent-badge-3); }
 .role-col li:nth-child(4n+4)::before{ border-color:var(--accent-badge-4); }
 .role-col--solid{ background:var(--secondary); border-color:var(--secondary); }
-.role-col--solid .role-col__label{ color:var(--primary); }
+.role-col--solid .role-col__label{ color:var(--accent-ink-on-dark); }
 .role-col--solid li{ color:var(--on-dark-muted); }
 .role-footnote{
   max-width:62ch; margin-top:var(--space-lg);
@@ -651,7 +655,7 @@
   display:block; margin-bottom:var(--space-sm);
   font-size:var(--step-sm); font-weight:var(--weight-medium); line-height:var(--leading-ui);
   text-transform:uppercase; letter-spacing:var(--tracking-eyebrow);
-  color:var(--primary);
+  color:var(--accent-ink);
 }
 .ref-facts ul{ margin:0; padding:0; list-style:none; display:grid; gap:var(--space-2xs); }
 .ref-facts li{ font-size:var(--step-sm); line-height:var(--leading-compact); color:var(--muted-foreground); }
@@ -744,7 +748,7 @@
    centré au-dessus du sourcil.
    -------------------------------------------------------------------------- */
 .cta-band{ text-align:center; color:var(--on-dark); }
-.cta-band .eyebrow{ color:var(--primary); justify-content:center; }
+.cta-band .eyebrow{ color:var(--accent-ink-on-dark); justify-content:center; }
 .cta-band h2{ max-width:var(--measure-cta-title); margin-inline:auto; color:var(--on-dark); }
 .cta-band .lede{ margin-inline:auto; color:var(--on-dark-muted); }
 .cta-band .btn-pill{ margin-top:var(--space-lg); }
