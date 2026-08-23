@@ -228,6 +228,26 @@
 .hero-alt__lede{ font-size:var(--step-lg); line-height:var(--leading-compact); max-width:var(--measure-hero-lede); color:var(--on-dark-muted); }
 @media (max-width:979px){ .hero-alt__lede{ margin-inline:auto; } }
 
+/* Réassurance du hero — deux lignes cochées (maquette 2026-08-22).
+   La coche reprend la marque pur-CSS des listes de rôles : jamais
+   d'emoji ni de glyphe unicode en guise d'icône (cf. DESIGN-GUIDE). */
+.hero-alt__points{
+  margin:var(--space-md) 0 0; padding:0; list-style:none;
+  display:grid; gap:var(--space-xs); width:fit-content;
+}
+@media (max-width:979px){ .hero-alt__points{ margin-inline:auto; text-align:left; } }
+.hero-alt__points li{
+  position:relative; padding-left:1.6em;
+  font-size:var(--step-lg); line-height:var(--leading-compact);
+  font-weight:600; color:var(--on-dark);
+}
+.hero-alt__points li::before{
+  content:""; position:absolute; left:0; top:.42em;
+  width:.7em; height:.38em;
+  border-left:2px solid var(--primary); border-bottom:2px solid var(--primary);
+  transform:rotate(-45deg);
+}
+
 .hero-alt__actions{
   display:flex; flex-wrap:wrap; gap:var(--space-md);
   justify-content:center; margin-top:var(--space-lg);
@@ -238,8 +258,14 @@
    label blanc restent sous les seuils WCAG (1.4.3 et 1.4.11) : conformité
    au canvas arbitrée le 2026-08-22, cf. css/tokens.css.                  */
 
-.hero-alt__visual{ position:relative; display:flex; justify-content:center; }
-@media (min-width:980px){ .hero-alt__visual{ justify-content:flex-end; } }
+/* Colonne visuel — pile verticale : lede d'appui au-dessus de l'image
+   (maquette 2026-08-22), badge Qualifelec ancré sur l'image. */
+.hero-alt__visual{
+  position:relative; display:flex; flex-direction:column;
+  align-items:center; gap:var(--space-lg);
+}
+@media (min-width:980px){ .hero-alt__visual{ align-items:flex-start; } }
+.hero-alt__visual-lede{ margin:0; }
 .hero-alt__visual img{
   position:relative; max-height:440px; width:auto;
   border-radius:var(--radius-md);

@@ -55,9 +55,10 @@ Dans l'ordre de la page, du haut vers le bas :
 | Onglet navigateur, description Google | `meta.title`, `meta.description` |
 | Menu du header + bouton « Devenir partenaire » | `nav.primary[]`, `nav.ctaLabel` / `nav.ctaHref` |
 | Hero — badge du haut | `hero.badge` |
-| Hero — grand titre | `hero.title` |
-| Hero — paragraphe | `hero.lede` |
+| Hero — grand titre en 2 tons | `hero.titleMain` / `hero.titleEm` |
+| Hero — paragraphe + 2 lignes cochées | `hero.lede`, `hero.points[]` |
 | Hero — les 2 boutons | `hero.ctaPrimary(+Href)`, `hero.ctaSecondary(+Href)` |
+| Hero — paragraphe d'appui au-dessus de la photo | `hero.visualLede` |
 | Hero — photo + badge Qualifelec rotatif | `hero.image` + `hero.imageAlt`, `hero.certifBadge` (texte tournant, aussi utilisé par le badge d'ancrage) |
 | Hero — marquee des 5 logos partenaires | `hero.partners[]` (image/alt) |
 | 01 Bénéfices — titre + 4 cartes illustrées + 4 chips de repères en bas | `sections.capacites.title`, `.cards[]` (title/text/icon/image/imageAlt), `.tags[]` |
