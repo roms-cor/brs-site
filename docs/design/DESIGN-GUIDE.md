@@ -4,9 +4,13 @@ Référence design permanente du site. Source de vérité des valeurs : `css/tok
 
 > Importé du projet design le 2026-08-22. Historique : la conformance v3.1
 > (2026-08-21) avait scindé `--primary` / `--primary-fill` pour le contraste
-> des boutons ; l'arbitrage du 2026-08-22 (alignement canvas) revient au
-> ciel `--primary` sous label blanc — écart de contraste assumé, échelle
-> `--primary-fill` conservée en réserve dans `tokens.css`.
+> des boutons ; l'arbitrage du 2026-08-22 (alignement canvas) était revenu au
+> ciel `--primary` sous label blanc (écart de contraste assumé) ; l'arbitrage
+> du **2026-08-23** ([ADR-0003](../adr/0003-contraste-option-b.md)) l'amende
+> en logique **deux bleus** : ciel décoratif, encres conformes pour tout
+> usage textuel — verrouillé par le contrôle contraste de `validate.mjs`.
+> Ce guide fait foi côté code tant que le canvas n'a pas repris ces teintes
+> (voir « À reporter dans le canvas » en fin de guide).
 
 ## Le look en une ligne
 
@@ -14,12 +18,12 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 
 ## Couleur
 
-- `--background` `#FFFFFF` : la page. `--secondary` `#2D2E83` (navy) : l'autorité — hero, bande insight, bande CTA. `--primary` `#36A9E1` (ciel) : **l'action** — boutons (label blanc), sourcils, clauses teintées, labels de liste, badges, point du badge, disque du badge Qualifelec. Écart de contraste assumé (2,65:1 sous blanc, arbitré le 2026-08-22).
-- `--primary-fill` `#1A7DAD` : échelle de boutons assombrie de la v3.1, **en réserve** (non employée depuis l'arbitrage du 2026-08-22).
+- `--background` `#FFFFFF` : la page. `--secondary` `#2D2E83` (navy) : l'autorité — hero, bande insight, bande CTA. `--primary` `#36A9E1` (ciel) : la teinte de marque, désormais **décorative uniquement** — icônes actives, filets, dots, bordure d'emphase, disque du badge Qualifelec, coche des rôles.
+- Usages **textuels** (arbitrage deux-bleus du 2026-08-23) : boutons primaires sur `--primary-fill` `#1A7DAD` (label blanc, 4,58:1 ; hover `#17739F`, press `#1C5875`) ; sourcils, clauses teintées `.em`, labels de liste sur fonds clairs en `--accent-ink` `#17739F` (5,27:1 sur blanc, 4,83:1 sur `--muted`) ; les mêmes accents sur bandes navy en `--accent-ink-on-dark` `#4FB5E8` (5,0:1 sur `--secondary`).
 - Titres `#171844` (navy profond, jamais noir). Corps `#303030`. Liens et nav active `#1C5875` (`--link`).
 - Badges d'icônes : `--accent` lilas, teinte tournée par position dans la grille (`--accent-badge-2/3/4`, oklch) ; les coches des colonnes de rôles suivent la même rotation.
 - `--accent` `#8B8CD7` (lilas) : uniquement remplissage des badges d'icône sur sections claires. `--success` `#93BD21` : uniquement à 16 % derrière les icônes de bénéfices. `--danger` `#C0392B` : uniquement inputs invalides.
-- Fonds colorés en plus du blanc : `--muted` `#F5F5F5` pour les bandes ancrage, rôles et références ; navy pour le hero, la bande insight et la bande CTA. Footer **clair**. Boutons primaires : label blanc sur `--primary` ciel.
+- Fonds colorés en plus du blanc : `--muted` `#F5F5F5` pour les bandes ancrage, rôles et références ; navy pour le hero, la bande insight et la bande CTA. Footer **clair**. Boutons primaires : label blanc sur `--primary-fill` encre.
 
 ## Typographie
 
@@ -78,3 +82,20 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 - Vocabulaire exact à préserver : `IRVE`, `exploitant`, `supervision`, `exploitation`, `télérelève`, `préconfiguration`, `bureau d'études (BE)`, `appel d'offres`, `cahier des charges`, `copropriété`, `bailleur social`, `accord-cadre`, `à la prestation`, `Premier chantier`, `Qualifelec`, `ADVENIR`, `TGBT`.
 - **Deux CTA, partout, dans cet ordre** : « Échanger 15 min sur un projet » (primaire) puis « Devenir partenaire ». Lien sortant = mention en petit (« Ce lien ouvre le formulaire de contact de Borne Recharge Service. »).
 - **Zéro emoji.**
+
+## À reporter dans le canvas « BRS Connect - Design »
+
+Le canvas n'a pas encore repris l'arbitrage deux-bleus du 2026-08-23
+(ADR-0003). Quatre substitutions, à appliquer dans l'app Claude Design —
+tout le reste (ciel décoratif, navy, layout) est inchangé :
+
+1. Boutons primaires : fond `#36A9E1` → `#1A7DAD` (hover `#17739F`,
+   press `#1C5875`), label blanc inchangé.
+2. Sourcils (eyebrows), tiret `—` des numéros, labels de liste
+   (rôles, références) sur fonds blancs/`#F5F5F5` : `#36A9E1` → `#17739F`.
+3. Clauses teintées `.em` des titres sur fonds clairs : `#36A9E1` → `#17739F`.
+4. Ces mêmes accents sur les bandes navy (hero, insight, CTA, colonne rôles
+   pleine) : `#36A9E1` → `#4FB5E8`.
+
+Une fois le canvas aligné, supprimer cette section : le canvas redevient
+seul juge du visuel, code et canvas de nouveau synchrones.
