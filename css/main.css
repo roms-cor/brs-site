@@ -359,6 +359,13 @@
   display:flex; align-items:center; width:max-content;
   animation:marquee-scroll var(--duration-marquee) linear infinite;
 }
+/* Les deux seules boucles du site (cf. DESIGN-GUIDE) portent leur propre
+   garde reduced-motion, en plus du guard global de base.css : elles restent
+   coupées même si ce dernier évolue un jour. */
+@media (prefers-reduced-motion:reduce){
+  .partner-marquee__track,
+  .certif-badge__ring{ animation:none; }
+}
 .partner-marquee__list{
   display:flex; align-items:center; gap:var(--space-2xl);
   padding-right:var(--space-2xl);
