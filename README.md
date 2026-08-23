@@ -40,7 +40,11 @@ copywriting, qui vérifie les claims — voir « Garde-fous » plus bas.
    `sections.references.logos[].image`).
 3. Mettre à jour le texte alternatif voisin (`…Alt`), puis rebuilder.
 
-Formats : SVG ou PNG, poids raisonnable (< 300 Ko), pas de nom avec espaces.
+Formats : SVG ou WebP de préférence (PNG accepté si besoin), poids raisonnable
+(< 300 Ko), pas de nom avec espaces. Les visuels `brs-web-visuals-*` sont en
+WebP qualité 80 (converti depuis les PNG source du canvas Claude Design) ;
+si un schéma se dégrade visiblement à cette qualité (texte fin qui devient
+flou), monter la qualité pour ce fichier plutôt que d'accepter la perte.
 
 ## Carte de la page → clés JSON
 

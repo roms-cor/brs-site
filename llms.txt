@@ -2,7 +2,7 @@
 
 > Répondez aux appels d'offres avec un exploitant IRVE en production désigné dans votre dossier, sous votre nom, avec l'accord de BRS projet par projet. Étude, préconfiguration, supervision, exploitation et support, à la prestation. Réseau adossé à Borne Recharge Service, opérateur depuis 2012.
 
-Généré au build le 2026-08-22. Source de vérité : content/site-content.json.
+Généré au build le 2026-08-23. Source de vérité : content/site-content.json.
 
 ## Sans exploitant désigné, votre dossier ne passe pas
 
