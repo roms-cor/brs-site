@@ -130,13 +130,16 @@ function postProcessImages(html) {
     const srcMatch = tag.match(/src="(assets\/[^"]+)"/);
     if (!srcMatch) return tag;
     const src = srcMatch[1];
-    // 1. Visuels : la variante -640w générée par images.mjs entre en srcset.
+    // 1. Visuels : les variantes -640w (et -960w si générée) entrent en srcset.
     if (/brs-web-visuals-[\w-]+\.webp$/.test(src) && !tag.includes('srcset=')) {
-      const small = src.replace(/\.webp$/, '-640w.webp');
       const width = DIMENSIONS[src] ? DIMENSIONS[src].w : 1200;
+      const candidates = [`${src.replace(/\.webp$/, '-640w.webp')} 640w`];
+      const mid = src.replace(/\.webp$/, '-960w.webp');
+      if (DIMENSIONS[mid]) candidates.push(`${mid} 960w`);
+      candidates.push(`${src} ${width}w`);
       tag = tag.replace(
         `src="${src}"`,
-        `src="${src}" srcset="${small} 640w, ${src} ${width}w" sizes="${VISUAL_SIZES}"`
+        `src="${src}" srcset="${candidates.join(', ')}" sizes="${VISUAL_SIZES}"`
       );
     }
     // 2. Dimensions explicites pour tout <img> qui n'en a pas (CLS).
@@ -149,12 +152,49 @@ function postProcessImages(html) {
 }
 
 // ---------------------------------------------------------------------------
+// CSS : les trois feuilles sont minifiées et inlinées dans un <style> unique.
+// Site une page + cache GitHub Pages de 10 min : des <link> séparés ne font
+// que retarder le premier rendu (chaîne critique de 3 requêtes bloquantes).
+// css/*.css restent la source d'édition ; seul le HTML généré change.
+// ---------------------------------------------------------------------------
+const CSS_FILES = ['css/tokens.css', 'css/base.css', 'css/main.css'];
+
+function minifyCss(css) {
+  return css
+    .replace(/\/\*[\s\S]*?\*\//g, '')   // commentaires
+    .replace(/\s+/g, ' ')               // espaces/retours multiples → un espace
+    .replace(/\s*([{}>;,])\s*/g, '$1')  // espaces autour de la ponctuation sûre
+    .replace(/:\s+/g, ':')              // espace APRÈS les deux-points seulement
+    .replace(/;}/g, '}')                //  (l'espace avant reste : « .a :hover »
+    .trim();                            //   est un sélecteur descendant valide)
+}
+
+function inlineCss(html) {
+  const linkBlock = CSS_FILES.map((f) => `<link rel="stylesheet" href="${f}">`).join('\n');
+  if (!html.includes(linkBlock)) {
+    console.error('generate.mjs : bloc des <link rel="stylesheet"> introuvable dans le template — abandon.');
+    process.exit(1);
+  }
+  const css = CSS_FILES.map((f) =>
+    minifyCss(
+      readFileSync(path.join(ROOT, f), 'utf8')
+        // Les url() des feuilles étaient relatives à css/ ; inlinées dans le
+        // document, elles deviennent relatives à la racine.
+        .replaceAll("url('../assets/", "url('assets/")
+        .replaceAll('url("../assets/', 'url("assets/')
+    )
+  ).join('\n');
+  return html.replace(linkBlock, `<style>\n${css}\n</style>`);
+}
+
+// ---------------------------------------------------------------------------
 // index.html
 // ---------------------------------------------------------------------------
 const ctx = { ...content, buildYear, buildDate, buildTimestamp };
 let html = render(template, ctx);
 html = html.replace('<!--JSONLD-->', buildJsonLd(content));
 html = postProcessImages(html);
+html = inlineCss(html);
 writeFileSync(path.join(ROOT, 'index.html'), html, 'utf8');
 
 // ---------------------------------------------------------------------------

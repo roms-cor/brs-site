@@ -78,10 +78,13 @@ if (ld) {
   }
 }
 
-// 5. Aucun placeholder résiduel en production.
+// 5. Aucun placeholder résiduel en production. Le contrôle vise le contenu
+//    éditorial : les <style> inlinés sont exclus (« input::placeholder » est
+//    du CSS légitime, pas un texte oublié).
+const htmlSansStyles = html.replace(/<style[\s\S]*?<\/style>/g, '');
 const placeholderPatterns = [/lorem ipsum/i, /\bTODO\b/, /\bPLACEHOLDER\b/i, /\bXXX\b/, /\(lead_company_name\)/];
 for (const re of placeholderPatterns) {
-  if (re.test(html)) fail(`Placeholder résiduel détecté dans index.html (pattern ${re}).`);
+  if (re.test(htmlSansStyles)) fail(`Placeholder résiduel détecté dans index.html (pattern ${re}).`);
 }
 
 // 6. Pas de coordonnée factice : le JSON-LD Organization doit correspondre

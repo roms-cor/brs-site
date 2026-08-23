@@ -27,6 +27,10 @@ const FORCE = process.argv.includes('--force');
 // ---------------------------------------------------------------------------
 const VISUALS_DIR = 'assets/images/brs-web-visuals';
 const VISUAL_WIDTH_SMALL = 640; // variante -640w pour les affichages ~566 px
+// Variante 960w réservée aux visuels du chemin critique (héros, eager) :
+// sur mobile DPR 1.75, 92vw ≈ 660 px device — sans elle le navigateur
+// retombe sur la 1200w (46 Kio) pour l'image LCP.
+const VISUALS_960 = ['brs-web-visuals-image8'];
 const QUALITY_DEFAULT = 80;
 const QUALITY_OVERRIDES = {}; // ex. { 'brs-web-visuals-schema4': 88 }
 
@@ -84,7 +88,8 @@ async function toWebp(srcRel, outRel, width, quality) {
   console.log(`  ✓ ${outRel} (${width}w, q${quality})`);
 }
 
-// 1. Visuels : variante -640w.webp depuis chaque PNG source du canvas.
+// 1. Visuels : variante -640w.webp depuis chaque PNG source du canvas
+//    (+ -960w.webp pour les visuels listés dans VISUALS_960).
 const visualPngs = readdirSync(abs(VISUALS_DIR)).filter((f) => f.endsWith('.png'));
 for (const png of visualPngs) {
   const base = png.replace(/\.png$/, '');
@@ -95,6 +100,9 @@ for (const png of visualPngs) {
     VISUAL_WIDTH_SMALL,
     quality
   );
+  if (VISUALS_960.includes(base)) {
+    await toWebp(`${VISUALS_DIR}/${png}`, `${VISUALS_DIR}/${base}-960w.webp`, 960, quality);
+  }
 }
 
 // 2. Logos : WebP redimensionné à côté de la source (la source reste committée).
