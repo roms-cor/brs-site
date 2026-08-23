@@ -369,7 +369,9 @@
   background:var(--card);
   border-radius:var(--radius-md);
 }
-.partner-chip img{ max-height:28px; width:auto; object-fit:contain; }
+/* height fixe (pas max-height) : avec les width/height injectés au build,
+   la largeur se calcule avant le chargement — zéro décalage (CLS). */
+.partner-chip img{ height:28px; width:auto; object-fit:contain; }
 
 @keyframes marquee-scroll{ to{ transform:translateX(-50%); } }
 
@@ -644,7 +646,7 @@
   background:var(--card);
   border:0;
 }
-.ref-chip img{ max-height:30px; width:auto; object-fit:contain; }
+.ref-chip img{ height:30px; width:auto; object-fit:contain; }
 .ref-chip__caption{
   font-size:var(--step-xs); color:var(--muted-foreground);
   text-align:center;
