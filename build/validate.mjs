@@ -113,6 +113,22 @@ for (const part of [content.hero.titleMain, content.hero.titleEm]) {
   if (part && !html.includes(part)) fail(`Le titre du hero ("${part}") est absent du HTML statique généré.`);
 }
 
+// 10. Tout fichier local référencé par index.html (src, href, srcset) doit
+//     exister sur disque — sinon le déploiement Pages servira des 404.
+const localRefs = new Set();
+for (const m of html.matchAll(/(?:src|href)="((?:assets|css|js)\/[^"]+)"/g)) localRefs.add(m[1]);
+for (const m of html.matchAll(/srcset="([^"]+)"/g)) {
+  for (const part of m[1].split(',')) {
+    const url = part.trim().split(/\s+/)[0];
+    if (/^(assets|css|js)\//.test(url)) localRefs.add(url);
+  }
+}
+if (content.meta.ogImage) localRefs.add(content.meta.ogImage);
+if (content.organization.logo) localRefs.add(content.organization.logo);
+for (const ref of localRefs) {
+  if (!existsSync(path.join(ROOT, ref))) fail(`Fichier référencé introuvable : ${ref}`);
+}
+
 // ---------------------------------------------------------------------------
 if (errors.length) {
   console.error(`\n✗ Validation échouée (${errors.length} erreur(s)) :\n`);

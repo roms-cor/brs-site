@@ -70,9 +70,11 @@ html = html.replace(scriptTag, `<script>\n${js}\n</script>`);
 
 // ---------------------------------------------------------------------------
 // 4. Assets : toutes les références relatives "assets/…" deviennent absolues
-//    (src, href, preload, favicon…).
+//    (src, href, preload, favicon…), y compris les entrées suivantes des
+//    srcset (préfixées d'une virgule, pas d'un guillemet).
 // ---------------------------------------------------------------------------
 html = html.replaceAll('"assets/', `"${BASE}assets/`);
+html = html.replaceAll(', assets/', `, ${BASE}assets/`);
 
 // ---------------------------------------------------------------------------
 // 5. Garde-fous : aucune référence relative ne doit subsister.

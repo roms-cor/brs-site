@@ -113,11 +113,48 @@ function buildJsonLd(c) {
 }
 
 // ---------------------------------------------------------------------------
+// Images : srcset responsive des visuels + width/height manquants, depuis le
+// manifest produit par build/images.mjs (lancé AVANT generate dans le
+// pipeline : npm run build). Le moteur de template n'a pas de helpers, donc
+// c'est une passe de post-traitement sur le HTML rendu.
+// ---------------------------------------------------------------------------
+const DIMENSIONS = JSON.parse(
+  readFileSync(path.join(ROOT, 'assets/images/image-dimensions.json'), 'utf8')
+);
+// Les visuels s'affichent à ~566 px sur desktop (grille 2 colonnes) et
+// pleine largeur sur mobile ; une seule constante, affinable à la mesure.
+const VISUAL_SIZES = '(min-width: 720px) 566px, 92vw';
+
+function postProcessImages(html) {
+  return html.replace(/<img\b[^>]*>/g, (tag) => {
+    const srcMatch = tag.match(/src="(assets\/[^"]+)"/);
+    if (!srcMatch) return tag;
+    const src = srcMatch[1];
+    // 1. Visuels : la variante -640w générée par images.mjs entre en srcset.
+    if (/brs-web-visuals-[\w-]+\.webp$/.test(src) && !tag.includes('srcset=')) {
+      const small = src.replace(/\.webp$/, '-640w.webp');
+      const width = DIMENSIONS[src] ? DIMENSIONS[src].w : 1200;
+      tag = tag.replace(
+        `src="${src}"`,
+        `src="${src}" srcset="${small} 640w, ${src} ${width}w" sizes="${VISUAL_SIZES}"`
+      );
+    }
+    // 2. Dimensions explicites pour tout <img> qui n'en a pas (CLS).
+    if (!/\bwidth="/.test(tag) && DIMENSIONS[src]) {
+      const { w, h } = DIMENSIONS[src];
+      tag = tag.replace('<img ', `<img width="${w}" height="${h}" `);
+    }
+    return tag;
+  });
+}
+
+// ---------------------------------------------------------------------------
 // index.html
 // ---------------------------------------------------------------------------
 const ctx = { ...content, buildYear, buildDate, buildTimestamp };
 let html = render(template, ctx);
 html = html.replace('<!--JSONLD-->', buildJsonLd(content));
+html = postProcessImages(html);
 writeFileSync(path.join(ROOT, 'index.html'), html, 'utf8');
 
 // ---------------------------------------------------------------------------

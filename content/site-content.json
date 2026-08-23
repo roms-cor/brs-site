@@ -103,23 +103,23 @@
     "certifBadge": "Réseau certifié",
     "partners": [
       {
-        "image": "assets/images/partenaires/logo-qualifelec-irve.jpg",
+        "image": "assets/images/partenaires/logo-qualifelec-irve.webp",
         "alt": "Qualifelec IRVE"
       },
       {
-        "image": "assets/images/partenaires/logo-advenir.png",
+        "image": "assets/images/partenaires/logo-advenir.webp",
         "alt": "ADVENIR"
       },
       {
-        "image": "assets/images/partenaires/logo-logivolt.png",
+        "image": "assets/images/partenaires/logo-logivolt.webp",
         "alt": "Logivolt"
       },
       {
-        "image": "assets/images/partenaires/logo-symphonics.png",
+        "image": "assets/images/partenaires/logo-symphonics.webp",
         "alt": "Symphonics"
       },
       {
-        "image": "assets/images/partenaires/logo-vertigo.png",
+        "image": "assets/images/partenaires/logo-vertigo.webp",
         "alt": "Vertigo"
       }
     ]
@@ -176,23 +176,23 @@
       "outro": "Cet écosystème se complète d'associations de la filière de la mobilité électrique — AVERE France, AFOR, AVEM — et d'acteurs du logement comme CDC Habitat.",
       "logos": [
         {
-          "image": "assets/images/partenaires/logo-qualifelec-irve.jpg",
+          "image": "assets/images/partenaires/logo-qualifelec-irve.webp",
           "alt": "Qualifelec IRVE"
         },
         {
-          "image": "assets/images/partenaires/logo-advenir.png",
+          "image": "assets/images/partenaires/logo-advenir.webp",
           "alt": "ADVENIR"
         },
         {
-          "image": "assets/images/partenaires/logo-logivolt.png",
+          "image": "assets/images/partenaires/logo-logivolt.webp",
           "alt": "Logivolt"
         },
         {
-          "image": "assets/images/partenaires/logo-symphonics.png",
+          "image": "assets/images/partenaires/logo-symphonics.webp",
           "alt": "Symphonics"
         },
         {
-          "image": "assets/images/partenaires/logo-vertigo.png",
+          "image": "assets/images/partenaires/logo-vertigo.webp",
           "alt": "Vertigo"
         }
       ]
@@ -413,35 +413,35 @@
       ],
       "logos": [
         {
-          "image": "assets/images/references/gendarmerie.png",
+          "image": "assets/images/references/gendarmerie.webp",
           "alt": "Gendarmerie nationale"
         },
         {
-          "image": "assets/images/references/seine-saint-denis-habitat.png",
+          "image": "assets/images/references/seine-saint-denis-habitat.webp",
           "alt": "Seine-Saint-Denis Habitat"
         },
         {
-          "image": "assets/images/references/somfy.png",
+          "image": "assets/images/references/somfy.webp",
           "alt": "Somfy"
         },
         {
-          "image": "assets/images/references/ipsen.png",
+          "image": "assets/images/references/ipsen.webp",
           "alt": "Ipsen"
         },
         {
-          "image": "assets/images/references/neolia.png",
+          "image": "assets/images/references/neolia.webp",
           "alt": "Néolia, groupe Action Logement"
         },
         {
-          "image": "assets/images/references/equans.png",
+          "image": "assets/images/references/equans.webp",
           "alt": "Equans"
         },
         {
-          "image": "assets/images/references/spie.png",
+          "image": "assets/images/references/spie.webp",
           "alt": "SPIE"
         },
         {
-          "image": "assets/images/references/thonon.png",
+          "image": "assets/images/references/thonon.webp",
           "alt": "Ville de Thonon-les-Bains"
         }
       ]

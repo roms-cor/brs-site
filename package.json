@@ -1,0 +1,13 @@
+{
+  "name": "brs-site",
+  "private": true,
+  "type": "module",
+  "description": "Site brsconnect.fr — pipeline de contenu. Voir README.md.",
+  "scripts": {
+    "build": "node build/images.mjs && node build/generate.mjs && node build/validate.mjs && node build/flatten.mjs",
+    "images": "node build/images.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.2"
+  }
+}
