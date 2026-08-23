@@ -161,7 +161,8 @@
   .hero-alt .badge-pill{ margin-inline:0 !important; }
   .hero-alt__lede{ margin-inline:0 !important; }
   .hero-alt__actions{ justify-content:flex-start !important; }
-  .hero-alt__visual{ justify-content:flex-end !important; }
+  .hero-alt__visual{ align-items:flex-end !important; }
+  .hero-alt__visual-lede{ display:none !important; }
   .hero-alt__visual img{ max-height:105mm !important; }
   .hero-alt::before{ display:none; }
 
@@ -301,8 +302,13 @@
     <div class="wrap hero-alt__grid">
       <div class="hero-alt__copy">
         <span class="badge-pill"><span class="badge-pill__dot" aria-hidden="true"></span>Réseau partenaire IRVE · Candidatures ouvertes</span>
-        <h1 id="hero-title">Sans exploitant désigné, votre dossier ne passe pas</h1>
-        <p class="hero-alt__lede">Sur les appels d'offres tertiaires et copropriétés, le cahier des charges exige un exploitant désigné. À défaut, vous vous adossez à un concurrent qui peut vous prendre le client. Avec BRS Connect, vous répondez avec les briques d'un opérateur IRVE en production, sous votre nom, avec son accord projet par projet. Étude, préconfiguration, supervision, exploitation, support : à la prestation. Votre client reste votre client. Votre marge reste libre.</p>
+        <h1 id="hero-title">Une ligne de l'appel d'offres <span class="em">vous élimine avant le chiffrage</span></h1>
+        <p class="hero-alt__lede">Sur les appels d'offres tertiaires et copropriétés, le cahier des charges exige un exploitant désigné. À défaut, vous vous adossez à un concurrent qui peut vous prendre le client.</p>
+        <ul class="hero-alt__points">
+          <li>Votre client reste votre client.</li>
+          <li>Votre marge reste libre.</li>
+          
+        </ul>
         <div class="hero-alt__actions">
           <a class="btn-pill btn-pill--primary" href="https://bornerecharge.fr/nous-contacter/" data-cta="hero">
             Échanger 15 min sur un projet
@@ -315,6 +321,7 @@
         </div>
       </div>
       <div class="hero-alt__visual">
+        <p class="hero-alt__lede hero-alt__visual-lede">Avec BRS Connect, appuyez-vous sur les compétences d'un opérateur IRVE en production. Étude, préconfiguration, supervision, exploitation, support : à la prestation.</p>
         <div class="hero-alt__media">
           <img src="assets/images/brs-web-visuals/brs-web-visuals-image8.webp" alt="Pistolet de recharge branché sur un véhicule électrique, reflet dans la carrosserie" width="1200" height="896" loading="eager">
           <div class="certif-badge">

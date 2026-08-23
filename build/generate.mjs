@@ -160,7 +160,11 @@ const sectionOrder = [
 let llms = `# ${content.organization.name}\n\n`;
 llms += `> ${content.meta.description}\n\n`;
 llms += `Généré au build le ${buildDate}. Source de vérité : content/site-content.json.\n\n`;
-llms += `## ${content.hero.title}\n\n${content.hero.lede}\n\n`;
+llms += `## ${[content.hero.titleMain, content.hero.titleEm].filter(Boolean).join(' ')}\n\n${content.hero.lede}\n\n`;
+if (Array.isArray(content.hero.points) && content.hero.points.length) {
+  llms += content.hero.points.map((p) => `- ${p}`).join('\n') + '\n\n';
+}
+if (content.hero.visualLede) llms += `${content.hero.visualLede}\n\n`;
 
 for (const key of sectionOrder) {
   const s = content.sections[key];

@@ -62,7 +62,8 @@
   .hero-alt .badge-pill{ margin-inline:0 !important; }
   .hero-alt__lede{ margin-inline:0 !important; }
   .hero-alt__actions{ justify-content:flex-start !important; }
-  .hero-alt__visual{ justify-content:flex-end !important; }
+  .hero-alt__visual{ align-items:flex-end !important; }
+  .hero-alt__visual-lede{ display:none !important; }
   .hero-alt__visual img{ max-height:105mm !important; }
   .hero-alt::before{ display:none; }
 
@@ -192,8 +193,12 @@
     <div class="wrap hero-alt__grid">
       <div class="hero-alt__copy">
         <span class="badge-pill"><span class="badge-pill__dot" aria-hidden="true"></span>{{hero.badge}}</span>
-        <h1 id="hero-title">{{hero.title}}</h1>
+        <h1 id="hero-title">{{hero.titleMain}} <span class="em">{{hero.titleEm}}</span></h1>
         <p class="hero-alt__lede">{{hero.lede}}</p>
+        <ul class="hero-alt__points">
+          {{#each hero.points}}<li>{{this}}</li>
+          {{/each}}
+        </ul>
         <div class="hero-alt__actions">
           <a class="btn-pill btn-pill--primary" href="{{hero.ctaPrimaryHref}}" data-cta="hero">
             {{hero.ctaPrimary}}
@@ -206,6 +211,7 @@
         </div>
       </div>
       <div class="hero-alt__visual">
+        <p class="hero-alt__lede hero-alt__visual-lede">{{hero.visualLede}}</p>
         <div class="hero-alt__media">
           <img src="{{hero.image}}" alt="{{hero.imageAlt}}" width="1200" height="896" loading="eager">
           <div class="certif-badge">

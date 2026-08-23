@@ -109,7 +109,9 @@ if (!robots.includes('sitemap.xml')) fail('robots.txt ne référence pas sitemap
 
 // 9. Le texte du hero doit exister tel quel dans le HTML statique généré
 //    (sans JS) — sinon il n'existe pas pour les crawlers.
-if (!html.includes(content.hero.title)) fail('Le titre du hero est absent du HTML statique généré.');
+for (const part of [content.hero.titleMain, content.hero.titleEm]) {
+  if (part && !html.includes(part)) fail(`Le titre du hero ("${part}") est absent du HTML statique généré.`);
+}
 
 // ---------------------------------------------------------------------------
 if (errors.length) {
