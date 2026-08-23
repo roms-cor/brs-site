@@ -234,6 +234,21 @@ const sectionOrder = [
   'benefices',
 ];
 
+// Ancre réelle de chaque section dans le HTML (les clés de contenu ne
+// correspondent pas toutes aux ids : insight vit dans #solution, solution
+// dans #offre — vérifié dans templates/index.template.html).
+const sectionAnchors = {
+  capacites: 'capacites',
+  probleme: 'probleme',
+  insight: 'solution',
+  solution: 'offre',
+  roles: 'roles',
+  parcours: 'parcours',
+  equipe: 'equipe',
+  references: 'references',
+  benefices: 'benefices',
+};
+
 let llms = `# ${content.organization.name}\n\n`;
 llms += `> ${content.meta.description}\n\n`;
 llms += `Généré au build le ${buildDate}. Source de vérité : content/site-content.json.\n\n`;
@@ -242,6 +257,21 @@ if (Array.isArray(content.hero.points) && content.hero.points.length) {
   llms += content.hero.points.map((p) => `- ${p}`).join('\n') + '\n\n';
 }
 if (content.hero.visualLede) llms += `${content.hero.visualLede}\n\n`;
+
+// Liste de liens de navigation — requise par la spec llmstxt.org (le fichier
+// doit contenir des liens Markdown) ; libellés et résumés repris de la copy
+// des sections, aucune formulation nouvelle.
+llms += `## Sections\n\n`;
+for (const key of sectionOrder) {
+  const s = content.sections[key];
+  if (!s) continue;
+  const title = s.title || [s.titleMain, s.titleEm].filter(Boolean).join(' ');
+  const summarySource = s.lede || (Array.isArray(s.ledes) ? s.ledes[0] : '') || '';
+  const summary = summarySource.split(/(?<=\.)\s/)[0];
+  llms += `- [${title}](${content.meta.domain}/#${sectionAnchors[key]})${summary ? ` : ${summary}` : ''}\n`;
+}
+llms += `- [FAQ](${content.meta.domain}/#faq)\n`;
+llms += `- [Contact](${content.meta.domain}/#contact)\n\n`;
 
 for (const key of sectionOrder) {
   const s = content.sections[key];
@@ -278,7 +308,12 @@ for (const item of content.faq.items) {
   llms += `**${item.question}**\n${item.answer}\n\n`;
 }
 
-llms += `## Contact\n\n${content.organization.name}, réseau partenaire adossé à ${content.organization.parentOrganizationName}. Email : ${content.organization.email}. Téléphone : ${content.organization.phoneDisplay}. Zone : ${content.organization.areaServed}.\n`;
+llms += `## Contact\n\n${content.organization.name}, réseau partenaire adossé à ${content.organization.parentOrganizationName}. Email : ${content.organization.email}. Téléphone : ${content.organization.phoneDisplay}. Zone : ${content.organization.areaServed}.\n\n`;
+
+llms += `## Ressources\n\n`;
+llms += `- [Page complète](${content.meta.domain}/)\n`;
+llms += `- [Plan du site](${content.meta.domain}/sitemap.xml)\n`;
+llms += `- [Borne Recharge Service](https://bornerecharge.fr/) : opérateur IRVE auquel le réseau est adossé.\n`;
 
 writeFileSync(path.join(ROOT, 'llms.txt'), llms, 'utf8');
 
