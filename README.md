@@ -1,5 +1,14 @@
 # brs-site — pipeline de contenu
 
+> **⚠️ MODE COMING SOON (depuis le 2026-08-24).** `index.html` a été
+> remplacé à la main par une page « Bientôt en ligne » (et
+> `index-flat.html` par une redirection vers `/`). Rien n'est supprimé :
+> tout le site vit dans `content/site-content.json` +
+> `templates/index.template.html`. **Pour remettre le site complet en
+> ligne : `npm run build`** (régénère les deux fichiers), puis commit +
+> push. Inversement, tant que le mode coming soon est voulu, ne pas
+> lancer `npm run build` sur main — il republierait le site complet.
+
 Ce dossier est le site déployé. Il a une **source de vérité
 unique** pour le contenu, un **template** pour la structure/CSS, et une **chaîne
 de build** (`npm run build`) qui génère tout le reste. Seule l'étape images
