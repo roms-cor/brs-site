@@ -31,8 +31,8 @@
 html,body{height:100%;}
 body{
   font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
-  background:#FFFFFF;
-  color:#171844;
+  background:#2D2E83;
+  color:#FFFFFF;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -47,7 +47,7 @@ main{max-width:560px;}
   gap:14px;
   margin-bottom:48px;
 }
-.brand img{width:56px;height:56px;}
+.brand img{width:56px;height:56px;background:#FFFFFF;padding:6px;box-sizing:content-box;}
 .brand span{
   display:flex;
   flex-direction:column;
@@ -57,35 +57,30 @@ main{max-width:560px;}
 .brand small{
   font-size:0.78rem;
   font-weight:500;
-  color:#303030;
+  color:#C9CAE8;
   letter-spacing:0.01em;
 }
 .brand strong{
   font-size:1.5rem;
   font-weight:800;
   letter-spacing:-0.02em;
-  color:#171844;
+  color:#FFFFFF;
 }
 h1{
   font-size:clamp(1.6rem,4vw,2.2rem);
   font-weight:700;
   letter-spacing:-0.02em;
   margin-bottom:16px;
+  color:#FFFFFF;
 }
 p{
   font-size:1.05rem;
   line-height:1.6;
-  color:#303030;
+  color:#C9CAE8;
   margin-bottom:12px;
 }
 .contact{margin-top:32px;}
-a{
-  color:#17739F;
-  font-weight:600;
-  text-decoration:none;
-  border-bottom:1px solid currentColor;
-}
-a:hover{color:#1C5875;}
+.contact strong{color:#4FB5E8;font-weight:600;}
 </style>
 </head>
 <body>
@@ -99,7 +94,7 @@ a:hover{color:#1C5875;}
   </div>
   <h1>Bientôt en ligne</h1>
   <p>Le site BRS Connect est en préparation.</p>
-  <p class="contact">Pour nous joindre&nbsp;: <a href="mailto:contact@brsconnect.fr">contact@brsconnect.fr</a></p>
+  <p class="contact">Pour nous joindre&nbsp;: <strong>contact@brsconnect.fr</strong></p>
 </main>
 </body>
 </html>
