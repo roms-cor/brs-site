@@ -10,12 +10,23 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { HTML_FILE, FLAT_FILE } from './config.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
 const BASE = 'https://brsconnect.fr/';
 
-let html = readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+let html = readFileSync(path.join(ROOT, HTML_FILE), 'utf8');
+
+// En préview, generate.mjs absolutise les références locales depuis la racine
+// (« /assets/… », « /js/… ») : on les ramène à la forme relative pour que le
+// reste du script (écrit pour la sortie racine) s'applique à l'identique.
+html = html
+  .replaceAll('"/assets/', '"assets/')
+  .replaceAll(', /assets/', ', assets/')
+  .replaceAll('"/js/', '"js/')
+  .replaceAll("url('/assets/", "url('assets/")
+  .replaceAll('url("/assets/', 'url("assets/');
 
 // ---------------------------------------------------------------------------
 // 1. Bannière : signaler que ce fichier est un dérivé flat, généré au build.
@@ -76,6 +87,6 @@ if (leftovers) {
   process.exit(1);
 }
 
-const out = path.join(ROOT, 'index-flat.html');
+const out = path.join(ROOT, FLAT_FILE);
 writeFileSync(out, html);
-console.log(`index-flat.html généré (${(html.length / 1024).toFixed(1)} Ko).`);
+console.log(`${FLAT_FILE} généré (${(html.length / 1024).toFixed(1)} Ko).`);

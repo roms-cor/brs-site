@@ -1,13 +1,19 @@
 # brs-site — pipeline de contenu
 
-> **⚠️ MODE COMING SOON (depuis le 2026-08-24).** `index.html` a été
-> remplacé à la main par une page « Bientôt en ligne » (et
-> `index-flat.html` par une redirection vers `/`). Rien n'est supprimé :
-> tout le site vit dans `content/site-content.json` +
-> `templates/index.template.html`. **Pour remettre le site complet en
-> ligne : `npm run build`** (régénère les deux fichiers), puis commit +
-> push. Inversement, tant que le mode coming soon est voulu, ne pas
-> lancer `npm run build` sur main — il republierait le site complet.
+> **⚠️ MODE COMING SOON (depuis le 2026-08-24).** La racine (`index.html`)
+> sert une page temporaire écrite à la main (et `index-flat.html` une
+> redirection vers `/`). Rien n'est supprimé : tout le site vit dans
+> `content/site-content.json` + `templates/index.template.html`, et la
+> **page d'accueil complète reste éditable et consultable sur `/home/`**
+> (noindex, hors sitemap) : depuis le 2026-08-25, `npm run build` génère
+> `home/index.html` + `home/index-flat.html` et **ne touche jamais à la
+> racine** — l'interrupteur est `PREVIEW` dans `build/config.mjs`.
+> En préview, `sitemap.xml`, `robots.txt` et `llms.txt` sont gelés (le
+> `llms.txt` en ligne est une version minimale sans contenu).
+> **Pour remettre le site complet en ligne :** passer `PREVIEW` à `false`
+> dans `build/config.mjs`, `npm run build` (la page générée reprend la
+> racine, sitemap/robots/llms.txt régénérés), supprimer `home/`, puis
+> commit + push.
 
 Ce dossier est le site déployé. Il a une **source de vérité
 unique** pour le contenu, un **template** pour la structure/CSS, et une **chaîne
@@ -17,10 +23,13 @@ de build** (`npm run build`) qui génère tout le reste. Seule l'étape images
 
 ## Règle n°1
 
-**Ne jamais éditer `index.html`, `index-flat.html`, `sitemap.xml`, `llms.txt` ou
+**Ne jamais éditer la page générée (`home/index.html` en préview, `index.html`
+au go-live), sa dérivée flat, ni — hors préview — `sitemap.xml`, `llms.txt` ou
 `robots.txt` à la main.** Ces fichiers sont écrasés à chaque build
-(`generate.mjs` pour les quatre premiers, `flatten.mjs` pour le flat). Toute
-correction manuelle sera perdue au prochain build. Côté design, le canvas Claude
+(`generate.mjs` pour la page et les trois fichiers racine, `flatten.mjs` pour
+le flat). Toute correction manuelle sera perdue au prochain build. Exception
+du mode préview : `index.html` et `index-flat.html` à la racine (coming soon)
+sont justement maintenus à la main et jamais touchés par le build. Côté design, le canvas Claude
 Design (« BRS Connect - Design ») est l'éditeur et la source de vérité depuis son
 import du 2026-08-22 : toute évolution visuelle s'y décide d'abord, puis se reporte
 dans `css/tokens.css` et `../brs-design/`. En cas d'écart entre canvas et code,
@@ -40,7 +49,9 @@ n'est en ligne tant que le report dans le code n'est pas fait.
    ```
 4. Si `validate.mjs` échoue, lire le message — il pointe l'erreur exacte (token oublié,
    FAQ désynchronisée, fichier image manquant, contraste sous 4,5:1, etc.).
-5. Prévisualiser : `python3 -m http.server 8000` puis ouvrir `http://localhost:8000/`.
+5. Prévisualiser : `python3 -m http.server 8000` puis ouvrir
+   `http://localhost:8000/home/` (mode préview ; `…:8000/` au go-live).
+   En ligne, la page d'accueil en chantier est sur `https://brsconnect.fr/home/`.
 6. Commit + push.
 
 Le plus simple reste de demander la retouche en session Claude (« change le
@@ -125,14 +136,15 @@ après toute modification du template, régénérer comme ci-dessus.
 
 | Fichier | Rôle |
 | --- | --- |
-| `index.html` | La page, avec JSON-LD (Organization, WebPage, FAQPage) injecté depuis la même donnée que la FAQ visible. |
-| `sitemap.xml` | Une URL à ce stade (page unique), `lastmod` horodaté au build. |
-| `llms.txt` | Digest markdown curaté pour crawlers IA (spec [llmstxt.org](https://llmstxt.org)). |
-| `robots.txt` | Ouvert à tous les crawlers, référence `sitemap.xml`. |
+| `index.html` (ou `home/index.html` en préview) | La page, avec JSON-LD (Organization, WebPage, FAQPage) injecté depuis la même donnée que la FAQ visible. En préview : `noindex`, canonical `/home/`, références locales absolutisées (`/assets/…`, `/js/…`). |
+| `sitemap.xml` | Une URL à ce stade (page unique), `lastmod` horodaté au build. **Gelé en préview.** |
+| `llms.txt` | Digest markdown curaté pour crawlers IA (spec [llmstxt.org](https://llmstxt.org)). **Gelé en préview** (version minimale commitée). |
+| `robots.txt` | Ouvert à tous les crawlers, référence `sitemap.xml`. **Gelé en préview.** |
 
 ## Ce que génère `flatten.mjs`
 
-`index-flat.html` : dérivé autoportant de `index.html` (JS inliné — le CSS
+`index-flat.html` (ou `home/index-flat.html` en préview) : dérivé autoportant
+de la page générée (JS inliné — le CSS
 l'est déjà par `generate.mjs` —, assets en URLs absolues sur `meta.domain`),
 pour tout usage où la page doit vivre seule, hors de ce dossier. À lancer
 après `generate.mjs` + `validate.mjs` ; le script sort en erreur s'il reste

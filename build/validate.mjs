@@ -5,6 +5,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { PREVIEW, HTML_FILE } from './config.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
@@ -22,7 +23,7 @@ function req(file) {
   return readFileSync(p, 'utf8');
 }
 
-const html = req('index.html');
+const html = req(HTML_FILE);
 const sitemap = req('sitemap.xml');
 const llms = req('llms.txt');
 const robots = req('robots.txt');
@@ -31,7 +32,7 @@ const content = JSON.parse(req('content/site-content.json'));
 
 // 1. Aucun token {{...}} non résolu dans la sortie générée.
 const unresolvedHtml = html.match(/{{[^}]*}}/g);
-if (unresolvedHtml) fail(`Tokens non résolus dans index.html : ${unresolvedHtml.slice(0, 5).join(', ')}`);
+if (unresolvedHtml) fail(`Tokens non résolus dans ${HTML_FILE} : ${unresolvedHtml.slice(0, 5).join(', ')}`);
 const unresolvedSitemap = sitemap.match(/{{[^}]*}}/g);
 if (unresolvedSitemap) fail(`Tokens non résolus dans sitemap.xml : ${unresolvedSitemap.join(', ')}`);
 const unresolvedLlms = llms.match(/{{[^}]*}}/g);
@@ -41,6 +42,17 @@ if (unresolvedLlms) fail(`Tokens non résolus dans llms.txt : ${unresolvedLlms.j
 const canonicalMatches = html.match(/<link rel="canonical" href="([^"]+)">/g) || [];
 if (canonicalMatches.length === 0) fail('Aucune balise <link rel="canonical"> trouvée.');
 if (canonicalMatches.length > 1) fail(`Plusieurs balises canonical trouvées (${canonicalMatches.length}) — une seule attendue.`);
+
+// 2 bis. Mode préview : la page en chantier ne doit jamais être indexable,
+//        et son canonical doit suivre l'URL réellement servie (/home/).
+if (PREVIEW) {
+  if (!html.includes('<meta name="robots" content="noindex">')) {
+    fail(`Mode préview : <meta name="robots" content="noindex"> absent de ${HTML_FILE}.`);
+  }
+  if (canonicalMatches.length === 1 && !canonicalMatches[0].includes('/home/')) {
+    fail(`Mode préview : le canonical devrait pointer vers /home/ (trouvé : ${canonicalMatches[0]}).`);
+  }
+}
 
 // 3. JSON-LD présent et syntaxiquement valide.
 const ldMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
@@ -118,11 +130,13 @@ for (const part of [content.hero.titleMain, content.hero.titleEm]) {
 
 // 10. Tout fichier local référencé par index.html (src, href, srcset) doit
 //     exister sur disque — sinon le déploiement Pages servira des 404.
+// (En préview les références sont absolutisées depuis la racine — « /assets/… » —
+// mais désignent les mêmes fichiers du repo : on tolère le « / » de tête.)
 const localRefs = new Set();
-for (const m of html.matchAll(/(?:src|href)="((?:assets|css|js)\/[^"]+)"/g)) localRefs.add(m[1]);
+for (const m of html.matchAll(/(?:src|href)="\/?((?:assets|css|js)\/[^"]+)"/g)) localRefs.add(m[1]);
 for (const m of html.matchAll(/srcset="([^"]+)"/g)) {
   for (const part of m[1].split(',')) {
-    const url = part.trim().split(/\s+/)[0];
+    const url = part.trim().split(/\s+/)[0].replace(/^\//, '');
     if (/^(assets|css|js)\//.test(url)) localRefs.add(url);
   }
 }
