@@ -1,19 +1,25 @@
 #!/usr/bin/env node
 // build/generate.mjs — zéro dépendance npm.
 // Lit content/site-content.json + templates/index.template.html,
-// génère : index.html, sitemap.xml, llms.txt, robots.txt.
+// génère : la page d'accueil (+ sitemap.xml, llms.txt, robots.txt hors préview).
+// La destination (racine ou home/) dépend de PREVIEW — voir build/config.mjs.
 // Une seule règle : tout ce qui est éditorial vit dans content/site-content.json.
-// Ne jamais éditer index.html à la main — il est écrasé à chaque build.
+// Ne jamais éditer la page générée à la main — elle est écrasée à chaque build.
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { PREVIEW, PAGE_PATH, HTML_FILE } from './config.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
 
 const content = JSON.parse(readFileSync(path.join(ROOT, 'content/site-content.json'), 'utf8'));
 const template = readFileSync(path.join(ROOT, 'templates/index.template.html'), 'utf8');
+
+// En préview, la page vit sur /home/ : le canonical et le JSON-LD suivent
+// l'URL réellement servie. content/site-content.json reste inchangé.
+content.meta = { ...content.meta, path: PAGE_PATH };
 
 const now = new Date();
 const buildYear = String(now.getFullYear());
@@ -188,14 +194,47 @@ function inlineCss(html) {
 }
 
 // ---------------------------------------------------------------------------
-// index.html
+// Page d'accueil générée (index.html à la racine, ou home/index.html en préview)
 // ---------------------------------------------------------------------------
 const ctx = { ...content, buildYear, buildDate, buildTimestamp };
 let html = render(template, ctx);
 html = html.replace('<!--JSONLD-->', buildJsonLd(content));
 html = postProcessImages(html);
 html = inlineCss(html);
-writeFileSync(path.join(ROOT, 'index.html'), html, 'utf8');
+
+if (PREVIEW) {
+  // La page est servie depuis /home/ : les références locales relatives
+  // (assets/, js/ — le CSS est déjà inliné) casseraient. On les absolutise
+  // depuis la racine du domaine, où vivent réellement les fichiers.
+  html = html
+    .replaceAll('"assets/', '"/assets/')
+    .replaceAll(', assets/', ', /assets/')
+    .replaceAll('"js/', '"/js/')
+    .replaceAll("url('assets/", "url('/assets/")
+    .replaceAll('url("assets/', 'url("/assets/');
+  // Page en chantier : jamais indexée tant que le mode préview est actif.
+  const canonicalTag = '<link rel="canonical"';
+  if (!html.includes(canonicalTag)) {
+    console.error('generate.mjs : balise canonical introuvable — abandon (noindex non injecté).');
+    process.exit(1);
+  }
+  html = html.replace(canonicalTag, `<meta name="robots" content="noindex">\n${canonicalTag}`);
+}
+
+mkdirSync(path.dirname(path.join(ROOT, HTML_FILE)), { recursive: true });
+writeFileSync(path.join(ROOT, HTML_FILE), html, 'utf8');
+
+// ---------------------------------------------------------------------------
+// sitemap.xml, llms.txt, robots.txt — GELÉS en préview (voir build/config.mjs) :
+// les versions minimales commitées restent en ligne, rien du contenu ne fuite
+// avant le go-live.
+// ---------------------------------------------------------------------------
+if (PREVIEW) {
+  console.log(`Build OK (mode préview — voir build/config.mjs) :`);
+  console.log(`  - ${HTML_FILE} (noindex, canonical ${content.meta.domain}${content.meta.path})`);
+  console.log('  - sitemap.xml, llms.txt, robots.txt : gelés, non régénérés');
+  process.exit(0);
+}
 
 // ---------------------------------------------------------------------------
 // sitemap.xml — une seule URL à ce stade (page unique), horodatée au build.
