@@ -5,17 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ============================================================
-     PAGE TEMPORAIRE — écrite à la main le 2026-08-24.
-     Le site complet n'est PAS supprimé : il vit dans
-     content/site-content.json + templates/index.template.html,
-     et reste consultable sur /home/ (noindex) — le build écrit
-     dans home/ et ne touche jamais à ce fichier.
-     Pour remettre le site en ligne : PREVIEW = false dans
+     PAGE DE REDIRECTION — écrite à la main le 2026-10-15
+     (remplace la page « Page inaccessible » du 2026-08-24).
+     La racine renvoie vers la page opérateur. Le build ne touche
+     jamais à ce fichier tant que PREVIEW = true (build/config.mjs).
+     Le site complet reste consultable sur /home/ (noindex).
+     UTM : celles reçues sont conservées telles quelles ; sans UTM,
+     on ajoute utm_source=brsconnect.fr, utm_medium=redirect,
+     utm_campaign=racine. GitHub Pages ne permet pas de 301 :
+     redirection côté navigateur (script, repli meta refresh).
+     Pour remettre le site complet en ligne : PREVIEW = false dans
      build/config.mjs, `npm run build`, puis commit + push.
      ============================================================ -->
 
-<title>Page inaccessible</title>
+<title>Redirection vers BRS Connect</title>
 <meta name="robots" content="noindex">
+<noscript><meta http-equiv="refresh" content="0;url=https://bornerecharge.fr/brs-connect/?utm_source=brsconnect.fr&amp;utm_medium=redirect&amp;utm_campaign=racine"></noscript>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -31,11 +36,31 @@ body{
   text-align:center;
 }
 p{font-size:1.1rem;}
+a{color:inherit;}
 </style>
 </head>
 <body>
 <main>
-  <p>Page inaccessible</p>
+  <p>Redirection vers <a id="cible" href="https://bornerecharge.fr/brs-connect/?utm_source=brsconnect.fr&amp;utm_medium=redirect&amp;utm_campaign=racine">bornerecharge.fr/brs-connect</a>.</p>
 </main>
+<script>
+(function () {
+  var cible = 'https://bornerecharge.fr/brs-connect/';
+  var params = new URLSearchParams(window.location.search);
+  var aDesUtm = false;
+  params.forEach(function (valeur, cle) {
+    if (cle.indexOf('utm_') === 0) { aDesUtm = true; }
+  });
+  if (!aDesUtm) {
+    params.set('utm_source', 'brsconnect.fr');
+    params.set('utm_medium', 'redirect');
+    params.set('utm_campaign', 'racine');
+  }
+  var url = cible + '?' + params.toString() + window.location.hash;
+  var lien = document.getElementById('cible');
+  if (lien) { lien.href = url; }
+  window.location.replace(url);
+})();
+</script>
 </body>
 </html>
