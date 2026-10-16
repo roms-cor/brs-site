@@ -1,6 +1,6 @@
 # ADR-0004 : Mode préview, redirection de la racine et exposition du dépôt
 
-**Statut :** Partiellement accepté (le mode préview et ses garde-fous sont en place ; l'exposition du dépôt (A) est tranchée le 2026-10-16 ; le workflow (B) et le plugin tiers (C) restent à trancher par Roms)
+**Statut :** Accepté (le mode préview et ses garde-fous sont en place ; l'exposition du dépôt (A), le workflow et la protection de `main` (B) et le plugin tiers (C) sont tranchés par Roms le 2026-10-16)
 **Date :** 2026-10-16
 **Décideurs :** Roms
 
@@ -53,20 +53,21 @@ production, pas le contenu : elle ne se justifie que si la copy ne doit pas êtr
 avant le go-live. Si l'option 2 est retenue : vérifier par `curl` (GET/HEAD) que les URLs ci-dessus renvoient
 404 et que `/` et `/home/` répondent toujours.
 
-### À trancher par Roms
+### Tranché par Roms le 2026-10-16
 
-**B. Workflow de validation.** Fichier proposé : `.github/workflows/validate.yml` (rejoue
+**B. Workflow de validation : accepté.** `.github/workflows/validate.yml` (rejoue
 `generate`, `validate`, `flatten`, vérifie que les fichiers générés commités sont identiques, contrôle les
-images sans sharp, rejoue le selftest, cherche chemins locaux, clés et adresses email inattendues).
-Décider aussi de la protection de `main` (exiger le contrôle vert avant fusion) : réglage côté dépôt public.
+images sans sharp, rejoue le selftest, cherche chemins locaux, clés et adresses email inattendues ;
+lecture seule, aucun secret, aucun déploiement) est commité et vert sur GitHub (3fff641, eb5dbe2).
+**Protection de `main` : aucune** (pas de PR obligatoire, les pushs directs de CLAUDE.md continuent).
 
-**C. Plugin tiers de la configuration partagée** (`.claude/settings.json` du dépôt privé :
-marketplace `Egonex-AI/Understand-Anything` sans `ref` épinglé) : l'épingler à un commit ou le retirer
-de la configuration partagée. Réglage de configuration, hors dépôt public.
+**C. Plugin tiers : retiré de la configuration partagée** (`.claude/settings.json` du dépôt privé :
+marketplace `Egonex-AI/Understand-Anything` sans `ref` épinglé). Il peut rester activé en configuration
+locale, non partagée. Réglage de configuration, hors dépôt public.
 
 ## Conséquences
 
 - Une bascule par erreur ou un oubli de `home/` au go-live échoue au build, pas en production.
-- Les contrôles de `tools/check.sh` (dépôt privé) restent la barrière de départ ; le workflow, s'il est
-  accepté, protège aussi les contributions qui ne passent pas par le dépôt privé.
+- Les contrôles de `tools/check.sh` (dépôt privé) restent la barrière de départ ; le workflow
+  protège aussi les contributions qui ne passent pas par le dépôt privé.
 - L'exposition (A) est un risque accepté (2026-10-16) : rien de secret ne doit entrer dans le dépôt public.
