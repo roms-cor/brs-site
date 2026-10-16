@@ -22,15 +22,9 @@
 
 .section{ padding-block:var(--section-y); }
 .section--tight{ padding-block:calc(var(--section-y) * .5); }
-.section--surface{ background:var(--background); }
 .section--edged{ border-block:var(--hairline); }
 /* Bande atténuée : fond muted + filets, comme le tone "muted" du canvas. */
 .section--muted{ background:var(--muted); border-block:var(--hairline); }
-
-/* Conteneur centré — conservé pour un usage ponctuel. */
-.wrap--center{ text-align:center; }
-.wrap--center .eyebrow{ justify-content:center; }
-.wrap--center .tag-list{ justify-content:center; margin-top:0; }
 
 /* --------------------------------------------------------------------------
    1bis. Motifs d'import design 2026-08-22 — en-têtes en deux colonnes
@@ -136,9 +130,6 @@
 }
 
 .brand{ display:inline-flex; align-items:center; gap:var(--space-sm); flex:none; }
-.brand__logo{ width:auto; height:32px; }
-.brand__suffix{ font-weight:700; font-size:1.02rem; color:var(--link); }
-
 .brand--stacked{ align-items:center; }
 .brand--stacked .brand__mark{ width:40px; height:40px; border-radius:var(--radius-md); }
 .brand--stacked .brand__label{ display:flex; flex-direction:column; line-height:1.15; }
@@ -168,7 +159,7 @@
 
 .nav-toggle{
   display:inline-flex; align-items:center; justify-content:center;
-  width:40px; height:40px; flex:none;
+  width:44px; height:44px; flex:none;   /* cible tactile 44 px (DESIGN-GUIDE) */
   background:var(--background);
   border:var(--hairline);
   border-radius:var(--radius-md);
@@ -194,6 +185,10 @@
   display:none;
   background:var(--background);
   border-top:var(--hairline);
+  /* Paysage court (667×375) : le panneau défile au lieu de déborder sous le header sticky. */
+  max-height:calc(100vh - var(--header-h));
+  max-height:calc(100dvh - var(--header-h));
+  overflow-y:auto; overscroll-behavior:contain;
 }
 .nav-mobile[data-open="true"]{ display:block; }
 .nav-mobile a{
@@ -365,6 +360,9 @@
 @media (prefers-reduced-motion:reduce){
   .partner-marquee__track,
   .certif-badge__ring{ animation:none; }
+  /* Sans animation, les clones (décoratifs, aria-hidden) ne doivent pas doubler les logos. */
+  .partner-chip--clone,
+  .partner-marquee__list[aria-hidden="true"]{ display:none; }
 }
 .partner-marquee__list{
   display:flex; align-items:center; gap:var(--space-2xl);
@@ -466,15 +464,6 @@
 @media (min-width:640px){ .partner-grid{ grid-template-columns:repeat(3,1fr); } }
 @media (min-width:900px){ .partner-grid{ grid-template-columns:repeat(5,1fr); } }
 
-.tag-list{ display:flex; flex-wrap:wrap; gap:var(--space-sm); margin-top:var(--space-lg); }
-.tag-list li{
-  padding:var(--space-xs) var(--space-md);
-  font-size:var(--step-sm); font-weight:var(--weight-medium); line-height:var(--leading-ui);
-  color:var(--foreground);
-  background:transparent;   /* chip canvas : remplissage transparent       */
-  border:var(--hairline);
-}
-
 
 /* --------------------------------------------------------------------------
    7. Grilles et cartes génériques
@@ -484,11 +473,6 @@
 .grid-3{ display:grid; gap:var(--grid-gap); margin-top:var(--space-2xl); }
 @media (min-width:640px){ .grid-3{ grid-template-columns:repeat(2,1fr); } }
 @media (min-width:900px){ .grid-3{ grid-template-columns:repeat(3,1fr); } }
-.grid-4{ display:grid; gap:var(--grid-gap); margin-top:var(--space-2xl); }
-/* Grille resserrée — bande insight. */
-.grid--narrow{ max-width:var(--measure-grid-narrow); }
-@media (min-width:640px){ .grid-4{ grid-template-columns:repeat(2,1fr); } }
-@media (min-width:900px){ .grid-4{ grid-template-columns:repeat(4,1fr); } }
 
 .tile{
   padding:var(--space-lg);
@@ -536,14 +520,11 @@
    lilas → bleu → sarcelle → violet. Les badges verts (bénéfices) sont
    exclus, leur fond est un état, pas une teinte de la rotation.          */
 .grid-2 > :nth-child(4n+2) .icon-badge:not(.icon-badge--green),
-.grid-3 > :nth-child(4n+2) .icon-badge:not(.icon-badge--green),
-.grid-4 > :nth-child(4n+2) .icon-badge:not(.icon-badge--green){ background:var(--accent-badge-2); }
+.grid-3 > :nth-child(4n+2) .icon-badge:not(.icon-badge--green){ background:var(--accent-badge-2); }
 .grid-2 > :nth-child(4n+3) .icon-badge:not(.icon-badge--green),
-.grid-3 > :nth-child(4n+3) .icon-badge:not(.icon-badge--green),
-.grid-4 > :nth-child(4n+3) .icon-badge:not(.icon-badge--green){ background:var(--accent-badge-3); }
+.grid-3 > :nth-child(4n+3) .icon-badge:not(.icon-badge--green){ background:var(--accent-badge-3); }
 .grid-2 > :nth-child(4n+4) .icon-badge:not(.icon-badge--green),
-.grid-3 > :nth-child(4n+4) .icon-badge:not(.icon-badge--green),
-.grid-4 > :nth-child(4n+4) .icon-badge:not(.icon-badge--green){ background:var(--accent-badge-4); }
+.grid-3 > :nth-child(4n+4) .icon-badge:not(.icon-badge--green){ background:var(--accent-badge-4); }
 
 
 /* --------------------------------------------------------------------------
@@ -784,13 +765,15 @@
 }
 @media (min-width:720px){ .site-footer__top{ grid-template-columns:1.4fr .8fr .8fr .9fr; } }
 
-.site-footer h3{
+.site-footer h2{
   margin-bottom:var(--space-md);
   font-size:var(--step-sm); font-weight:var(--weight-medium);
   text-transform:uppercase; letter-spacing:var(--tracking-eyebrow);
   color:var(--foreground);
 }
+/* Zone cliquable agrandie (≈ 25 px) sans bouger la mise en page : le padding est compensé par la marge. */
 .site-footer a{ color:var(--muted-foreground); }
+.site-footer li > a{ display:inline-block; padding-block:4px; margin-block:-4px; }
 .site-footer a:hover{ color:var(--link); }
 .site-footer li{ margin-bottom:var(--space-xs); }
 
@@ -821,20 +804,25 @@
   border:none; border-radius:var(--radius-md);
   cursor:pointer;
   opacity:0; pointer-events:none; transform:translateY(8px);
-  transition:opacity var(--transition), transform var(--transition), background-color var(--transition);
+  /* visibility:hidden retire le bouton de l'ordre de tabulation tant qu'il est invisible (WCAG 2.4.7) ;
+     la bascule attend la fin du fondu à la disparition. */
+  visibility:hidden;
+  transition:opacity var(--transition), transform var(--transition), background-color var(--transition), visibility 0s linear var(--duration);
 }
-.to-top[data-visible="true"]{ opacity:1; pointer-events:auto; transform:translateY(0); }
+.to-top[data-visible="true"]{ opacity:1; pointer-events:auto; transform:translateY(0); visibility:visible; transition-delay:0s; }
 .to-top:hover{ background:var(--primary-hover); }
 
 
 /* --------------------------------------------------------------------------
    17. Apparition au défilement
    -------------------------------------------------------------------------- */
-[data-reveal]{
+/* Masqué seulement si le script a posé la classe .js sur <html> (script inline du <head>) :
+   si main.js est bloqué ou en 404, le contenu reste visible. */
+.js [data-reveal]{
   opacity:0; transform:translateY(var(--reveal-offset));
   transition:opacity var(--duration-reveal) var(--ease), transform var(--duration-reveal) var(--ease);
 }
-[data-reveal][data-revealed="true"]{ opacity:1; transform:none; }
+.js [data-reveal][data-revealed="true"]{ opacity:1; transform:none; }
 @media (prefers-reduced-motion:reduce){
-  [data-reveal]{ opacity:1; transform:none; }
+  .js [data-reveal]{ opacity:1; transform:none; }
 }

@@ -1,0 +1,212 @@
+{
+  "assets/images/brs-web-visuals/brs-web-visuals-image1-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-image1.png",
+    "srcSha256": "ecd351a22ac6ed48e81fbe91224af1dad9abe9a93de0e63da28ebb0af906a913",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-image2-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-image2.png",
+    "srcSha256": "095c6ad14950b18a7ca920d27c2576a2f07e774a572f8fa6aa7642ae54e317c8",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-image3-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-image3.png",
+    "srcSha256": "251cb123a55e23f883c32c1a6e2c659270ad041d925db390b4ceed449ce93345",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-image5-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-image5.png",
+    "srcSha256": "e7a8c0fb36bb8d7ab78bcf0ff4b80204a36593d853ca5c79d1813896f7c83283",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-image6-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-image6.png",
+    "srcSha256": "a956a98dad4aad2c7deabb2a9c2b53b07cba2f1316ac113cfb2c9dfa76e100dc",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-image7-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-image7.png",
+    "srcSha256": "4ee862d157e6895fdcc9c331cb04c14903ff90a4c518d0d5556ff68274217b9b",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-image8-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-image8.png",
+    "srcSha256": "06851c7bd18846f8657a157f132428c2118b8fc37de45908853bf40751314697",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-image8-960w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-image8.png",
+    "srcSha256": "06851c7bd18846f8657a157f132428c2118b8fc37de45908853bf40751314697",
+    "kind": "webp",
+    "width": 960,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-schema1-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-schema1.png",
+    "srcSha256": "d6ae61b6930c4ffefc45caf32695fead8d9248cf4e6ccd4fa25821ee79108086",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-schema11-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-schema11.png",
+    "srcSha256": "559e8bc42d5cae3d854c21241cf2a497d32ccb4735ff6fd64b8a5966c4a0233b",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-schema2-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-schema2.png",
+    "srcSha256": "b7095818dec7cd44a0ac45f931cea6a5bffd654dc786e93b4cfd6e226821482a",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-schema4-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-schema4.png",
+    "srcSha256": "22663f3fc07d640ed7aa9290ad42cf591555803d2dbb51213d88529719e2b099",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-schema6-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-schema6.png",
+    "srcSha256": "d857c3527c92837da27fe7c3b4e2ecfab2df01fc9c6af59153e87bc1f2fa24f8",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/brs-web-visuals/brs-web-visuals-schema7-640w.webp": {
+    "src": "assets/images/brs-web-visuals/brs-web-visuals-schema7.png",
+    "srcSha256": "b1b3b9ccee64fae483dd1b03dad377742113574373314eb66b9f751ed91b3bbf",
+    "kind": "webp",
+    "width": 640,
+    "quality": 80
+  },
+  "assets/images/references/spie.webp": {
+    "src": "assets/images/references/spie.png",
+    "srcSha256": "15bad3754ccd486d31e932afb271e7ed24152e1c69a2dfdfc8e8ca296b7603ad",
+    "kind": "webp",
+    "width": 400,
+    "quality": 82
+  },
+  "assets/images/references/neolia.webp": {
+    "src": "assets/images/references/neolia.png",
+    "srcSha256": "36fda94f6792e9b404be82f44695fcdc45f2d7fe6968debfb4d7353e737090f9",
+    "kind": "webp",
+    "width": 400,
+    "quality": 82
+  },
+  "assets/images/references/gendarmerie.webp": {
+    "src": "assets/images/references/gendarmerie.png",
+    "srcSha256": "dc137d2b9485cb456e7375cee8eb3120df17c8dd26d1afd09aff16b9be97c789",
+    "kind": "webp",
+    "width": 400,
+    "quality": 82
+  },
+  "assets/images/references/ipsen.webp": {
+    "src": "assets/images/references/ipsen.png",
+    "srcSha256": "c756bc968094f0bed4160aad04c8096fcb16835f384e45bb1d26db7f80318829",
+    "kind": "webp",
+    "width": 400,
+    "quality": 82
+  },
+  "assets/images/references/somfy.webp": {
+    "src": "assets/images/references/somfy.png",
+    "srcSha256": "6392142962e2fd0e95cefa65294643ac325f4fcb5f39bc75a55fcb4f1a519199",
+    "kind": "webp",
+    "width": 400,
+    "quality": 82
+  },
+  "assets/images/references/equans.webp": {
+    "src": "assets/images/references/equans.png",
+    "srcSha256": "a5913385fdd96cb49da82343d3d08f22755b3c36af229475c9267cdd94418910",
+    "kind": "webp",
+    "width": 400,
+    "quality": 82
+  },
+  "assets/images/references/thonon.webp": {
+    "src": "assets/images/references/thonon.png",
+    "srcSha256": "f9997501ce397a4fc6d7680002498b23094519e076d68c965e8881bd0833ee53",
+    "kind": "webp",
+    "width": 400,
+    "quality": 82
+  },
+  "assets/images/references/seine-saint-denis-habitat.webp": {
+    "src": "assets/images/references/seine-saint-denis-habitat.png",
+    "srcSha256": "a9a1945699fcb9086270bbeebd9769710a2fd3e22f75183e1becc105877779b7",
+    "kind": "webp",
+    "width": 400,
+    "quality": 82
+  },
+  "assets/images/partenaires/logo-advenir.webp": {
+    "src": "assets/images/partenaires/logo-advenir.png",
+    "srcSha256": "3159c357cbc8a226e92a2649e8f48ca84b9c6725aaa63c16fa388b0dd4b4caec",
+    "kind": "webp",
+    "width": 350,
+    "quality": 82
+  },
+  "assets/images/partenaires/logo-logivolt.webp": {
+    "src": "assets/images/partenaires/logo-logivolt.png",
+    "srcSha256": "5381bd440afb3ba92725a7bfad1cd1f5236d9f7165f711995a613e67eadd369d",
+    "kind": "webp",
+    "width": 350,
+    "quality": 82
+  },
+  "assets/images/partenaires/logo-symphonics.webp": {
+    "src": "assets/images/partenaires/logo-symphonics.png",
+    "srcSha256": "321985de47baa1b23a15b7b159b9ad320bfb077337d72a27faebfed837db4e07",
+    "kind": "webp",
+    "width": 350,
+    "quality": 82
+  },
+  "assets/images/partenaires/logo-vertigo.webp": {
+    "src": "assets/images/partenaires/logo-vertigo.png",
+    "srcSha256": "844c5b02bcf42f3b7b7b1b8c868c6061eec525a662e55cf0a967318a2af6ae65",
+    "kind": "webp",
+    "width": 350,
+    "quality": 82
+  },
+  "assets/images/partenaires/logo-qualifelec-irve.webp": {
+    "src": "assets/images/partenaires/logo-qualifelec-irve.jpg",
+    "srcSha256": "c5aa0a123986df94dd8c293bcd4f8473009a280a3fd68cda29bf3cb086c93cd2",
+    "kind": "webp",
+    "width": 124,
+    "quality": 82
+  },
+  "assets/logos/brs-logomark-square.webp": {
+    "src": "assets/logos/brs-logomark-square.png",
+    "srcSha256": "ab921351170139a3f7020a34e9ae18e5a43ef7dca4fda03c3bb28238cef5a449",
+    "kind": "webp",
+    "width": 80,
+    "quality": 82
+  },
+  "assets/logos/brs-logomark-favicon.png": {
+    "src": "assets/logos/brs-logomark-square.png",
+    "srcSha256": "ab921351170139a3f7020a34e9ae18e5a43ef7dca4fda03c3bb28238cef5a449",
+    "kind": "png",
+    "width": 48,
+    "quality": null
+  },
+  "assets/logos/brs-logomark-apple-touch.png": {
+    "src": "assets/logos/brs-logomark-square.png",
+    "srcSha256": "ab921351170139a3f7020a34e9ae18e5a43ef7dca4fda03c3bb28238cef5a449",
+    "kind": "png",
+    "width": 180,
+    "quality": null
+  }
+}

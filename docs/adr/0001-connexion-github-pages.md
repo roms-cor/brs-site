@@ -1,8 +1,25 @@
 # ADR-0001 : Connexion de brs-site à GitHub et publication via GitHub Pages
 
-**Statut :** Proposé
+**Statut :** Accepté et réalisé (amendé le 2026-10-16 ; texte d'origine du 2026-08-05 conservé ci-dessous)
 **Date :** 2026-08-05
 **Décideurs :** Roms
+
+## Amendement du 2026-10-16 : ce qui a réellement été fait
+
+La décision a été appliquée, avec des écarts de détail par rapport au texte d'origine
+(conservé ci-dessous comme trace) :
+
+| Prévu le 2026-08-05 | Réalité constatée le 2026-10-16 |
+|---|---|
+| Dépôt `roms-cor/brsconnect-website` | Dépôt **`roms-cor/brs-site`**, public, branche `main` |
+| Domaine `connect.bornerecharge.services` | Domaine **`brsconnect.fr`** (`CNAME`), HTTPS forcé (`gh api repos/roms-cor/brs-site/pages` : `cname` brsconnect.fr, `https_enforced` true) |
+| Pages « Deploy from branch » `main` `/` | Identique (`build_type: legacy`, source `main` `/`) |
+| « 0 fichier suivi », « zéro dépendance npm » | 106 fichiers suivis ; **sharp** est une dépendance de développement depuis l'[ADR-0002](0002-pipeline-images-sharp.md) (les trois autres scripts restent zéro-dépendance) |
+| Workflow `.github/workflows/validate.yml` sur chaque push et PR | **Jamais créé** (absent de l'historique) ; branche `main` non protégée. Proposition de workflow : [ADR-0004](0004-mode-previsualisation-et-exposition.md), à valider |
+
+Les actions 1 à 6, 8 et 9 sont faites (sous le nom de domaine et de dépôt réels) ;
+l'action 7 reste ouverte. Les mises en garde sur l'exposition du dépôt entier par Pages
+et sur le mode préview sont traitées dans l'ADR-0004.
 
 ## Contexte
 
@@ -134,14 +151,16 @@ qui n'a jamais existé de toute façon.
 
 ## Actions
 
-1. [ ] Corriger `brs-site/CNAME` → `connect.bornerecharge.services`
-2. [ ] Ajouter/corriger `brs-site/.gitignore` (retirer le piège `build/`)
-3. [ ] `git init` dans `brs-site/`, premier commit
-4. [ ] Créer le dépôt public `roms-cor/brsconnect-website` sur GitHub
-5. [ ] `git remote add origin` + push initial sur `main`
-6. [ ] Activer GitHub Pages : Settings → Pages → Deploy from branch → `main` → `/root`
+*Cochées au 2026-10-16 d'après les noms réels (dépôt `brs-site`, domaine `brsconnect.fr`) : voir l'amendement en tête.*
+
+1. [x] Corriger `brs-site/CNAME` → `connect.bornerecharge.services`
+2. [x] Ajouter/corriger `brs-site/.gitignore` (retirer le piège `build/`)
+3. [x] `git init` dans `brs-site/`, premier commit
+4. [x] Créer le dépôt public `roms-cor/brsconnect-website` sur GitHub
+5. [x] `git remote add origin` + push initial sur `main`
+6. [x] Activer GitHub Pages : Settings → Pages → Deploy from branch → `main` → `/root`
 7. [ ] Ajouter `.github/workflows/validate.yml` (exécute `node build/validate.mjs` sur
        push/PR vers `main`)
-8. [ ] Créer l'enregistrement DNS CNAME chez le registrar de `bornerecharge.services` :
+8. [x] Créer l'enregistrement DNS CNAME chez le registrar de `bornerecharge.services` :
        `connect` → `roms-cor.github.io` (action utilisateur, hors Git)
-9. [ ] Une fois le DNS propagé, activer « Enforce HTTPS » dans les paramètres Pages
+9. [x] Une fois le DNS propagé, activer « Enforce HTTPS » dans les paramètres Pages

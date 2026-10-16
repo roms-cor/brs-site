@@ -5,9 +5,14 @@
   "description": "Site brsconnect.fr — pipeline de contenu. Voir README.md.",
   "scripts": {
     "build": "node build/images.mjs && node build/generate.mjs && node build/validate.mjs && node build/flatten.mjs",
-    "images": "node build/images.mjs"
+    "images": "node build/images.mjs",
+    "selftest": "node build/selftest.mjs",
+    "verify-images": "node build/verify-images.mjs"
   },
   "devDependencies": {
-    "sharp": "^0.34.2"
+    "sharp": "^0.35.5"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   }
 }

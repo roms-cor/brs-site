@@ -43,7 +43,7 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 - **Fonds plats uniquement.** Zéro gradient, zéro texture, zéro pattern. Le texte ne se pose jamais sur une photo.
 - Signature du système : hairline `1px solid #D9D9D9` sur chaque carte, tuile, chip, étape, colonne ; `border-block` entre sections blanches consécutives. Sur navy : `rgba(255,255,255,.22)` (bordures de cartes `.16`).
 - **Cartes carrées** — radius 0, non négociable. 6px : boutons, inputs, badges d'icône, toggle nav, retour-haut. 4px : focus rings. 999px : le point de statut 8px seul. **Exception images** : photos, screenshots, schémas → `--radius-image` 20px.
-- Ombres : deux dans tout le système — `0 1px 2px rgba(0,0,0,.05)` (bouton ghost) et le `drop-shadow` du visuel hero. Rien d'autre. La profondeur vient des bordures et des bandes.
+- Ombres : deux dans tout le système — `0 1px 2px rgba(0,0,0,.05)` (badge Qualifelec ; le bouton ghost, jamais employé, a été retiré) et `--shadow-deep` pour le visuel hero. Rien d'autre. **Constat du 2026-10-16** : `--shadow-deep` n'est pas rendue (`drop-shadow()` refuse le rayon d'étalement négatif) ; la corriger ou la retirer du système est un arbitrage de canvas (REV #32). La profondeur vient des bordures et des bandes.
 
 ## Cartes et états
 
@@ -60,7 +60,7 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 ## Imagerie
 
 - Froide et dominante bleue : schémas isométriques navy/ciel, screenshots du portail de supervision, photos de bornes en parkings et copropriétés. Pas de filtre chaud, pas de grain, pas de N&B, pas de personnes qui posent.
-- Toute image porte `--radius-image` 20px. Traitement `.team-visual` : mat `--muted`, padding 12px, hairline, légende (icône service 44px + une phrase). Grilles média : images arrondies sans bordure, légende label + détail dessous.
+- Toute image porte `--radius-image` 20px. **Écarts constatés le 2026-10-16, à arbitrer dans le canvas (REV #32)** : cinq images restent à 6px (hero, deux visuels d'en-tête de section, deux visuels de bénéfices) ; les mats `.media-frame` et `.team-visual` sont à 32px (20px + 12px) ; le fondu `mask-image` du marquee est un quatrième cas de transparence. Traitement `.team-visual` : mat `--muted`, padding 12px, hairline, légende (icône service 44px + une phrase). Grilles média : images arrondies sans bordure, légende label + détail dessous.
 - Logos références/partenaires : couleurs d'origine, max 30px de haut, boîte sans cadre, jamais en niveaux de gris, jamais de hover.
 
 ## Iconographie

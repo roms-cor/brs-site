@@ -7,7 +7,9 @@
 (function () {
   'use strict';
 
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Préférence relue à chaque usage (elle peut changer en cours de visite). */
+  var reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function reduceMotion() { return reduceMotionQuery.matches; }
 
   /* Lit un token CSS pour éviter qu'une valeur vive à deux endroits.
      css/tokens.css reste la source unique ; le JS s'y aligne au chargement. */
@@ -30,11 +32,18 @@
     function setOpen(open) {
       panel.dataset.open = String(open);
       toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+      /* Libellés fournis par le template (content : ui.menuOpen / ui.menuClose). */
+      toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) || toggle.getAttribute('aria-label'));
     }
 
     toggle.addEventListener('click', function () {
       setOpen(panel.dataset.open !== 'true');
+    });
+
+    /* Passage en navigation de bureau (bouton masqué par le CSS) : un panneau resté ouvert se referme,
+       sinon aria-expanded reste « true » sur un bouton invisible. Indépendant du point de bascule. */
+    window.addEventListener('resize', function () {
+      if (panel.dataset.open === 'true' && getComputedStyle(toggle).display === 'none') setOpen(false);
     });
 
     panel.addEventListener('click', function (e) {
@@ -72,10 +81,10 @@
     var nodes = document.querySelectorAll('[data-reveal]');
     if (!nodes.length) return;
 
-    if (reduceMotion || !('IntersectionObserver' in window)) {
-      nodes.forEach(function (el) { el.dataset.revealed = 'true'; });
-      return;
-    }
+    function revealAll() { nodes.forEach(function (el) { el.dataset.revealed = 'true'; }); }
+    if (reduceMotion() || !('IntersectionObserver' in window)) { revealAll(); return; }
+    /* Préférence activée après le chargement : tout apparaît d'un coup. */
+    if (reduceMotionQuery.addEventListener) reduceMotionQuery.addEventListener('change', function (e) { if (e.matches) revealAll(); });
 
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -105,15 +114,16 @@
     });
     if (!sections.length) return;
 
+    /* Sections actuellement sous la ligne de lecture (bande centrale) ; aucune = hero ou pied de page :
+       le lien actif est alors retiré (il ne reste pas allumé sur la dernière section quittée). */
+    var inBand = {};
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        var link = map[entry.target.id];
-        if (!link) return;
-        if (entry.isIntersecting) {
-          links.forEach(function (l) { l.removeAttribute('aria-current'); });
-          link.setAttribute('aria-current', 'true');
-        }
+        if (map[entry.target.id]) inBand[entry.target.id] = entry.isIntersecting;
       });
+      var current = sections.filter(function (sec) { return inBand[sec.id]; }).pop();
+      links.forEach(function (l) { l.removeAttribute('aria-current'); });
+      if (current) map[current.id].setAttribute('aria-current', 'true');
     }, { rootMargin: '-45% 0px -50% 0px' });
 
     sections.forEach(function (s) { io.observe(s); });
@@ -137,16 +147,10 @@
     }, { passive: true });
 
     btn.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+      window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
     });
 
     update();
-  }
-
-  /* --- Année courante dans le pied de page -------------------------------- */
-  function initYear() {
-    var el = document.querySelector('[data-year]');
-    if (el) el.textContent = String(new Date().getFullYear());
   }
 
   /* --- Amorçage ----------------------------------------------------------- */
@@ -155,7 +159,6 @@
     initReveal();
     initScrollSpy();
     initToTop();
-    initYear();
   }
 
   if (document.readyState === 'loading') {

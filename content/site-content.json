@@ -2,7 +2,6 @@
   "$schema_note": "Source de vérité unique pour brs-site (page BRS Connect). Génère index.html, sitemap.xml, llms.txt et robots.txt via build/generate.mjs. Ne jamais éditer index.html à la main : toute modification doit passer par ce fichier, sinon elle sera écrasée au prochain build.",
   "meta": {
     "domain": "https://brsconnect.fr",
-    "path": "/",
     "title": "BRS Connect | L'exploitant en production dans votre dossier d'appel d'offres",
     "description": "Répondez aux appels d'offres avec un exploitant IRVE en production désigné dans votre dossier, sous votre nom, avec l'accord de BRS projet par projet. Étude, préconfiguration, supervision, exploitation et support, à la prestation. Réseau adossé à Borne Recharge Service, opérateur depuis 2012.",
     "ogDescription": "L'exploitant en production dans votre dossier d'appel d'offres, sous votre nom. Étude, supervision, exploitation et support, à la prestation, projet par projet.",
@@ -19,10 +18,8 @@
     "email": "contact@brsconnect.fr",
     "phoneDisplay": "+33 1 84 25 26 70",
     "phoneHref": "+33184252670",
-    "hours": "Lun – Ven, 9h00 – 18h30",
     "areaServed": "FR",
     "logo": "assets/logos/brs-logomark-square.png",
-    "logoHorizontal": "assets/logos/brs-logo-horizontal.svg",
     "description": "Réseau partenaire IRVE adossé à Borne Recharge Service. Étude, préconfiguration, supervision, exploitation et support, mobilisables à la prestation par les installateurs IRVE qualifiés.",
     "social": [
       {
@@ -41,7 +38,7 @@
       },
       {
         "label": "La solution",
-        "href": "#solution"
+        "href": "#offre"
       },
       {
         "label": "Parcours",
@@ -54,28 +51,6 @@
       {
         "label": "Bénéfices",
         "href": "#benefices"
-      },
-      {
-        "label": "FAQ",
-        "href": "#faq"
-      }
-    ],
-    "footer": [
-      {
-        "label": "Le problème",
-        "href": "#probleme"
-      },
-      {
-        "label": "La solution",
-        "href": "#solution"
-      },
-      {
-        "label": "Parcours",
-        "href": "#parcours"
-      },
-      {
-        "label": "L'équipe",
-        "href": "#equipe"
       },
       {
         "label": "FAQ",
@@ -132,7 +107,6 @@
       "title": "Ce que vous n'avez pas à construire",
       "cards": [
         {
-          "iconType": "image",
           "icon": "assets/icons/icon-etude.png",
           "image": "assets/images/brs-web-visuals/brs-web-visuals-schema2.webp",
           "imageAlt": "Vérification d'un schéma électrique IRVE sur plan",
@@ -140,7 +114,6 @@
           "text": "Notes de calcul, schémas électriques et dimensionnement, par des équipes qui exploitent des parcs de bornes au quotidien."
         },
         {
-          "iconType": "image",
           "icon": "assets/icons/icon-preparation.png",
           "image": "assets/images/brs-web-visuals/brs-web-visuals-schema7.webp",
           "imageAlt": "Bornes préconfigurées et suivies en préparation",
@@ -148,7 +121,6 @@
           "text": "On prépare vos bornes en amont, pour une mise en service plus fluide sur site."
         },
         {
-          "iconType": "image",
           "icon": "assets/icons/icon-supervision.png",
           "image": "assets/images/brs-web-visuals/brs-web-visuals-schema1.webp",
           "imageAlt": "Bornes en parking, copropriété et site tertiaire reliées à la plateforme de supervision",
@@ -156,7 +128,6 @@
           "text": "Télérelève, suivi de parc et continuité de service, sans construire votre propre plateforme. Et un exploitant en production, désignable dans vos dossiers d'appels d'offres avec l'accord de BRS, projet par projet."
         },
         {
-          "iconType": "image",
           "icon": "assets/icons/icon-exploitation.png",
           "image": "assets/images/brs-web-visuals/brs-web-visuals-schema11.webp",
           "imageAlt": "Suivi client multi-supports : bornes reliées à la plateforme, restitution sur ordinateur et mobile",
@@ -565,5 +536,20 @@
       }
     ],
     "copyrightSuffix": "BRS Connect · Réseau partenaire IRVE adossé à Borne Recharge Service"
+  },
+  "ui": {
+    "skipLink": "Aller au contenu principal",
+    "brandTopSuffix": ", retour en haut",
+    "navPrimaryLabel": "Navigation principale",
+    "navMobileLabel": "Navigation mobile",
+    "menuOpen": "Ouvrir le menu",
+    "menuClose": "Fermer le menu",
+    "tagsLabel": "Repères du réseau",
+    "partnersLabel": "Partenaires et certifications",
+    "certifAlt": "Réseau certifié Qualifelec IRVE",
+    "ancrageLabel": "Ancrage marché",
+    "footerSegmentsTitle": "Segments desservis",
+    "footerContactTitle": "Contact",
+    "toTop": "Retour en haut de page"
   }
 }

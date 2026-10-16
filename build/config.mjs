@@ -15,9 +15,16 @@
 //     sans noindex, canonical sur / ;
 //   - sitemap.xml, robots.txt et llms.txt sont régénérés depuis le contenu.
 //
-// Pour remettre le site en ligne : passer PREVIEW à false, `npm run build`,
-// vérifier, commit + push. Rien d'autre à changer.
+// Pour remettre le site en ligne : voir la checklist « Go-live » du README.
+// Sortir du mode préview est volontairement difficile à faire par erreur :
+//   - PREVIEW = false SANS GO_LIVE=1 fait échouer generate.mjs et validate.mjs ;
+//   - validate.mjs échoue tant que home/ existe ou que sitemap / robots / llms
+//     ne correspondent pas au mode.
+// Commande de bascule : GO_LIVE=1 npm run build
 export const PREVIEW = true;
+
+// Bascule hors préview confirmée explicitement (variable d'environnement, jamais écrite dans un fichier).
+export const GO_LIVE_CONFIRMED = process.env.GO_LIVE === '1';
 
 // Dossier de sortie de la page générée, relatif à la racine du repo.
 export const OUT_DIR = PREVIEW ? 'home' : '.';

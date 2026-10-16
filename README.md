@@ -1,19 +1,28 @@
 # brs-site — pipeline de contenu
 
-> **⚠️ MODE COMING SOON (depuis le 2026-08-24).** La racine (`index.html`)
-> sert une page temporaire écrite à la main (et `index-flat.html` une
-> redirection vers `/`). Rien n'est supprimé : tout le site vit dans
-> `content/site-content.json` + `templates/index.template.html`, et la
+> **⚠️ MODE PRÉVIEW (`PREVIEW = true` dans `build/config.mjs`).** La racine
+> (`index.html`) est une **redirection écrite à la main** (2026-10-15) vers la
+> page opérateur `https://bornerecharge.fr/brs-connect/`, avec UTM, `noindex` ;
+> `index-flat.html` à la racine redirige vers `/` (donc, de fait, une double
+> redirection : conservée telle quelle, noindex). Rien n'est supprimé : tout le
+> site vit dans `content/site-content.json` + `templates/index.template.html`, et la
 > **page d'accueil complète reste éditable et consultable sur `/home/`**
-> (noindex, hors sitemap) : depuis le 2026-08-25, `npm run build` génère
-> `home/index.html` + `home/index-flat.html` et **ne touche jamais à la
-> racine** — l'interrupteur est `PREVIEW` dans `build/config.mjs`.
-> En préview, `sitemap.xml`, `robots.txt` et `llms.txt` sont gelés (le
-> `llms.txt` en ligne est une version minimale sans contenu).
-> **Pour remettre le site complet en ligne :** passer `PREVIEW` à `false`
-> dans `build/config.mjs`, `npm run build` (la page générée reprend la
-> racine, sitemap/robots/llms.txt régénérés), supprimer `home/`, puis
-> commit + push.
+> (noindex) : `npm run build` génère `home/index.html` + `home/index-flat.html`
+> et **ne touche jamais à la racine**. En préview, `sitemap.xml` (vide : aucune
+> URL indexable), `robots.txt` et `llms.txt` (minimal) sont **gelés** : écrits à
+> la main, leurs empreintes sont épinglées dans `tools/site-gele.sha256`
+> (dépôt privé), `generate.mjs` ne les réécrit pas.
+
+### Go-live (sortir du mode préview)
+
+Dans cet ordre, rien d'autre à changer :
+
+1. `PREVIEW = false` dans `build/config.mjs`.
+2. `GO_LIVE=1 npm run build` — sans `GO_LIVE=1`, `generate.mjs` et `validate.mjs` refusent (garde-fou contre une bascule par erreur). La page générée reprend la racine (canonical `/`, sans `noindex`) ; `index-flat.html` racine reçoit `noindex` (c'est un doublon complet de la page) ; `sitemap.xml`, `robots.txt`, `llms.txt` sont régénérés.
+3. **Supprimer `home/`** (page en chantier) : `validate.mjs` échoue tant qu'il existe.
+4. Décider du widget de retour (`meta.feedbackWidget`, Ybug) : `false` avant la mise en production (voir la tâche REV #28 : consentement et mentions légales).
+5. Vérifier : sitemap (la page, daté du dernier commit des sources), llms.txt, robots.txt, redirection de la racine remplacée par la vraie page.
+6. Commit + push ; contrôler brsconnect.fr (noindex absent, canonical `/`).
 
 Ce dossier est le site déployé. Il a une **source de vérité
 unique** pour le contenu, un **template** pour la structure/CSS, et une **chaîne
@@ -28,8 +37,9 @@ au go-live), sa dérivée flat, ni — hors préview — `sitemap.xml`, `llms.tx
 `robots.txt` à la main.** Ces fichiers sont écrasés à chaque build
 (`generate.mjs` pour la page et les trois fichiers racine, `flatten.mjs` pour
 le flat). Toute correction manuelle sera perdue au prochain build. Exception
-du mode préview : `index.html` et `index-flat.html` à la racine (coming soon)
-sont justement maintenus à la main et jamais touchés par le build. Côté design, le canvas Claude
+du mode préview : `index.html` (redirection vers la page opérateur) et `index-flat.html`
+à la racine, ainsi que `sitemap.xml`, `robots.txt` et `llms.txt`, sont justement maintenus à la main
+et jamais touchés par le build. Côté design, le canvas Claude
 Design (« BRS Connect - Design ») est l'éditeur et la source de vérité depuis son
 import du 2026-08-22 : toute évolution visuelle s'y décide d'abord, puis se reporte
 dans `css/tokens.css` et `../brs-design/`. En cas d'écart entre canvas et code,
@@ -47,6 +57,8 @@ n'est en ligne tant que le report dans le code n'est pas fait.
    # = node build/images.mjs && node build/generate.mjs \
    #   && node build/validate.mjs && node build/flatten.mjs
    ```
+   Sans sharp (ou `node_modules` cassé : `rm -rf node_modules && npm ci`), les trois étapes zéro-dépendance
+   se lancent seules : `node build/generate.mjs && node build/validate.mjs && node build/flatten.mjs`.
 4. Si `validate.mjs` échoue, lire le message — il pointe l'erreur exacte (token oublié,
    FAQ désynchronisée, fichier image manquant, contraste sous 4,5:1, etc.).
 5. Prévisualiser : `python3 -m http.server 8000` puis ouvrir
@@ -87,6 +99,10 @@ Dans l'ordre de la page, du haut vers le bas :
 | Ce que tu vois | Clé dans site-content.json |
 |---|---|
 | Onglet navigateur, description Google | `meta.title`, `meta.description` |
+| Aperçu de partage (Open Graph) | `meta.ogDescription`, `meta.ogImage` (dimensions et alt repris du manifest d'images et du visuel de la page), `meta.locale` |
+| Langue, couleur du navigateur, widget de retour | `meta.lang`, `meta.themeColor`, `meta.feedbackWidget` |
+| Domaine (canonical, URLs absolues) | `meta.domain` (le chemin `meta.path` est posé par le build selon `PREVIEW`) |
+| Libellés d'interface (lien d'évitement, menus, aria-label, titres du pied de page, alt du badge) | `ui.*` |
 | Menu du header + bouton « Devenir partenaire » | `nav.primary[]`, `nav.ctaLabel` / `nav.ctaHref` |
 | Hero — badge du haut | `hero.badge` |
 | Hero — grand titre en 2 tons | `hero.titleMain` / `hero.titleEm` |
@@ -95,7 +111,7 @@ Dans l'ordre de la page, du haut vers le bas :
 | Hero — paragraphe d'appui au-dessus de la photo | `hero.visualLede` |
 | Hero — photo + badge Qualifelec rotatif | `hero.image` + `hero.imageAlt`, `hero.certifBadge` (texte tournant, aussi utilisé par le badge d'ancrage) |
 | Hero — marquee des 5 logos partenaires | `hero.partners[]` (image/alt) |
-| 01 Bénéfices — titre + 4 cartes illustrées + 4 chips de repères en bas | `sections.capacites.title`, `.cards[]` (title/text/icon/image/imageAlt), `.tags[]` |
+| 01 Bénéfices — numéro, sourcil, titre + 4 cartes illustrées + 4 chips de repères en bas | `sections.capacites.number`, `.eyebrow`, `.title`, `.cards[]` (title/text/icon/image/imageAlt), `.tags[]` |
 | Bande « Nos partenaires » — badge + phrase d'intro + 5 chips légendés + phrase de clôture | `sections.ancrage.eyebrow`, `.intro`, `.logos[]` (image/alt = légende), `.outro` |
 | 02 Le problème — titre en 2 tons + photo + intro + 4 cartes | `sections.probleme.titleMain` / `.titleEm`, `.image(+Alt)`, `.lede`, `.cards[]` |
 | 03 Le vrai choix (bande navy) — titre + photo encadrée + 2 cartes | `sections.insight.titleMain` / `.titleEm`, `.image(+Alt)`, `.ledes[]`, `.cards[]` |
@@ -105,10 +121,13 @@ Dans l'ordre de la page, du haut vers le bas :
 | 07 Qui sommes-nous — 2 écrans légendés + 3 cartes | `sections.equipe.screens[]` (image/alt/label/detail), `.cards[]` |
 | 08 Références — photo + 4 faits + 8 logos | `sections.references.image(+Alt)`, `.facts[]` (client/detail), `.logos[]` |
 | 09 Bénéfices concrets — 5 cartes + photo en 6e cellule | `sections.benefices.cards[]`, `.image(+Alt)` |
-| 10 FAQ — 7 questions/réponses + schéma sticky | `faq.items[]` (question/answer, item 5 : `image`/`imageAlt`), `faq.image(+Alt)` |
-| CTA final (bande navy pleine largeur, badge centré) | `contact.title`, `.lede`, `.ctaLabel(+Href)`, `.note` |
-| Footer clair — taglines, segments, contact, liens légaux, copyright | `footer.*` (les clés `nav.footer` et `organization.social` ne sont plus rendues) |
-| Coordonnées (partout) | `organization.email`, `.phoneDisplay` / `.phoneHref` |
+| 10 FAQ — numéro, sourcil, titre, 7 questions/réponses + schéma sticky | `faq.number`, `faq.eyebrow`, `faq.titleMain` / `faq.titleEm`, `faq.items[]` (question/answer, item 5 : `image`/`imageAlt`), `faq.image(+Alt)` |
+| CTA final (bande navy pleine largeur, badge centré) | `contact.eyebrow`, `.title`, `.lede`, `.ctaLabel(+Href)`, `.ctaSecondaryLabel(+Href)`, `.note` |
+| Footer clair — taglines, segments, contact, liens légaux, copyright | `footer.*` (taglines, `segments[]`, `contactBlurb`, `legalLinks[]`, `copyrightSuffix`) ; titres des colonnes : `ui.footerSegmentsTitle`, `ui.footerContactTitle` |
+| Coordonnées (partout) | `organization.email`, `.phoneDisplay` (affichage) / `.phoneHref` (lien `tel:` et JSON-LD, format international) |
+| Marque, données structurées | `organization.name`, `.brandSuffix`, `.parentOrganizationName`, `.logo`, `.description`, `.areaServed`, `.social[]` (liens `sameAs` du JSON-LD, pas affichés) |
+
+Chaque section numérotée porte aussi `number` et `eyebrow` ; les clés `*.number` sont du texte (« 01 »).
 
 ## Éditer la structure ou le style visuel
 
@@ -127,6 +146,12 @@ après toute modification du template, régénérer comme ci-dessus.
 1. Ajouter la clé dans `content/site-content.json`.
 2. Référencer `{{le.chemin.vers.la.clé}}` dans `templates/index.template.html`
    (`{{{...}}}` avec triple accolade pour du HTML de confiance, ex. un path SVG).
+   `{{...}}` **échappe** `& < > "` (le contenu est du texte, jamais du HTML) et applique la
+   typographie française (espace insécable avant `: ; ? !`, entre chiffres, avant une unité).
+   Le moteur est **strict** : une clé absente, `null`, un booléen ou un tableau dans un `{{...}}`, ou un
+   `{{#each}}` sur autre chose qu'un tableau, arrête `generate.mjs` avec la liste des problèmes.
+   Seul `{{#if}}` accepte une clé absente (bloc facultatif). Dans un `{{#each}}`, seules les
+   clés de l'élément courant sont visibles.
 3. Pour une liste répétée, utiliser `{{#each chemin.vers.tableau}} ... {{/each}}` ; à
    l'intérieur, `{{champ}}` référence les clés de l'élément courant, `{{this}}` la
    valeur elle-même si c'est un tableau de chaînes simples.
@@ -137,7 +162,7 @@ après toute modification du template, régénérer comme ci-dessus.
 | Fichier | Rôle |
 | --- | --- |
 | `index.html` (ou `home/index.html` en préview) | La page, avec JSON-LD (Organization, WebPage, FAQPage) injecté depuis la même donnée que la FAQ visible. En préview : `noindex`, canonical `/home/`, références locales absolutisées (`/assets/…`, `/js/…`). |
-| `sitemap.xml` | Une URL à ce stade (page unique), `lastmod` horodaté au build. **Gelé en préview.** |
+| `sitemap.xml` | Une URL à ce stade (page unique), `lastmod` = date du dernier commit des sources (BUILD_DATE hors dépôt git). **Gelé en préview.** |
 | `llms.txt` | Digest markdown curaté pour crawlers IA (spec [llmstxt.org](https://llmstxt.org)). **Gelé en préview** (version minimale commitée). |
 | `robots.txt` | Ouvert à tous les crawlers, référence `sitemap.xml`. **Gelé en préview.** |
 
@@ -152,19 +177,23 @@ une référence relative.
 
 ## Ce que génère `images.mjs`
 
-Première étape du pipeline (seule dépendance npm : sharp) — idempotente, ne
-régénère que ce dont la source a changé (`--force` pour tout refaire) :
+Première étape du pipeline (seule dépendance npm : sharp ≥ 0.35.5, Node ≥ 20.9) — idempotente, ne
+régénère que ce dont la source ou les paramètres ont changé (`--force` pour tout refaire ; un
+changement de version de sharp ne régénère rien : comparer avec `--force` puis `git diff --stat assets/`) :
 
 | Sortie | Rôle |
 | --- | --- |
 | `brs-web-visuals-*-640w.webp` (+ `-960w` pour le héros) | Variantes responsives injectées en `srcset` par `generate.mjs`. |
 | Logos partenaires/références en `.webp` redimensionnés | ~2× la taille d'affichage (spie 83 → 6,6 Kio, Qualifelec 46 → 2,3 Kio…). |
 | `assets/logos/brs-logomark-favicon.png` (48 px) | Favicon léger. |
+| `assets/logos/brs-logomark-apple-touch.png` (180 px) | Icône d'écran d'accueil iOS. |
 | `assets/images/image-dimensions.json` | Manifest consommé par `generate.mjs` pour le `srcset` et les `width`/`height` (anti-CLS). |
+| `assets/images/image-build.json` | Registre : hash (sha256) de la source et paramètres de chaque sortie. Une sortie n'est refaite que si son hash ou ses paramètres changent (plus de dépendance aux dates de fichier) ; `node build/verify-images.mjs` le contrôle sans sharp. Réglages : `build/images-config.mjs`. |
 
 ## Ce que vérifie `validate.mjs` (exit 1 si échec)
 
-- Aucun token `{{...}}` non résolu dans les fichiers générés.
+- Aucun token `{{...}}` non résolu dans les fichiers générés (le moteur de `generate.mjs` refuse déjà
+  toute clé manquante : ce contrôle est le second verrou).
 - Une seule balise `<link rel="canonical">`.
 - JSON-LD syntaxiquement valide.
 - FAQ visible === FAQ JSON-LD === `content.faq.items` (comparaison stricte, question par
@@ -177,11 +206,24 @@ régénère que ce dont la source a changé (`--force` pour tout refaire) :
 - `robots.txt` référence bien `sitemap.xml`.
 - Le titre du hero apparaît dans le HTML statique généré (donc visible sans JavaScript,
   donc visible des crawlers).
-- Tout fichier local référencé par `index.html` (`src`, `href`, `srcset`,
-  `ogImage`, logo) existe sur disque — sinon Pages servirait des 404.
+- Tout fichier local référencé par la page (`src`, `href`, `srcset`, `url()` des `<style>` inlinés,
+  `ogImage`, logo) existe sur disque — sinon Pages servirait des 404 ; chaque ancre interne `#x`
+  a son `id="x"`. `flatten.mjs` refait le même contrôle sur le flat (URLs absolues comprises).
+- Le canonical vaut exactement `meta.domain` + chemin de la page ; en préview la racine manuscrite
+  est `noindex`, le sitemap ne liste aucune URL `noindex` ; hors préview : `GO_LIVE=1`, `home/` supprimé,
+  sitemap / robots / llms cohérents, page sans `noindex`.
+- Aucune classe CSS définie sans emploi (réserve explicite : `visually-hidden`), aucune classe du
+  template sans règle.
 - Contraste WCAG 1.4.3 : les paires texte/fond déclarées (encres d'accent,
   CTA, corps de texte) tiennent 4,5:1 — verrou de l'arbitrage deux-bleus du
   2026-08-23 ([ADR-0003](docs/adr/0003-contraste-option-b.md)).
+
+## Tester le build lui-même
+
+`npm run selftest` (`build/selftest.mjs`, zéro dépendance) rejoue le build sur des **copies jetables** altérées
+(clé manquante, `</script>` dans un champ, alt avec guillemets, `url()` fantôme, ancre morte, canonical
+faux, sitemap noindex, bascule go-live…) et vérifie qu'il échoue ou neutralise. `tools/check.sh` (dépôt
+privé) le lance. `npm run verify-images` contrôle sans sharp que les images dérivées sont à jour.
 
 ## Garde-fous
 

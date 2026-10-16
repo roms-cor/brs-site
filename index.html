@@ -4,29 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ============================================================
-     PAGE DE REDIRECTION — écrite à la main le 2026-10-15
-     (remplace la page « Page inaccessible » du 2026-08-24).
-     La racine renvoie vers la page opérateur. Le build ne touche
-     jamais à ce fichier tant que PREVIEW = true (build/config.mjs).
-     Le site complet reste consultable sur /home/ (noindex).
-     UTM : celles reçues sont conservées telles quelles ; sans UTM,
-     on ajoute utm_source=brsconnect.fr, utm_medium=redirect,
-     utm_campaign=racine. GitHub Pages ne permet pas de 301 :
-     redirection côté navigateur (script, repli meta refresh).
-     Pour remettre le site complet en ligne : PREVIEW = false dans
-     build/config.mjs, `npm run build`, puis commit + push.
-     ============================================================ -->
+<!-- Page de redirection vers la page opérateur (UTM reçues conservées, sinon ajoutées).
+     GitHub Pages ne permet pas de 301 : redirection côté navigateur, repli meta refresh. -->
 
+<link rel="icon" type="image/png" href="/assets/logos/brs-logomark-favicon.png">
 <title>Redirection vers BRS Connect</title>
 <meta name="robots" content="noindex">
+<meta property="og:title" content="BRS Connect">
+<meta property="og:type" content="website">
 <noscript><meta http-equiv="refresh" content="0;url=https://bornerecharge.fr/brs-connect/?utm_source=brsconnect.fr&amp;utm_medium=redirect&amp;utm_campaign=racine"></noscript>
 
 <style>
+@font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/Inter-Variable-latin.woff2') format('woff2');}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;}
 body{
-  font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  font-family:Inter,system-ui,sans-serif;
   background:#FFFFFF;
   color:#222222;
   display:flex;

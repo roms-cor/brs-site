@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<script>document.documentElement.classList.add('js');</script>
 
 <title>{{meta.title}}</title>
 <!-- ============================================================
@@ -14,13 +16,20 @@
 <meta name="theme-color" content="{{meta.themeColor}}">
 
 <link rel="icon" type="image/png" href="assets/logos/brs-logomark-favicon.png">
+<link rel="apple-touch-icon" href="assets/logos/brs-logomark-apple-touch.png">
 <link rel="canonical" href="{{meta.domain}}{{meta.path}}">
 
 <meta property="og:type" content="website">
+<meta property="og:url" content="{{meta.domain}}{{meta.path}}">
+<meta property="og:site_name" content="{{organization.name}}">
 <meta property="og:locale" content="{{meta.locale}}">
 <meta property="og:title" content="{{meta.title}}">
 <meta property="og:description" content="{{meta.ogDescription}}">
 <meta property="og:image" content="{{meta.domain}}/{{meta.ogImage}}">
+<meta property="og:image:width" content="{{meta.ogImageWidth}}">
+<meta property="og:image:height" content="{{meta.ogImageHeight}}">
+<meta property="og:image:alt" content="{{meta.ogImageAlt}}">
+<meta name="twitter:card" content="summary_large_image">
 
 <!-- Données structurées (JSON-LD), générées depuis content/site-content.json.
      La FAQPage reprend la MÊME liste (faq.items) que la section #faq
@@ -49,7 +58,6 @@
   html,body{ background:#fff; }
 
   .skip-link,
-  .topbar,
   .site-header,
   .to-top{ display:none !important; }
 
@@ -65,14 +73,11 @@
   .hero-alt__visual{ align-items:flex-end !important; }
   .hero-alt__visual-lede{ display:none !important; }
   .hero-alt__visual img{ max-height:105mm !important; }
-  .hero-alt::before{ display:none; }
 
   .grid-2{ display:grid !important; grid-template-columns:repeat(2,1fr) !important; }
   .grid-3{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; }
-  .grid-4{ display:grid !important; grid-template-columns:repeat(4,1fr) !important; }
   .media-grid{ display:grid !important; grid-template-columns:repeat(2,1fr) !important; }
   .ref-grid{ display:grid !important; grid-template-columns:repeat(4,1fr) !important; }
-  .capability-grid{ display:grid !important; grid-template-columns:repeat(4,1fr) !important; }
   .site-footer__top{ display:grid !important; grid-template-columns:1.4fr .8fr .8fr .9fr !important; }
   .numbered__layout{ display:block !important; }
 
@@ -107,7 +112,7 @@
   .lede{ margin-bottom:0 !important; }
 
   .hero-alt__grid{ gap:8mm !important; }
-  .grid-2, .grid-3, .grid-4{ gap:5mm !important; margin-top:6mm !important; }
+  .grid-2, .grid-3{ gap:5mm !important; margin-top:6mm !important; }
   .tile, .step-tile, .benefit-tile{ padding:6mm !important; }
   .tile__head{ margin-bottom:3mm !important; }
   .icon-badge{ width:30px !important; height:30px !important; margin-bottom:0 !important; }
@@ -126,7 +131,6 @@
   .faq-item__answer{ padding:0 6mm 4mm !important; }
   .faq-list{ gap:3mm !important; margin-top:6mm !important; }
   .step-tile p{ font-size:.78rem !important; }
-  .tag-list{ margin-top:5mm !important; }
 
   /* Import design 2026-08-22 : à l'impression, les boucles et visuels
      d'appoint sortent ; le contenu garde la priorité. */
@@ -144,14 +148,14 @@
 
 <body>
 
-<a class="skip-link" href="#main">Aller au contenu principal</a>
+<a class="skip-link" href="#main">{{ui.skipLink}}</a>
 
 <!-- ====================== EN-TÊTE ====================== -->
 <!-- (topbar supprimée : coordonnées dans le footer et le CTA final) -->
 
 <header class="site-header">
   <div class="wrap site-header__inner">
-    <a class="brand brand--stacked" href="#top" aria-label="{{organization.name}}, retour en haut">
+    <a class="brand brand--stacked" href="#top" aria-label="{{organization.parentOrganizationName}} {{organization.brandSuffix}}{{ui.brandTopSuffix}}">
       <img class="brand__mark" src="assets/logos/brs-logomark-square.webp" alt="" width="40" height="40">
       <span class="brand__label">
         <small>{{organization.parentOrganizationName}}</small>
@@ -159,7 +163,7 @@
       </span>
     </a>
 
-    <nav class="nav" aria-label="Navigation principale" data-spy>
+    <nav class="nav" aria-label="{{ui.navPrimaryLabel}}" data-spy>
       <ul>
         {{#each nav.primary}}<li><a href="{{href}}">{{label}}</a></li>
         {{/each}}
@@ -171,12 +175,12 @@
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
 
-    <button type="button" class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="nav-mobile" aria-label="Ouvrir le menu">
+    <button type="button" class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="nav-mobile" aria-label="{{ui.menuOpen}}" data-label-open="{{ui.menuOpen}}" data-label-close="{{ui.menuClose}}">
       <span class="nav-toggle__bar"></span>
     </button>
   </div>
 
-  <nav class="nav-mobile" id="nav-mobile" data-nav-panel aria-label="Navigation mobile">
+  <nav class="nav-mobile" id="nav-mobile" data-nav-panel aria-label="{{ui.navMobileLabel}}">
     <ul class="wrap">
       {{#each nav.primary}}<li><a href="{{href}}">{{label}}</a></li>
       {{/each}}
@@ -200,11 +204,11 @@
           {{/each}}
         </ul>
         <div class="hero-alt__actions">
-          <a class="btn-pill btn-pill--primary" href="{{hero.ctaPrimaryHref}}" data-cta="hero">
+          <a class="btn-pill btn-pill--primary" href="{{hero.ctaPrimaryHref}}">
             {{hero.ctaPrimary}}
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a class="btn-pill btn-pill--outline-light" href="{{hero.ctaSecondaryHref}}" data-cta="hero-secondary">
+          <a class="btn-pill btn-pill--outline-light" href="{{hero.ctaSecondaryHref}}">
             {{hero.ctaSecondary}}
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -219,7 +223,7 @@
               <defs><path id="certif-circle-hero" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
               <text><textPath href="#certif-circle-hero">{{hero.certifBadge}} • {{hero.certifBadge}} •</textPath></text>
             </svg>
-            <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="Réseau certifié Qualifelec IRVE" loading="eager"></span>
+            <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="{{ui.certifAlt}}" loading="eager"></span>
           </div>
         </div>
       </div>
@@ -228,14 +232,20 @@
     <!-- Marquee partenaires — une des deux seules boucles du site (exception
          assumée, cf. DESIGN-GUIDE) ; coupée sous prefers-reduced-motion. -->
     <div class="wrap">
-      <div class="partner-marquee" aria-label="Partenaires et certifications">
+      <div class="partner-marquee" role="group" aria-label="{{ui.partnersLabel}}">
         <div class="partner-marquee__track">
+          <!-- Chaque liste répète les logos (clones aria-hidden) pour dépasser la largeur du conteneur :
+               la piste, décalée de -50 %, ne laisse jamais de vide à droite. -->
           <ul class="partner-marquee__list">
             {{#each hero.partners}}<li class="partner-chip"><img src="{{image}}" alt="{{alt}}" loading="lazy"></li>
+            {{/each}}
+            {{#each hero.partners}}<li class="partner-chip partner-chip--clone" aria-hidden="true"><img src="{{image}}" alt="" loading="lazy"></li>
             {{/each}}
           </ul>
           <ul class="partner-marquee__list" aria-hidden="true">
             {{#each hero.partners}}<li class="partner-chip"><img src="{{image}}" alt="" loading="lazy"></li>
+            {{/each}}
+            {{#each hero.partners}}<li class="partner-chip partner-chip--clone"><img src="{{image}}" alt="" loading="lazy"></li>
             {{/each}}
           </ul>
         </div>
@@ -252,10 +262,10 @@
         <h2 id="capacites-title">{{sections.capacites.title}}</h2>
 
       <div class="grid-2" data-reveal>
-        {{#each sections.capacites.cards}}<article class="tile tile--surface tile--media">
+        {{#each sections.capacites.cards}}<article class="tile tile--surface">
           <img class="tile__visual" src="{{image}}" alt="{{imageAlt}}" width="1200" height="896" loading="lazy">
           <div class="tile__head">
-            <img class="tile__icon" src="{{icon}}" alt="" aria-hidden="true" width="44" height="44">
+            <img class="tile__icon" src="{{icon}}" alt="" aria-hidden="true" width="44" height="44" loading="lazy">
             <h3>{{title}}</h3>
           </div>
           <p>{{text}}</p>
@@ -264,7 +274,7 @@
       </div>
 
       <!-- Chips de repères, en clôture de section (canvas) -->
-      <ul class="tag-grid" aria-label="Repères du réseau">
+      <ul class="tag-grid" aria-label="{{ui.tagsLabel}}">
         {{#each sections.capacites.tags}}<li>{{this}}</li>
         {{/each}}
       </ul>
@@ -275,7 +285,7 @@
 
 
   <!-- ====================== ANCRAGE MARCHÉ (strip, non numérotée) ====================== -->
-  <section class="section section--tight section--muted" id="ancrage" aria-label="Ancrage marché">
+  <section class="section section--tight section--muted" id="ancrage" aria-label="{{ui.ancrageLabel}}">
     <div class="wrap">
       <div class="ancrage-head">
         <span class="eyebrow">{{sections.ancrage.eyebrow}}</span>
@@ -284,7 +294,7 @@
             <defs><path id="certif-circle-ancrage" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
             <text><textPath href="#certif-circle-ancrage">{{hero.certifBadge}} • {{hero.certifBadge}} •</textPath></text>
           </svg>
-          <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="Réseau certifié Qualifelec IRVE" loading="lazy"></span>
+          <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="{{ui.certifAlt}}" loading="lazy"></span>
         </div>
       </div>
       <p class="ancrage-note">{{sections.ancrage.intro}}</p>
@@ -508,7 +518,7 @@
         </div>
 
         <div class="ref-grid" data-reveal>
-            {{#each sections.references.logos}}<div class="ref-chip"><img src="{{image}}" alt="{{alt}}"></div>
+            {{#each sections.references.logos}}<div class="ref-chip"><img src="{{image}}" alt="{{alt}}" loading="lazy"></div>
             {{/each}}
         </div>
       </div>
@@ -572,17 +582,17 @@
           <defs><path id="certif-circle-cta" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
           <text><textPath href="#certif-circle-cta">{{hero.certifBadge}} • {{hero.certifBadge}} •</textPath></text>
         </svg>
-        <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="Réseau certifié Qualifelec IRVE" loading="lazy"></span>
+        <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="{{ui.certifAlt}}" loading="lazy"></span>
       </div>
       <span class="eyebrow">{{contact.eyebrow}}</span>
       <h2 id="contact-title">{{contact.title}}</h2>
       <p class="lede">{{contact.lede}}</p>
       <div class="cta-band__actions">
-        <a class="btn-pill btn-pill--white" href="{{contact.ctaHref}}" data-cta="final">
+        <a class="btn-pill btn-pill--white" href="{{contact.ctaHref}}">
           {{contact.ctaLabel}}
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a class="btn-pill btn-pill--outline-light" href="{{contact.ctaSecondaryHref}}" data-cta="final-secondary">
+        <a class="btn-pill btn-pill--outline-light" href="{{contact.ctaSecondaryHref}}">
           {{contact.ctaSecondaryLabel}}
         </a>
       </div>
@@ -610,7 +620,7 @@
       </div>
 
       <div>
-        <h3>Segments desservis</h3>
+        <h2>{{ui.footerSegmentsTitle}}</h2>
         <ul>
           {{#each footer.segments}}<li>{{this}}</li>
           {{/each}}
@@ -618,7 +628,7 @@
       </div>
 
       <div>
-        <h3>Contact</h3>
+        <h2>{{ui.footerContactTitle}}</h2>
         <p class="site-footer__blurb">{{footer.contactBlurb}}</p>
         <ul>
           <li><a href="tel:{{organization.phoneHref}}">{{organization.phoneDisplay}}</a></li>
@@ -637,7 +647,7 @@
   </div>
 </footer>
 
-<button type="button" class="to-top" data-to-top aria-label="Retour en haut de page">
+<button type="button" class="to-top" data-to-top aria-label="{{ui.toTop}}">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
 

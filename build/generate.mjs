@@ -10,7 +10,12 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { PREVIEW, PAGE_PATH, HTML_FILE } from './config.mjs';
+import { PREVIEW, GO_LIVE_CONFIRMED, PAGE_PATH, HTML_FILE } from './config.mjs';
+
+if (!PREVIEW && !GO_LIVE_CONFIRMED) {
+  console.error('generate.mjs : PREVIEW = false (build/config.mjs) sans GO_LIVE=1 — abandon. La page indexable et la racine ne sont écrites que si la bascule est confirmée : GO_LIVE=1 npm run build.');
+  process.exit(1);
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
@@ -21,6 +26,21 @@ const template = readFileSync(path.join(ROOT, 'templates/index.template.html'), 
 // En préview, la page vit sur /home/ : le canonical et le JSON-LD suivent
 // l'URL réellement servie. content/site-content.json reste inchangé.
 content.meta = { ...content.meta, path: PAGE_PATH };
+
+// Dimensions et texte alternatif de l'image Open Graph : lus dans le manifest d'images et dans le contenu
+// (le visuel est déjà dans la page avec son alt) — aucun texte nouveau.
+{
+  const dims = JSON.parse(readFileSync(path.join(ROOT, 'assets/images/image-dimensions.json'), 'utf8'))[content.meta.ogImage];
+  if (!dims) { console.error(`generate.mjs : ${content.meta.ogImage} absent de assets/images/image-dimensions.json — abandon.`); process.exit(1); }
+  const holder = (function find(o) {
+    if (o && typeof o === 'object') {
+      if (o.image === content.meta.ogImage && typeof o.imageAlt === 'string') return o;
+      for (const v of Object.values(o)) { const r = find(v); if (r) return r; }
+    }
+    return null;
+  })(content);
+  content.meta = { ...content.meta, ogImageWidth: dims.w, ogImageHeight: dims.h, ogImageAlt: holder ? holder.imageAlt : content.meta.title };
+}
 
 // Date de dernière modification du site (lastmod, llms.txt) : aucune horloge, pour que deux
 // builds du même contenu donnent les mêmes fichiers. Elle vient du dernier commit qui touche
@@ -42,38 +62,76 @@ function contentDate() {
 // ---------------------------------------------------------------------------
 // Moteur de templating minimal : {{path.to.value}}, {{{raw.html}}},
 // {{#each path}}...{{/each}}, {{#if path}}...{{/if}}. Pas de dépendance.
+//
+// Contrat (le build s'arrête avec la liste complète des problèmes) :
+//  - {{path}} et {{{path}}} exigent une chaîne ou un nombre (chaîne vide permise : un alt décoratif) ;
+//    clé absente, null, booléen, objet ou tableau = erreur, jamais un trou silencieux ;
+//  - {{path}} est ÉCHAPPÉ (& < > ") : le contenu est du texte, pas du HTML ; {{{path}}} est brut
+//    (HTML de confiance, ex. les tracés SVG d'icône) ;
+//  - {{#each path}} exige un tableau (vide permis) ;
+//  - {{#if path}} accepte une clé absente (c'est son rôle : bloc facultatif) ;
+//  - à l'intérieur d'un {{#each}}, seules les clés de l'élément courant sont visibles.
 // ---------------------------------------------------------------------------
+const problems = [];
+
 function get(obj, keyPath) {
   return keyPath.split('.').reduce((o, k) => (o && o[k] !== undefined ? o[k] : undefined), obj);
 }
 
-function render(str, ctx) {
+// Typographie française à la génération (le JSON reste en texte simple) : espace insécable avant : ; ! ? », après «,
+// entre les groupes de chiffres (« 7 à 22 kW », « +33 1 84 25 26 70 ») et avant une unité. Jamais dans les URL ni les
+// identifiants (clés listées dans NO_TYPO) ni dans {{{raw}}}.
+const NBSP = '\u00a0';
+const NO_TYPO = /(?:Href|href|image|icon|domain|path|email|locale|lang|themeColor|ogImage|ogImageWidth|ogImageHeight)$/;
+function typo(s) {
+  return s
+    .replace(/ ([:;!?»])/g, `${NBSP}$1`)
+    .replace(/« /g, `«${NBSP}`)
+    .replace(/(\d) (?=\d)/g, `$1${NBSP}`)
+    .replace(/(\d) (kW|kVA|kWh|V|A|%|€|h|min|km|m|ans)\b/g, `$1${NBSP}$2`)
+    .replace(/\bn° (?=\d)/g, `n°${NBSP}`);
+}
+
+function escapeHtml(v) {
+  return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// Valeur d'un token de sortie, ou undefined (et un problème enregistré) si elle n'est pas affichable.
+function outputValue(ctx, keyPath, token, scope) {
+  const val = keyPath === 'this' ? ctx.this : get(ctx, keyPath);
+  if (typeof val === 'string' || typeof val === 'number') return String(val);
+  const why = val === undefined ? 'clé absente' : val === null ? 'valeur null' : Array.isArray(val) ? 'tableau' : `type ${typeof val}`;
+  problems.push(`${token} : ${why}${scope ? ` (dans ${scope})` : ''}`);
+  return undefined;
+}
+
+function render(str, ctx, scope = '') {
   // 1. blocs {{#each path}}...{{/each}} (non imbriqués dans ce template)
   str = str.replace(/{{#each ([\w.]+)}}([\s\S]*?){{\/each}}/g, (_m, keyPath, inner) => {
     const arr = get(ctx, keyPath);
-    if (!Array.isArray(arr)) return '';
+    if (!Array.isArray(arr)) {
+      problems.push(`{{#each ${keyPath}}} : ${arr === undefined ? 'clé absente' : 'ce n\'est pas un tableau'}${scope ? ` (dans ${scope})` : ''}`);
+      return '';
+    }
     return arr
-      .map((item) => {
+      .map((item, i) => {
         const itemCtx = item && typeof item === 'object' ? { ...item } : { this: item };
-        return render(inner, itemCtx);
+        return render(inner, itemCtx, `${keyPath}[${i}]`);
       })
       .join('');
   });
   // 2. blocs {{#if path}}...{{/if}}
   str = str.replace(/{{#if ([\w.]+)}}([\s\S]*?){{\/if}}/g, (_m, keyPath, inner) => {
     const val = get(ctx, keyPath);
-    return val ? render(inner, ctx) : '';
+    return val ? render(inner, ctx, scope) : '';
   });
   // 3. sortie brute {{{path}}} (HTML de confiance, ex. SVG paths)
-  str = str.replace(/{{{([\w.]+)}}}/g, (_m, keyPath) => {
-    const val = get(ctx, keyPath);
-    return val !== undefined ? String(val) : '';
-  });
-  // 4. sortie scalaire {{path}} (inclut {{this}})
+  str = str.replace(/{{{([\w.]+)}}}/g, (_m, keyPath) => outputValue(ctx, keyPath, `{{{${keyPath}}}}`, scope) ?? '');
+  // 4. sortie scalaire échappée {{path}} (inclut {{this}})
   str = str.replace(/{{([\w.@]+)}}/g, (_m, keyPath) => {
-    if (keyPath === 'this') return ctx.this !== undefined ? String(ctx.this) : '';
-    const val = get(ctx, keyPath);
-    return val !== undefined ? String(val) : '';
+    const v = outputValue(ctx, keyPath, `{{${keyPath}}}`, scope);
+    if (v === undefined) return '';
+    return escapeHtml(NO_TYPO.test(keyPath) ? v : typo(v));
   });
   return str;
 }
@@ -92,7 +150,8 @@ function buildJsonLd(c) {
       url: `${c.meta.domain}/`,
       logo: `${c.meta.domain}/${c.organization.logo}`,
       email: c.organization.email,
-      telephone: c.organization.phoneDisplay,
+      telephone: c.organization.phoneHref,   // format international E.164 (+33…), pas l'affichage
+      ...(c.organization.social?.length ? { sameAs: c.organization.social.map((x) => x.href) } : {}),
       areaServed: c.organization.areaServed,
       description: c.organization.description,
       parentOrganization: {
@@ -106,7 +165,7 @@ function buildJsonLd(c) {
       url: pageUrl,
       name: c.meta.title,
       description: c.meta.description,
-      inLanguage: 'fr-FR',
+      inLanguage: c.meta.locale.replace('_', '-'),
       about: { '@id': `${c.meta.domain}/#organization` },
       isPartOf: {
         '@type': 'WebSite',
@@ -127,7 +186,10 @@ function buildJsonLd(c) {
       })),
     },
   ];
-  const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  // « < > & » et les séparateurs de ligne Unicode échappés : un contenu comme « </script><script>… » ne peut pas fermer le bloc.
+  const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
+    .replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
   return `<script type="application/ld+json">\n${json}\n</script>`;
 }
 
@@ -145,7 +207,8 @@ const DIMENSIONS = JSON.parse(
 const VISUAL_SIZES = '(min-width: 720px) 566px, 92vw';
 
 function postProcessImages(html) {
-  return html.replace(/<img\b[^>]*>/g, (tag) => {
+  // Une balise <img> se termine au premier « > » HORS des valeurs d'attribut entre guillemets.
+  return html.replace(/<img\b(?:"[^"]*"|'[^']*'|[^>"'])*>/g, (tag) => {
     const srcMatch = tag.match(/src="(assets\/[^"]+)"/);
     if (!srcMatch) return tag;
     const src = srcMatch[1];
@@ -179,13 +242,17 @@ function postProcessImages(html) {
 const CSS_FILES = ['css/tokens.css', 'css/base.css', 'css/main.css'];
 
 function minifyCss(css) {
-  return css
-    .replace(/\/\*[\s\S]*?\*\//g, '')   // commentaires
+  // Les chaînes entre guillemets sont mises à l'abri : leurs espaces ne sont pas du blanc de mise en forme.
+  const strings = [];
+  css = css.replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, (m) => { strings.push(m); return `\u0000${strings.length - 1}\u0000`; });
+  css = css
     .replace(/\s+/g, ' ')               // espaces/retours multiples → un espace
     .replace(/\s*([{}>;,])\s*/g, '$1')  // espaces autour de la ponctuation sûre
     .replace(/:\s+/g, ':')              // espace APRÈS les deux-points seulement
     .replace(/;}/g, '}')                //  (l'espace avant reste : « .a :hover »
     .trim();                            //   est un sélecteur descendant valide)
+  return css.replace(/\u0000(\d+)\u0000/g, (_m, i) => strings[Number(i)]);
 }
 
 function inlineCss(html) {
@@ -211,6 +278,11 @@ function inlineCss(html) {
 // ---------------------------------------------------------------------------
 const ctx = { ...content };
 let html = render(template, ctx);
+if (problems.length) {
+  console.error(`generate.mjs : ${problems.length} problème(s) de contenu ou de template, rien n'est écrit :`);
+  for (const p of [...new Set(problems)]) console.error(`  - ${p}`);
+  process.exit(1);
+}
 html = html.replace('<!--JSONLD-->', buildJsonLd(content));
 html = postProcessImages(html);
 html = inlineCss(html);
@@ -239,8 +311,10 @@ writeFileSync(path.join(ROOT, HTML_FILE), html, 'utf8');
 
 // ---------------------------------------------------------------------------
 // sitemap.xml, llms.txt, robots.txt — GELÉS en préview (voir build/config.mjs) :
-// les versions minimales commitées restent en ligne, rien du contenu ne fuite
-// avant le go-live.
+// les versions minimales commitées restent en ligne. Attention : cela ne cache
+// pas le contenu, GitHub Pages servant toute la racine du dépôt (content/,
+// templates/, build/, docs/ restent lisibles à leur URL) — exposition assumée
+// ou non : voir docs/adr/0004-mode-previsualisation-et-exposition.md.
 // ---------------------------------------------------------------------------
 if (PREVIEW) {
   console.log(`Build OK (mode préview — voir build/config.mjs) :`);
@@ -271,10 +345,6 @@ writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap, 'utf8');
 // nul, adoption non confirmée par les moteurs IA à ce jour — on le garde
 // sans surinvestir dessus (cf. references/geo-playbook.md).
 // ---------------------------------------------------------------------------
-function toMarkdownParagraphs(strs) {
-  return strs.map((s) => s).join('\n\n');
-}
-
 const sectionOrder = [
   'capacites',
   'probleme',
@@ -332,7 +402,7 @@ for (const key of sectionOrder) {
   const title = s.title || [s.titleMain, s.titleEm].filter(Boolean).join(' ');
   llms += `## ${title}\n\n`;
   if (s.lede) llms += `${s.lede}\n\n`;
-  if (Array.isArray(s.ledes)) llms += `${toMarkdownParagraphs(s.ledes)}\n\n`;
+  if (Array.isArray(s.ledes)) llms += `${s.ledes.join('\n\n')}\n\n`;
   const items = s.cards || s.steps || [];
   for (const item of items) {
     if (item.title && item.text) {
@@ -366,7 +436,7 @@ llms += `## Contact\n\n${content.organization.name}, réseau partenaire adossé 
 llms += `## Ressources\n\n`;
 llms += `- [Page complète](${content.meta.domain}/)\n`;
 llms += `- [Plan du site](${content.meta.domain}/sitemap.xml)\n`;
-llms += `- [Borne Recharge Service](https://bornerecharge.fr/) : opérateur IRVE auquel le réseau est adossé.\n`;
+llms += `- [${content.organization.parentOrganizationName}](https://bornerecharge.fr/) : opérateur IRVE auquel le réseau est adossé.\n`;
 
 writeFileSync(path.join(ROOT, 'llms.txt'), llms, 'utf8');
 

@@ -33,7 +33,7 @@
 /* --- Reset ---------------------------------------------------------------- */
 *,*::before,*::after{ box-sizing:border-box; }
 
-html{ scroll-behavior:smooth; scroll-padding-top:calc(var(--header-h) + var(--space-md)); }
+html{ color-scheme:light; scroll-behavior:smooth; scroll-padding-top:calc(var(--header-h) + var(--space-md)); }
 
 body{
   margin:0;
@@ -133,7 +133,7 @@ code{ font-family:var(--font-mono); font-size:.92em; }
              color var(--transition);
 }
 .btn-pill svg{ width:16px; height:16px; flex:none; }
-.btn-pill--sm{ min-height:40px; padding:8px 16px; }
+.btn-pill--sm{ min-height:44px; padding:8px 16px; }
 
 .btn-pill--primary{
   color:var(--primary-fill-foreground);
@@ -150,14 +150,6 @@ code{ font-family:var(--font-mono); font-size:.92em; }
   background:var(--primary-fill-pressed);
   border-color:var(--primary-fill-pressed);
 }
-
-.btn-pill--ghost{
-  color:var(--foreground);
-  background:transparent;
-  border:1px solid var(--border-subtle);
-  box-shadow:var(--shadow-subtle);
-}
-.btn-pill--ghost:hover{ color:var(--foreground); background:var(--muted); }
 
 /* Variantes posées sur les bandes sombres */
 .btn-pill--white{ color:var(--foreground); background:var(--background); border-color:var(--background); }

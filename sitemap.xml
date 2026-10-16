@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Aucune URL indexable pour l'instant : la racine redirige (noindex) et /home/ est noindex. Régénéré au go-live. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://brsconnect.fr/</loc>
-    <lastmod>2026-08-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
 </urlset>
