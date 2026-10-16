@@ -9,8 +9,8 @@ Référence design permanente du site. Source de vérité des valeurs : `css/tok
 > du **2026-08-23** ([ADR-0003](../adr/0003-contraste-option-b.md)) l'amende
 > en logique **deux bleus** : ciel décoratif, encres conformes pour tout
 > usage textuel — verrouillé par le contrôle contraste de `validate.mjs`.
-> Ce guide fait foi côté code tant que le canvas n'a pas repris ces teintes
-> (voir « À reporter dans le canvas » en fin de guide).
+> Le canvas a repris ces teintes (confirmé par Romain le 2026-10-16) ; les
+> écarts restants sont listés en fin de guide (« À reporter dans le canvas »).
 
 ## Le look en une ligne
 
@@ -43,7 +43,7 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 - **Fonds plats uniquement.** Zéro gradient, zéro texture, zéro pattern. Le texte ne se pose jamais sur une photo.
 - Signature du système : hairline `1px solid #D9D9D9` sur chaque carte, tuile, chip, étape, colonne ; `border-block` entre sections blanches consécutives. Sur navy : `rgba(255,255,255,.22)` (bordures de cartes `.16`).
 - **Cartes carrées** — radius 0, non négociable. 6px : boutons, inputs, badges d'icône, toggle nav, retour-haut. 4px : focus rings. 999px : le point de statut 8px seul. **Exception images** : photos, screenshots, schémas → `--radius-image` 20px.
-- Ombres : deux dans tout le système — `0 1px 2px rgba(0,0,0,.05)` (badge Qualifelec ; le bouton ghost, jamais employé, a été retiré) et `--shadow-deep` pour le visuel hero. Rien d'autre. **Constat du 2026-10-16** : `--shadow-deep` n'est pas rendue (`drop-shadow()` refuse le rayon d'étalement négatif) ; la corriger ou la retirer du système est un arbitrage de canvas (REV #32). La profondeur vient des bordures et des bandes.
+- Ombres : une seule dans tout le système — `0 1px 2px rgba(0,0,0,.05)` (badge Qualifelec ; le bouton ghost, jamais employé, a été retiré). Rien d'autre. `--shadow-deep` (visuel du hero), qui n'a jamais été rendue (`drop-shadow()` refuse le rayon d'étalement négatif), est retirée du système (décision de Romain, 2026-10-16, REV #32) ; le canvas est à aligner. La profondeur vient des bordures et des bandes.
 
 ## Cartes et états
 
@@ -60,7 +60,7 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 ## Imagerie
 
 - Froide et dominante bleue : schémas isométriques navy/ciel, screenshots du portail de supervision, photos de bornes en parkings et copropriétés. Pas de filtre chaud, pas de grain, pas de N&B, pas de personnes qui posent.
-- Toute image porte `--radius-image` 20px. **Écarts constatés le 2026-10-16, à arbitrer dans le canvas (REV #32)** : cinq images restent à 6px (hero, deux visuels d'en-tête de section, deux visuels de bénéfices) ; les mats `.media-frame` et `.team-visual` sont à 32px (20px + 12px). Le fondu `mask-image` du marquee est retiré (décision de Romain, 2026-10-16, REV #15 : aucun gradient, bords nets) ; le canvas est à aligner. Traitement `.team-visual` : mat `--muted`, padding 12px, hairline, légende (icône service 44px + une phrase). Grilles média : images arrondies sans bordure, légende label + détail dessous.
+- Toute image porte `--radius-image` 20px, sans exception (décision de Romain, 2026-10-16, REV #32 : le hero, les visuels d'en-tête de section et ceux des bénéfices passent de 6px à 20px ; le canvas est à aligner). Les mats `.media-frame` et `.team-visual` sont à 32px : rayon concentrique (20px de l'image + 12px de marge), la règle étant que le rayon extérieur égale le rayon intérieur plus la marge. Le fondu `mask-image` du marquee est retiré (décision de Romain, 2026-10-16, REV #15 : aucun gradient, bords nets) ; le canvas est à aligner. Traitement `.team-visual` : mat `--muted`, padding 12px, hairline, légende (icône service 44px + une phrase). Grilles média : images arrondies sans bordure, légende label + détail dessous.
 - Logos références/partenaires : couleurs d'origine, max 30px de haut, boîte sans cadre, jamais en niveaux de gris, jamais de hover.
 
 ## Iconographie
@@ -85,17 +85,14 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 
 ## À reporter dans le canvas « BRS Connect - Design »
 
-Le canvas n'a pas encore repris l'arbitrage deux-bleus du 2026-08-23
-(ADR-0003). Quatre substitutions, à appliquer dans l'app Claude Design —
-tout le reste (ciel décoratif, navy, layout) est inchangé :
+Le canvas a repris l'arbitrage deux-bleus du 2026-08-23 (ADR-0003), confirmé par
+Romain le 2026-10-16. Restent à aligner dans l'app Claude Design les décisions
+du 2026-10-16, prises côté code pour appliquer les règles de ce guide :
 
-1. Boutons primaires : fond `#36A9E1` → `#1A7DAD` (hover `#17739F`,
-   press `#1C5875`), label blanc inchangé.
-2. Sourcils (eyebrows), tiret `—` des numéros, labels de liste
-   (rôles, références) sur fonds blancs/`#F5F5F5` : `#36A9E1` → `#17739F`.
-3. Clauses teintées `.em` des titres sur fonds clairs : `#36A9E1` → `#17739F`.
-4. Ces mêmes accents sur les bandes navy (hero, insight, CTA, colonne rôles
-   pleine) : `#36A9E1` → `#4FB5E8`.
+1. Marquee partenaires : fondu `mask-image` retiré, bords nets (aucun gradient, REV #15).
+2. Visuel du hero : ombre `--shadow-deep` retirée, elle n'a jamais été rendue (REV #32).
+3. Images : le hero, les visuels d'en-tête de section et ceux des bénéfices passent
+   de 6px à `--radius-image` 20px (REV #32).
 
 Une fois le canvas aligné, supprimer cette section : le canvas redevient
 seul juge du visuel, code et canvas de nouveau synchrones.

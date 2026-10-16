@@ -41,6 +41,6 @@ repasse sous 4,5:1 — l'arbitrage est verrouillé dans le pipeline.
 - Accessibilité Lighthouse : 96 → 100 (audit contraste vert).
 - Écart visuel limité aux teintes textuelles ; l'identité ciel est préservée
   sur le décoratif (vérifié par captures avant/après).
-- **À reporter dans le canvas « BRS Connect - Design » et `../brs-design/`**
-  pour que le canvas reste source de vérité ; d'ici ce report, le commentaire
-  de `tokens.css` et le présent ADR font foi sur l'écart canvas/code.
+- **Reporté dans le canvas « BRS Connect - Design » (confirmé par Romain le
+  2026-10-16) et dans `../brs-design/`** : canvas, miroir et code sont alignés
+  sur les deux bleus.

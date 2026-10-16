@@ -36,7 +36,7 @@
 }
 @media (min-width:900px){ .section-head--split{ grid-template-columns:1fr 1fr; } }
 .section-head--stretch{ align-items:stretch; }
-.section-head__visual{ width:100%; border-radius:var(--radius-md); }
+.section-head__visual{ width:100%; border-radius:var(--radius-image); }
 
 /* Cadre translucide de la bande insight : mat sombre, image en couverture. */
 .media-frame{
@@ -268,8 +268,7 @@
 .hero-alt__visual-lede{ margin:0; }
 .hero-alt__visual img{
   position:relative; max-height:440px; width:auto;
-  border-radius:var(--radius-md);
-  filter:drop-shadow(var(--shadow-deep));
+  border-radius:var(--radius-image);
 }
 
 /* Ancre du badge Qualifelec : le badge se cale sur l'image, pas la colonne */
@@ -662,13 +661,13 @@
 .benefit-tile h3{ margin-top:var(--space-md); font-size:var(--step-h3); }
 .benefit-tile p{ font-size:var(--step-sm); line-height:var(--leading-compact); margin:0; }
 
-/* Sixième cellule de la grille : visuel plein, sans carte (radius 6 canvas). */
+/* Sixième cellule de la grille : visuel plein, sans carte (image : --radius-image). */
 .benefit-media{
-  overflow:hidden; border-radius:var(--radius-md);
+  overflow:hidden; border-radius:var(--radius-image);
 }
 .benefit-media img{
   width:100%; height:100%; min-height:220px; object-fit:cover;
-  border-radius:var(--radius-md);
+  border-radius:var(--radius-image);
 }
 
 
