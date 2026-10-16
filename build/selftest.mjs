@@ -84,6 +84,14 @@ scenario('« Quoi ? » et « 7 à 22 kW » reçoivent des espaces insécables, v
   ko(lire(d, 'home/index.html').includes('Quoi\u00a0? Oui\u00a0: 7 à 22\u00a0kW'), 'espaces insécables absents');
   const v = node(d, 'validate.mjs'); ko(v.ok, 'validate : ' + v.out.slice(0, 200));
 });
+scenario('l\'apostrophe entre deux lettres devient courbe dans le texte visible, jamais dans une URL, et validate reste vert', (d) => {
+  contenu(d, (c) => { c.faq.items[0].question = "Qu'est-ce que l'exploitant ?"; c.nav.ctaHref = "mailto:a@example.org?subject=l'essai"; });
+  ko(node(d, 'generate.mjs').ok, 'generate');
+  const h = lire(d, 'home/index.html');
+  ko(h.includes('Qu’est-ce que l’exploitant'), 'apostrophes courbes absentes du texte visible');
+  ko(h.includes("subject=l'essai"), "l'URL ne doit pas être typographiée");
+  const v = node(d, 'validate.mjs'); ko(v.ok, 'validate : ' + v.out.slice(0, 200));
+});
 scenario('l\'URL d\'un lien n\'est jamais « typographiée »', (d) => {
   contenu(d, (c) => { c.nav.ctaHref = 'mailto:a@example.org?subject=Devenir partenaire : test'; });
   ko(node(d, 'generate.mjs').ok, 'generate'); ko(!lire(d, 'home/index.html').match(/href="mailto:[^"]*\u00a0/), 'NBSP dans une URL');

@@ -79,7 +79,7 @@ function get(obj, keyPath) {
 }
 
 // Typographie française à la génération (le JSON reste en texte simple) : espace insécable avant : ; ! ? », après «,
-// entre les groupes de chiffres (« 7 à 22 kW », « +33 1 84 25 26 70 ») et avant une unité. Jamais dans les URL ni les
+// entre les groupes de chiffres (« 7 à 22 kW », « +33 1 84 25 26 70 »), avant une unité, et apostrophe courbe entre deux lettres. Jamais dans les URL ni les
 // identifiants (clés listées dans NO_TYPO) ni dans {{{raw}}}.
 const NBSP = '\u00a0';
 const NO_TYPO = /(?:Href|href|image|icon|domain|path|email|locale|lang|themeColor|ogImage|ogImageWidth|ogImageHeight)$/;
@@ -89,7 +89,8 @@ function typo(s) {
     .replace(/« /g, `«${NBSP}`)
     .replace(/(\d) (?=\d)/g, `$1${NBSP}`)
     .replace(/(\d) (kW|kVA|kWh|V|A|%|€|h|min|km|m|ans)\b/g, `$1${NBSP}$2`)
-    .replace(/\bn° (?=\d)/g, `n°${NBSP}`);
+    .replace(/\bn° (?=\d)/g, `n°${NBSP}`)
+    .replace(/(\p{L})'(?=\p{L})/gu, '$1’'); // apostrophe typographique entre deux lettres (l'exploitant, d'appel)
 }
 
 function escapeHtml(v) {

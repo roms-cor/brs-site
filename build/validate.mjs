@@ -26,9 +26,9 @@ function req(file) {
 }
 
 const html = req(HTML_FILE);
-// Texte « visible » du HTML pour comparer au contenu source : entités décodées, espaces insécables (typographie
+// Texte « visible » du HTML pour comparer au contenu source : entités décodées, espaces insécables et apostrophes courbes (typographie
 // française ajoutée à la génération) ramenés à l'espace simple.
-const plain = (h) => h.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/\u00a0/g, ' ');
+const plain = (h) => h.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/\u00a0/g, ' ').replace(/\u2019/g, "'");
 const visible = plain(html);
 const sitemap = req('sitemap.xml');
 const llms = req('llms.txt');
