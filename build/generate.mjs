@@ -7,6 +7,7 @@
 // Ne jamais éditer la page générée à la main — elle est écrasée à chaque build.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { PREVIEW, PAGE_PATH, HTML_FILE } from './config.mjs';
@@ -21,10 +22,22 @@ const template = readFileSync(path.join(ROOT, 'templates/index.template.html'), 
 // l'URL réellement servie. content/site-content.json reste inchangé.
 content.meta = { ...content.meta, path: PAGE_PATH };
 
-const now = new Date();
-const buildYear = String(now.getFullYear());
-const buildDate = now.toISOString().slice(0, 10);
-const buildTimestamp = `${now.toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris', day: '2-digit', month: '2-digit', year: 'numeric' })} à ${now.toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' })}`;
+// Date de dernière modification du site (lastmod, llms.txt) : aucune horloge, pour que deux
+// builds du même contenu donnent les mêmes fichiers. Elle vient du dernier commit qui touche
+// les sources ; BUILD_DATE (AAAA-MM-JJ) la remplace hors dépôt git. Utilisée hors préview seulement.
+function contentDate() {
+  const forced = process.env.BUILD_DATE;
+  if (forced) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(forced)) throw new Error(`BUILD_DATE invalide (${forced}) : attendu AAAA-MM-JJ`);
+    return forced;
+  }
+  try {
+    const out = execFileSync('git', ['log', '-1', '--format=%cs', '--', 'content', 'templates', 'build', 'css', 'js'],
+      { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    if (out) return out;
+  } catch { /* pas de dépôt git ici */ }
+  throw new Error('Date de build introuvable : pas de commit git pour les sources, définir BUILD_DATE=AAAA-MM-JJ');
+}
 
 // ---------------------------------------------------------------------------
 // Moteur de templating minimal : {{path.to.value}}, {{{raw.html}}},
@@ -196,7 +209,7 @@ function inlineCss(html) {
 // ---------------------------------------------------------------------------
 // Page d'accueil générée (index.html à la racine, ou home/index.html en préview)
 // ---------------------------------------------------------------------------
-const ctx = { ...content, buildYear, buildDate, buildTimestamp };
+const ctx = { ...content };
 let html = render(template, ctx);
 html = html.replace('<!--JSONLD-->', buildJsonLd(content));
 html = postProcessImages(html);
@@ -237,8 +250,9 @@ if (PREVIEW) {
 }
 
 // ---------------------------------------------------------------------------
-// sitemap.xml — une seule URL à ce stade (page unique), horodatée au build.
+// sitemap.xml — une seule URL à ce stade (page unique), datée du dernier commit des sources.
 // ---------------------------------------------------------------------------
+const buildDate = contentDate();
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -290,7 +304,7 @@ const sectionAnchors = {
 
 let llms = `# ${content.organization.name}\n\n`;
 llms += `> ${content.meta.description}\n\n`;
-llms += `Généré au build le ${buildDate}. Source de vérité : content/site-content.json.\n\n`;
+llms += `Mis à jour le ${buildDate}. Source de vérité : content/site-content.json.\n\n`;
 llms += `## ${[content.hero.titleMain, content.hero.titleEm].filter(Boolean).join(' ')}\n\n${content.hero.lede}\n\n`;
 if (Array.isArray(content.hero.points) && content.hero.points.length) {
   llms += content.hero.points.map((p) => `- ${p}`).join('\n') + '\n\n';
