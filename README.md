@@ -103,26 +103,21 @@ Dans l'ordre de la page, du haut vers le bas :
 | Langue, couleur du navigateur, widget de retour | `meta.lang`, `meta.themeColor`, `meta.feedbackWidget` |
 | Domaine (canonical, URLs absolues) | `meta.domain` (le chemin `meta.path` est posé par le build selon `PREVIEW`) |
 | Libellés d'interface (lien d'évitement, menus, aria-label, titres du pied de page, alt du badge) | `ui.*` |
-| Menu du header + bouton « Devenir partenaire » | `nav.primary[]`, `nav.ctaLabel` / `nav.ctaHref` |
+| Menu du header + bouton « Nous contacter » | `nav.primary[]`, `nav.ctaLabel` / `nav.ctaHref` |
 | Hero — badge du haut | `hero.badge` |
 | Hero — grand titre en 2 tons | `hero.titleMain` / `hero.titleEm` |
 | Hero — paragraphe + 2 lignes cochées | `hero.lede`, `hero.points[]` |
-| Hero — les 2 boutons | `hero.ctaPrimary(+Href)`, `hero.ctaSecondary(+Href)` |
+| Hero — les 2 boutons + mention de lien sortant | `hero.ctaPrimary(+Href)`, `hero.ctaSecondary(+Href)`, `hero.ctaNote` |
 | Hero — paragraphe d'appui au-dessus de la photo | `hero.visualLede` |
-| Hero — photo + badge Qualifelec rotatif | `hero.image` + `hero.imageAlt`, `hero.certifBadge` (texte tournant, aussi utilisé par le badge d'ancrage) |
-| Hero — marquee des 5 logos partenaires | `hero.partners[]` (image/alt) |
-| 01 Bénéfices — numéro, sourcil, titre + 4 cartes illustrées + 4 chips de repères en bas | `sections.capacites.number`, `.eyebrow`, `.title`, `.cards[]` (title/text/icon/image/imageAlt), `.tags[]` |
-| Bande « Nos partenaires » — badge + phrase d'intro + 5 chips légendés + phrase de clôture | `sections.ancrage.eyebrow`, `.intro`, `.logos[]` (image/alt = légende), `.outro` |
-| 02 Le problème — titre en 2 tons + photo + intro + 4 cartes | `sections.probleme.titleMain` / `.titleEm`, `.image(+Alt)`, `.lede`, `.cards[]` |
-| 03 Le vrai choix (bande navy) — titre + photo encadrée + 2 cartes | `sections.insight.titleMain` / `.titleEm`, `.image(+Alt)`, `.ledes[]`, `.cards[]` |
-| 04 La solution — titre + intro + 4 cartes + photo | `sections.solution.*`, `.image(+Alt)` (la carte mise en avant a `"accent": true`) |
-| 05 Qui fait quoi — photo + 2 colonnes | `sections.roles.image(+Alt)`, `.partner.*`, `.network.*`, `.footnote` |
-| 06 Parcours (bande grise) — photo + 4 étapes | `sections.parcours.image(+Alt)`, `.steps[]` (num/title/text) |
-| 07 Qui sommes-nous — 2 écrans légendés + 3 cartes | `sections.equipe.screens[]` (image/alt/label/detail), `.cards[]` |
-| 08 Références — photo + 4 faits + 8 logos | `sections.references.image(+Alt)`, `.facts[]` (client/detail), `.logos[]` |
-| 09 Bénéfices concrets — 5 cartes + photo en 6e cellule | `sections.benefices.cards[]`, `.image(+Alt)` |
-| 10 FAQ — numéro, sourcil, titre, 7 questions/réponses + schéma sticky | `faq.number`, `faq.eyebrow`, `faq.titleMain` / `faq.titleEm`, `faq.items[]` (question/answer, item 5 : `image`/`imageAlt`), `faq.image(+Alt)` |
-| CTA final (bande navy pleine largeur, badge centré) | `contact.eyebrow`, `.title`, `.lede`, `.ctaLabel(+Href)`, `.ctaSecondaryLabel(+Href)`, `.note` |
+| Hero — photo + badge d'agrément rotatif | `hero.image` + `hero.imageAlt`, `hero.certifBadge` (texte tournant), `ui.certifAlt` (alt du logo) |
+| 01 Services — numéro, sourcil, titre + 4 cartes illustrées + 4 chips de repères en bas | `sections.capacites.number`, `.eyebrow`, `.title`, `.cards[]` (title/text/icon/image/imageAlt), `.tags[]` |
+| 02 Supervision — titre en 2 tons + intro (prix de l'espace Exploitant) + 4 cartes + photo | `sections.solution.*`, `.image(+Alt)` (une carte peut être mise en avant avec `"accent": true`) |
+| 03 Deux métiers — photo + 2 colonnes | `sections.roles.image(+Alt)`, `.partner.*`, `.network.*`, `.footnote` |
+| 04 Accompagnement — photo + 6 étapes | `sections.parcours.image(+Alt)`, `.steps[]` (num/title/text) |
+| 05 Qui sommes-nous — 2 écrans légendés + 3 cartes | `sections.equipe.screens[]` (image/alt/label/detail), `.cards[]` |
+| 06 Nos atouts — 6 cartes | `sections.benefices.cards[]` |
+| 07 FAQ — numéro, sourcil, titre, 6 questions/réponses + schéma sticky | `faq.number`, `faq.eyebrow`, `faq.titleMain` / `faq.titleEm`, `faq.items[]` (question/answer, `image`/`imageAlt` facultatifs), `faq.image(+Alt)` |
+| Contact (bande navy pleine largeur) | `contact.eyebrow`, `.title`, `.lede`, `.ctaLabel(+Href)`, `.ctaSecondaryLabel(+Href)`, `.note` |
 | Footer clair — taglines, segments, contact, liens légaux, copyright | `footer.*` (taglines, `segments[]`, `contactBlurb`, `legalLinks[]`, `copyrightSuffix`) ; titres des colonnes : `ui.footerSegmentsTitle`, `ui.footerContactTitle` |
 | Coordonnées (partout) | `organization.email`, `.phoneDisplay` (affichage) / `.phoneHref` (lien `tel:` et JSON-LD, format international) |
 | Marque, données structurées | `organization.name`, `.brandSuffix`, `.parentOrganizationName`, `.logo`, `.description`, `.areaServed`, `.social[]` (liens `sameAs` du JSON-LD, pas affichés) |

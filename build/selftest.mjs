@@ -101,7 +101,7 @@ scenario('l\'URL d\'un lien n\'est jamais « typographiée »', (d) => {
 const css = (d, ajout) => { ecrire(d, 'css/main.css', lire(d, 'css/main.css') + '\n' + ajout + '\n'); ko(node(d, 'generate.mjs').ok, 'generate'); };
 scenario('style="…" inline dans le template → validate échoue', (d) => { ecrire(d, 'templates/index.template.html', lire(d, 'templates/index.template.html').replace('class="eyebrow"', 'class="eyebrow" style="color:red"')); ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), 'style="', 'style inline'); });
 scenario('gradient de fond → validate échoue', (d) => { css(d, '.badge-pill{background:linear-gradient(red,blue)}'); doitEchouer(node(d, 'validate.mjs'), 'gradient', 'gradient'); });
-scenario('gradient en masque, même sur le marquee → validate échoue (aucune exception)', (d) => { css(d, '.partner-marquee{mask-image:linear-gradient(90deg,transparent,black)}'); doitEchouer(node(d, 'validate.mjs'), 'gradient', 'masque du marquee'); });
+scenario('gradient en masque, même sur un conteneur de logos → validate échoue (aucune exception)', (d) => { css(d, '.badge-pill{mask-image:linear-gradient(90deg,transparent,black)}'); doitEchouer(node(d, 'validate.mjs'), 'gradient', 'masque'); });
 scenario('police mono sur `code` → validate échoue (aucune exception)', (d) => { css(d, 'code{font-family:var(--font-mono)}'); doitEchouer(node(d, 'validate.mjs'), 'font-family', 'police mono'); });
 scenario('emoji dans le contenu → validate échoue', (d) => { contenu(d, (c) => { c.hero.lede = c.hero.lede + ' 🚀'; }); ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), 'emoji', 'emoji'); });
 scenario('pictogramme ✓ dans le contenu → validate échoue', (d) => { contenu(d, (c) => { c.hero.lede = c.hero.lede + ' ✓'; }); ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), 'emoji', 'dingbat'); });
@@ -110,10 +110,10 @@ scenario('@font-face d\'une autre famille → validate échoue', (d) => { ecrire
 scenario('transform dans un :hover → validate échoue', (d) => { css(d, '.btn-pill--primary:hover{transform:translateY(-2px)}'); doitEchouer(node(d, 'validate.mjs'), ':hover', 'hover'); });
 scenario('box-shadow dans un :hover → validate échoue', (d) => { css(d, '.badge-pill:hover{box-shadow:0 2px 4px red}'); doitEchouer(node(d, 'validate.mjs'), 'box-shadow', 'hover ombre'); });
 scenario('nouvelle animation infinie → validate échoue', (d) => { css(d, '@keyframes pulse{ to{ opacity:.5 } }\n.badge-pill{animation:pulse 1s infinite}'); doitEchouer(node(d, 'validate.mjs'), 'pulse', 'boucle'); });
-scenario('boucle du marquee non coupée sous reduced-motion → validate échoue', (d) => {
-  const f = lire(d, 'css/main.css'); ko(f.includes('.partner-marquee__track,\n  .certif-badge__ring{ animation:none; }'), 'main.css inattendu');
-  ecrire(d, 'css/main.css', f.replace('.partner-marquee__track,\n  .certif-badge__ring{ animation:none; }', '.certif-badge__ring{ animation:none; }'));
-  ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), 'marquee-scroll', 'reduced-motion');
+scenario('boucle du badge non coupée sous reduced-motion → validate échoue', (d) => {
+  const f = lire(d, 'css/main.css'); ko(f.includes('@media (prefers-reduced-motion:reduce){\n  .certif-badge__ring{ animation:none; }\n}'), 'main.css inattendu');
+  ecrire(d, 'css/main.css', f.replace('@media (prefers-reduced-motion:reduce){\n  .certif-badge__ring{ animation:none; }\n}', ''));
+  ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), 'certif-spin', 'reduced-motion');
 });
 scenario('border-radius en dur (12px) → validate échoue', (d) => { css(d, '.badge-pill{border-radius:12px}'); doitEchouer(node(d, 'validate.mjs'), 'border-radius', 'rayon'); });
 scenario('--radius-image modifié → validate échoue', (d) => { ecrire(d, 'css/tokens.css', lire(d, 'css/tokens.css').replace('--radius-image: 20px;', '--radius-image: 8px;')); ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), '--radius-image', 'jeton'); });

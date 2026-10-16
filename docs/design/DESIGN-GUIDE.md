@@ -18,12 +18,12 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 
 ## Couleur
 
-- `--background` `#FFFFFF` : la page. `--secondary` `#2D2E83` (navy) : l'autorité — hero, bande insight, bande CTA. `--primary` `#36A9E1` (ciel) : la teinte de marque, désormais **décorative uniquement** — icônes actives, filets, dots, bordure d'emphase, disque du badge Qualifelec, coche des rôles.
+- `--background` `#FFFFFF` : la page. `--secondary` `#2D2E83` (navy) : l'autorité — hero, bande CTA. `--primary` `#36A9E1` (ciel) : la teinte de marque, désormais **décorative uniquement** — icônes actives, filets, dots, bordure d'emphase, disque du badge d'agrément, coche des rôles.
 - Usages **textuels** (arbitrage deux-bleus du 2026-08-23) : boutons primaires sur `--primary-fill` `#1A7DAD` (label blanc, 4,58:1 ; hover `#17739F`, press `#1C5875`) ; sourcils, clauses teintées `.em`, labels de liste sur fonds clairs en `--accent-ink` `#17739F` (5,27:1 sur blanc, 4,83:1 sur `--muted`) ; les mêmes accents sur bandes navy en `--accent-ink-on-dark` `#4FB5E8` (5,0:1 sur `--secondary`).
 - Titres `#171844` (navy profond, jamais noir). Corps `#303030`. Liens et nav active `#1C5875` (`--link`).
 - Badges d'icônes : `--accent` lilas, teinte tournée par position dans la grille (`--accent-badge-2/3/4`, oklch) ; les coches des colonnes de rôles suivent la même rotation.
 - `--accent` `#8B8CD7` (lilas) : uniquement remplissage des badges d'icône sur sections claires. `--success` `#93BD21` : uniquement à 16 % derrière les icônes de bénéfices. `--danger` `#C0392B` : uniquement inputs invalides.
-- Fonds colorés en plus du blanc : `--muted` `#F5F5F5` pour les bandes ancrage, rôles et références ; navy pour le hero, la bande insight et la bande CTA. Footer **clair**. Boutons primaires : label blanc sur `--primary-fill` encre.
+- Fonds colorés en plus du blanc : `--muted` `#F5F5F5` pour la bande des deux métiers ; navy pour le hero et la bande CTA. Footer **clair**. Boutons primaires : label blanc sur `--primary-fill` encre.
 
 ## Typographie
 
@@ -43,7 +43,7 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 - **Fonds plats uniquement.** Zéro gradient, zéro texture, zéro pattern. Le texte ne se pose jamais sur une photo.
 - Signature du système : hairline `1px solid #D9D9D9` sur chaque carte, tuile, chip, étape, colonne ; `border-block` entre sections blanches consécutives. Sur navy : `rgba(255,255,255,.22)` (bordures de cartes `.16`).
 - **Cartes carrées** — radius 0, non négociable. 6px : boutons, inputs, badges d'icône, toggle nav, retour-haut. 4px : focus rings. 999px : le point de statut 8px seul. **Exception images** : photos, screenshots, schémas → `--radius-image` 20px.
-- Ombres : une seule dans tout le système — `0 1px 2px rgba(0,0,0,.05)` (badge Qualifelec ; le bouton ghost, jamais employé, a été retiré). Rien d'autre. `--shadow-deep` (visuel du hero), qui n'a jamais été rendue (`drop-shadow()` refuse le rayon d'étalement négatif), est retirée du système (décision de Romain, 2026-10-16, REV #32) ; le canvas est à aligner. La profondeur vient des bordures et des bandes.
+- Ombres : une seule dans tout le système — `0 1px 2px rgba(0,0,0,.05)` (badge d'agrément ; le bouton ghost, jamais employé, a été retiré). Rien d'autre. `--shadow-deep` (visuel du hero), qui n'a jamais été rendue (`drop-shadow()` refuse le rayon d'étalement négatif), est retirée du système (décision de Romain, 2026-10-16, REV #32) ; le canvas est à aligner. La profondeur vient des bordures et des bandes.
 
 ## Cartes et états
 
@@ -55,7 +55,7 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 ## Animation
 
 - Un easing (`cubic-bezier(.4,0,.2,1)`), une durée (`.2s`) pour les couleurs. Une entrée : reveal au scroll (opacity + translateY 14px→0, 500ms, une fois, à 12 % de visibilité).
-- **Rien ne boucle, ne rebondit, ne parallaxe** — exceptions assumées et documentées : le marquee partenaires du hero et le badge Qualifelec rotatif. Tout est coupé sous `prefers-reduced-motion`, smooth-scroll compris.
+- **Rien ne boucle, ne rebondit, ne parallaxe** — exception assumée et documentée : le badge d'agrément Advenir rotatif du hero (le marquee partenaires est retiré le 2026-10-16). Tout est coupé sous `prefers-reduced-motion`, smooth-scroll compris.
 
 ## Imagerie
 
@@ -77,10 +77,10 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 - La marque dit **BRS Connect / BRS** en 3e personne pour décrire, **nous** seulement pour les engagements et les refus. Le lecteur est **vous**, sujet de la phrase le plus souvent : « Vous gardez le client. Vous fixez votre marge. »
 - **Le geste signature** : titres en deux clauses — négation puis correction, la seconde teintée : « Le choix n'est pas de poser plus. *C'est de rester propriétaire de vos marchés.* »
 - **Sentence case partout.** L'uppercase vient du CSS (eyebrows, labels), jamais du contenu. Majuscule aux choses nommées : *Premier chantier*, *Connect*.
-- **Under-claiming assumé** : les limites se disent (« BRS Connect démarre : il n'y a pas encore de témoignages partenaires à afficher. »). Pas de superlatifs, pas de « leader », pas de pourcentages de croissance. Un chiffre est toujours attribué à un client nommé.
-- FAQ : questions dans la voix du lecteur, soupçon compris ; réponses ouvrant sur le verdict (**Non.** / **À la prestation, projet par projet.**). Jamais « Excellente question ».
-- Vocabulaire exact à préserver : `IRVE`, `exploitant`, `supervision`, `exploitation`, `télérelève`, `préconfiguration`, `bureau d'études (BE)`, `appel d'offres`, `cahier des charges`, `copropriété`, `bailleur social`, `accord-cadre`, `à la prestation`, `Premier chantier`, `Qualifelec`, `ADVENIR`, `TGBT`.
-- **Deux CTA, partout, dans cet ordre** : « Échanger 15 min sur un projet » (primaire) puis « Devenir partenaire ». Lien sortant = mention en petit (« Ce lien ouvre le formulaire de contact de Borne Recharge Service. »).
+- **Sources uniques** (décision du 2026-10-16) : un fait n'est écrit que s'il figure dans la Plaquette BRS CONNECT 2026 ou sur la page bornerecharge.fr/brs-connect (voir `brs-connect-strategy/foundations.json`, v4). Pas de superlatifs, pas de « leader », pas de pourcentages de croissance. Les chiffres sont ceux des sources (depuis 2012, +14 ans, 2 200 bornes pilotées, à partir de 8 € HT par mois et par borne).
+- FAQ : questions dans la voix du lecteur, soupçon compris ; réponses ouvrant sur le verdict (**Non.** / **Vous.**). Jamais « Excellente question ».
+- Vocabulaire exact à préserver : `IRVE`, `bornes`, `supervision`, `exploitation`, `télémaintenance`, `télérelève`, `préconfiguration`, `bureau d'études`, `espace Exploitant`, `interlocuteur privilégié`, `exclusivité d'intervention`, `Advenir`.
+- **Deux CTA, partout, dans cet ordre** : « Nous contacter » (primaire, formulaire de l'opérateur) puis « Obtenir notre plaquette » (PDF). Lien sortant = mention en petit (« Ce lien ouvre le formulaire de contact de Borne Recharge Service. »).
 - **Zéro emoji.**
 
 ## À reporter dans le canvas « BRS Connect - Design »
@@ -89,10 +89,12 @@ Le canvas a repris l'arbitrage deux-bleus du 2026-08-23 (ADR-0003), confirmé pa
 Romain le 2026-10-16. Restent à aligner dans l'app Claude Design les décisions
 du 2026-10-16, prises côté code pour appliquer les règles de ce guide :
 
-1. Marquee partenaires : fondu `mask-image` retiré, bords nets (aucun gradient, REV #15).
+1. Marquee partenaires : retiré (fondu `mask-image` d'abord, puis le marquee lui-même le 2026-10-16 : seuls les faits des sources s'affichent, aucun logo de partenaire).
 2. Visuel du hero : ombre `--shadow-deep` retirée, elle n'a jamais été rendue (REV #32).
 3. Images : le hero, les visuels d'en-tête de section et ceux des bénéfices passent
    de 6px à `--radius-image` 20px (REV #32).
+4. Badge rotatif : « Agrément Advenir » (logo Advenir) à la place du badge Qualifelec.
+5. Sections retirées : ancrage, le problème, le vrai choix, références ; section « Nos atouts » sans visuel ; nav : Services, Supervision, Accompagnement, Qui sommes-nous ?, Nos atouts, FAQ.
 
 Une fois le canvas aligné, supprimer cette section : le canvas redevient
 seul juge du visuel, code et canvas de nouveau synchrones.

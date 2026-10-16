@@ -6,16 +6,16 @@
 //   - zéro emoji ;
 //   - une seule famille (Inter) : font-family limité à Inter, aucune exception (pas de police mono) ;
 //   - aucun :hover qui déplace, agrandit, ombre ou redimensionne (la couleur seule bouge) ;
-//   - seules boucles : marquee partenaires et badge Qualifelec, chacune coupée sous prefers-reduced-motion ;
+//   - seule boucle : le badge d'agrément rotatif, coupé sous prefers-reduced-motion ;
 //   - rayons : jetons uniquement (--radius-none 0, --radius-image 20px), plus la barre du burger.
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
 export const ALLOW = {
-  // Gradient : aucune exception (décision de Romain, 2026-10-16 : le fondu du marquee est retiré).
+  // Gradient : aucune exception (décision de Romain, 2026-10-16 : le fondu du marquee est retiré, puis le marquee lui-même).
   gradient: [],
   // Boucles d'animation autorisées (DESIGN-GUIDE) : nom du @keyframes → sélecteurs à couper sous reduced-motion.
-  loops: { 'marquee-scroll': ['.partner-marquee__track'], 'certif-spin': ['.certif-badge__ring'] },
+  loops: { 'certif-spin': ['.certif-badge__ring'] },
   // Police mono : aucune exception (la règle `code` n'était jamais employée, décision de Romain, 2026-10-16).
   monoSelectors: [],
   // Rayons admis hors jetons : la barre du burger (2 px de haut, hors échelle de rayons).
@@ -112,7 +112,7 @@ export function lintDesign({ root, html, template, content, fail }) {
   // 6. Boucles : @keyframes et animations infinies limités à la liste, chacune coupée sous reduced-motion.
   const toutCss = files.map((f) => strip(css[f])).join('\n');
   for (const m of toutCss.matchAll(/@keyframes\s+([\w-]+)/g)) {
-    if (!(m[1] in ALLOW.loops)) fail(`Design : @keyframes « ${m[1]} » hors liste (seules boucles : marquee partenaires, badge Qualifelec).`);
+    if (!(m[1] in ALLOW.loops)) fail(`Design : @keyframes « ${m[1]} » hors liste (seule boucle : le badge d'agrément rotatif).`);
   }
   const rm = files.flatMap((f) => reducedMotionBlocks(css[f])).flatMap((b) => rules(b));
   const infinies = [];

@@ -34,6 +34,6 @@ jobs:
           fi
       - name: Aucune adresse email autre que celle du site (domaines d'exemple RFC 2606 permis, comme dans tools/controle-emails-site.py)
         run: |
-          if git ls-files -z | xargs -0 grep -IhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}' | grep -vxE 'contact@brsconnect\.fr|[^@]+@([A-Za-z0-9-]+\.)*(example\.(com|org|net)|invalid|test)'; then
+          if git ls-files -z | xargs -0 grep -IhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}' | grep -vxE 'info@bornerecharge\.fr|[^@]+@([A-Za-z0-9-]+\.)*(example\.(com|org|net)|invalid|test)'; then
             echo "adresse email inattendue"; exit 1
           fi

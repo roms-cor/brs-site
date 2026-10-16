@@ -195,11 +195,9 @@
   --reveal-offset:   14px;
   --reveal-threshold: .12;  /* miroir JS — voir js/main.js                  */
 
-  /* Deux boucles, et deux seulement — exception assumée à la règle
-     « rien ne boucle » (import design 2026-08-22) : le marquee partenaires
-     du hero et le badge Qualifelec rotatif. Toutes deux coupées sous
+  /* Une seule boucle — exception assumée à la règle « rien ne boucle »
+     (import design 2026-08-22) : le badge d'agrément rotatif du hero
+     (le marquee partenaires est retiré le 2026-10-16). Coupée sous
      prefers-reduced-motion par la règle globale de base.css.             */
-  --duration-marquee:   28s;   /* défilement des chips partenaires          */
-  --duration-spin:      18s;   /* badge Qualifelec du hero (128px)          */
-  --duration-spin-slow: 24s;   /* badge Qualifelec d'ancrage (96px)         */
+  --duration-spin:      18s;   /* badge d'agrément Advenir du hero (128px)  */
 }

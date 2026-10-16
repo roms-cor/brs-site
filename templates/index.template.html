@@ -77,7 +77,6 @@
   .grid-2{ display:grid !important; grid-template-columns:repeat(2,1fr) !important; }
   .grid-3{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; }
   .media-grid{ display:grid !important; grid-template-columns:repeat(2,1fr) !important; }
-  .ref-grid{ display:grid !important; grid-template-columns:repeat(4,1fr) !important; }
   .site-footer__top{ display:grid !important; grid-template-columns:1.4fr .8fr .8fr .9fr !important; }
   .numbered__layout{ display:block !important; }
 
@@ -94,8 +93,7 @@
     margin-top:0 !important; padding-block:12mm !important;
   }
 
-  .tile, .step-tile, .benefit-tile, .ref-chip,
-  details.faq-item, .team-visual{
+  .tile, .step-tile, .benefit-tile, details.faq-item, .team-visual{
     break-inside:avoid; page-break-inside:avoid;
   }
 
@@ -118,8 +116,6 @@
   .icon-badge{ width:30px !important; height:30px !important; margin-bottom:0 !important; }
   .icon-badge svg{ width:15px !important; height:15px !important; }
   .benefit-tile h3{ margin-top:3mm !important; }
-  .ref-grid{ margin-top:5mm !important; gap:4mm !important; }
-  .ref-chip{ height:16mm !important; }
   .team-visual{ padding:3mm !important; }
   .team-visual img{ max-height:70mm; width:auto; margin-inline:auto; }
 
@@ -134,15 +130,12 @@
 
   /* Import design 2026-08-22 : à l'impression, les boucles et visuels
      d'appoint sortent ; le contenu garde la priorité. */
-  .partner-marquee, .certif-badge, .faq-visual,
-  .section-head__visual, .refs-visual, .media-frame{ display:none !important; }
-  .section-head--split, .solution-layout, .parcours-layout,
-  .refs-layout, .faq-layout{ display:block !important; }
+  .certif-badge, .faq-visual, .section-head__visual{ display:none !important; }
+  .section-head--split, .solution-layout, .parcours-layout, .faq-layout{ display:block !important; }
   .media-grid{ display:grid !important; grid-template-columns:repeat(2,1fr) !important; gap:5mm !important; }
   .media-grid__item img{ max-height:50mm; width:auto; }
   .tile__visual{ display:none !important; }
   .faq-item__visual{ display:none !important; }
-  .benefit-media{ display:none !important; }
 </style>
 </head>
 
@@ -213,6 +206,7 @@
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
+        <p class="hero-alt__note">{{hero.ctaNote}}</p>
       </div>
       <div class="hero-alt__visual">
         <p class="hero-alt__lede hero-alt__visual-lede">{{hero.visualLede}}</p>
@@ -223,38 +217,16 @@
               <defs><path id="certif-circle-hero" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
               <text><textPath href="#certif-circle-hero">{{hero.certifBadge}} • {{hero.certifBadge}} •</textPath></text>
             </svg>
-            <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="{{ui.certifAlt}}" loading="eager"></span>
+            <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-advenir.webp" alt="{{ui.certifAlt}}" loading="eager"></span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Marquee partenaires — une des deux seules boucles du site (exception
-         assumée, cf. DESIGN-GUIDE) ; coupée sous prefers-reduced-motion. -->
-    <div class="wrap">
-      <div class="partner-marquee" role="group" aria-label="{{ui.partnersLabel}}">
-        <div class="partner-marquee__track">
-          <!-- Chaque liste répète les logos (clones aria-hidden) pour dépasser la largeur du conteneur :
-               la piste, décalée de -50 %, ne laisse jamais de vide à droite. -->
-          <ul class="partner-marquee__list">
-            {{#each hero.partners}}<li class="partner-chip"><img src="{{image}}" alt="{{alt}}" loading="lazy"></li>
-            {{/each}}
-            {{#each hero.partners}}<li class="partner-chip partner-chip--clone" aria-hidden="true"><img src="{{image}}" alt="" loading="lazy"></li>
-            {{/each}}
-          </ul>
-          <ul class="partner-marquee__list" aria-hidden="true">
-            {{#each hero.partners}}<li class="partner-chip"><img src="{{image}}" alt="" loading="lazy"></li>
-            {{/each}}
-            {{#each hero.partners}}<li class="partner-chip partner-chip--clone"><img src="{{image}}" alt="" loading="lazy"></li>
-            {{/each}}
-          </ul>
-        </div>
-      </div>
-    </div>
   </section>
 
 
-  <!-- ====================== 01 · CAPACITÉS ====================== -->
+  <!-- ====================== 01 · SERVICES ====================== -->
   <section class="numbered" id="capacites" aria-labelledby="capacites-title">
     <div class="wrap numbered__layout">
       <div>
@@ -284,94 +256,7 @@
   </section>
 
 
-  <!-- ====================== ANCRAGE MARCHÉ (strip, non numérotée) ====================== -->
-  <section class="section section--tight section--muted" id="ancrage" aria-label="{{ui.ancrageLabel}}">
-    <div class="wrap">
-      <div class="ancrage-head">
-        <span class="eyebrow">{{sections.ancrage.eyebrow}}</span>
-        <div class="certif-badge certif-badge--light">
-          <svg class="certif-badge__ring" viewBox="0 0 100 100" aria-hidden="true">
-            <defs><path id="certif-circle-ancrage" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
-            <text><textPath href="#certif-circle-ancrage">{{hero.certifBadge}} • {{hero.certifBadge}} •</textPath></text>
-          </svg>
-          <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="{{ui.certifAlt}}" loading="lazy"></span>
-        </div>
-      </div>
-      <p class="ancrage-note">{{sections.ancrage.intro}}</p>
-      <ul class="partner-grid" data-reveal>
-        {{#each sections.ancrage.logos}}<li class="ref-chip"><img src="{{image}}" alt="" loading="lazy"><span class="ref-chip__caption">{{alt}}</span></li>
-        {{/each}}
-      </ul>
-      <p class="ancrage-note ancrage-note--outro">{{sections.ancrage.outro}}</p>
-    </div>
-  </section>
-
-
-  <!-- ====================== 02 · LE PROBLÈME ====================== -->
-  <section class="numbered section--edged" id="probleme" aria-labelledby="probleme-title">
-    <div class="wrap numbered__layout">
-      <div>
-        <div class="section-head--split">
-          <div>
-            <span class="eyebrow"><span class="eyebrow__num" aria-hidden="true">{{sections.probleme.number}}</span>{{sections.probleme.eyebrow}}</span>
-            <h2 class="title-accent" id="probleme-title">{{sections.probleme.titleMain}} <span class="em">{{sections.probleme.titleEm}}</span></h2>
-            <p class="lede">{{sections.probleme.lede}}</p>
-          </div>
-          <img class="section-head__visual" src="{{sections.probleme.image}}" alt="{{sections.probleme.imageAlt}}" width="1200" height="896" loading="lazy">
-        </div>
-
-        <div class="grid-2" data-reveal>
-          {{#each sections.probleme.cards}}<article class="tile">
-            <div class="tile__head">
-              <span class="icon-badge" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">{{{iconSvg}}}</svg>
-              </span>
-              <h3>{{title}}</h3>
-            </div>
-            <p>{{text}}</p>
-          </article>
-          {{/each}}
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ====================== 03 · L'INSIGHT ====================== -->
-  <section class="numbered numbered--dark" id="solution" aria-labelledby="solution-title">
-    <div class="wrap numbered__layout">
-      <div>
-        <div class="section-head--split section-head--stretch">
-          <div>
-            <span class="eyebrow"><span class="eyebrow__num" aria-hidden="true">{{sections.insight.number}}</span>{{sections.insight.eyebrow}}</span>
-            <h2 class="title-accent" id="solution-title">{{sections.insight.titleMain}} <span class="em">{{sections.insight.titleEm}}</span></h2>
-            {{#each sections.insight.ledes}}<p class="lede">{{this}}</p>
-            {{/each}}
-
-            <div class="grid-2 grid--tight-top" data-reveal>
-              {{#each sections.insight.cards}}<article class="tile tile--on-dark">
-                <div class="tile__head">
-                  <span class="icon-badge" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">{{{iconSvg}}}</svg>
-                  </span>
-                  <h3>{{title}}</h3>
-                </div>
-                <p>{{text}}</p>
-              </article>
-              {{/each}}
-            </div>
-          </div>
-
-          <div class="media-frame">
-            <img src="{{sections.insight.image}}" alt="{{sections.insight.imageAlt}}" width="1200" height="896" loading="lazy">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ====================== 04 · LA FORME DE LA SOLUTION ====================== -->
+  <!-- ====================== 02 · SUPERVISION ====================== -->
   <section class="numbered" id="offre" aria-labelledby="offre-title">
     <div class="wrap numbered__layout">
       <div>
@@ -401,7 +286,7 @@
   </section>
 
 
-  <!-- ====================== 05 · QUI FAIT QUOI ====================== -->
+  <!-- ====================== 03 · DEUX MÉTIERS ====================== -->
   <section class="numbered section--muted" id="roles" aria-labelledby="roles-title">
     <div class="wrap numbered__layout">
       <div>
@@ -436,7 +321,7 @@
   </section>
 
 
-  <!-- ====================== 06 · COMMENT ÇA SE PASSE ====================== -->
+  <!-- ====================== 04 · ACCOMPAGNEMENT ====================== -->
   <section class="numbered section--edged" id="parcours" aria-labelledby="parcours-title">
     <div class="wrap numbered__layout">
       <div>
@@ -461,7 +346,7 @@
     </div>
   </section>
 
-  <!-- ====================== 06 · POURQUOI CETTE ÉQUIPE ====================== -->
+  <!-- ====================== 05 · QUI SOMMES-NOUS ====================== -->
   <section class="numbered" id="equipe" aria-labelledby="equipe-title">
     <div class="wrap numbered__layout">
       <div>
@@ -495,38 +380,7 @@
   </section>
 
 
-  <!-- ====================== 08 · RÉFÉRENCES PROJETS ====================== -->
-  <section class="numbered section--muted" id="references" aria-labelledby="references-title">
-    <div class="wrap numbered__layout">
-      <div>
-        <div class="refs-layout">
-          <div>
-            <span class="eyebrow"><span class="eyebrow__num" aria-hidden="true">{{sections.references.number}}</span>{{sections.references.eyebrow}}</span>
-            <h2 class="title-accent" id="references-title">{{sections.references.titleMain}} <span class="em">{{sections.references.titleEm}}</span></h2>
-            <p class="lede">{{sections.references.lede}}</p>
-
-            <div class="ref-facts" data-reveal>
-              <span class="ref-facts__label">{{sections.references.factsLabel}}</span>
-              <ul>
-                {{#each sections.references.facts}}<li><strong>{{client}}</strong> — {{detail}}</li>
-                {{/each}}
-              </ul>
-            </div>
-          </div>
-
-          <img class="refs-visual" src="{{sections.references.image}}" alt="{{sections.references.imageAlt}}" width="1200" height="896" loading="lazy">
-        </div>
-
-        <div class="ref-grid" data-reveal>
-            {{#each sections.references.logos}}<div class="ref-chip"><img src="{{image}}" alt="{{alt}}" loading="lazy"></div>
-            {{/each}}
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ====================== 09 · CE QUE CELA PEUT CHANGER ====================== -->
+  <!-- ====================== 06 · NOS ATOUTS ====================== -->
   <section class="numbered section--edged" id="benefices" aria-labelledby="benefices-title">
     <div class="wrap numbered__layout">
       <div>
@@ -541,16 +395,14 @@
           <h3>{{title}}</h3>
           <p>{{text}}</p>
         </article>
-        {{/each}}<figure class="benefit-media">
-          <img src="{{sections.benefices.image}}" alt="{{sections.benefices.imageAlt}}" width="1200" height="896" loading="lazy">
-        </figure>
+        {{/each}}
       </div>
       </div>
     </div>
   </section>
 
 
-  <!-- ====================== 10 · FAQ ====================== -->
+  <!-- ====================== 07 · FAQ ====================== -->
   <section class="numbered" id="faq" aria-labelledby="faq-title">
     <div class="wrap numbered__layout">
       <div class="faq-layout">
@@ -574,16 +426,9 @@
   </section>
 
 
-  <!-- ====================== ÉCHANGE FONDATEUR (CTA, bande navy pleine largeur) ====================== -->
+  <!-- ====================== CONTACT (CTA, bande navy pleine largeur) ====================== -->
   <section class="numbered numbered--dark" id="contact" aria-labelledby="contact-title">
     <div class="wrap cta-band">
-      <div class="certif-badge certif-badge--cta">
-        <svg class="certif-badge__ring" viewBox="0 0 100 100" aria-hidden="true">
-          <defs><path id="certif-circle-cta" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
-          <text><textPath href="#certif-circle-cta">{{hero.certifBadge}} • {{hero.certifBadge}} •</textPath></text>
-        </svg>
-        <span class="certif-badge__logo"><img src="assets/images/partenaires/logo-qualifelec-irve.webp" alt="{{ui.certifAlt}}" loading="lazy"></span>
-      </div>
       <span class="eyebrow">{{contact.eyebrow}}</span>
       <h2 id="contact-title">{{contact.title}}</h2>
       <p class="lede">{{contact.lede}}</p>

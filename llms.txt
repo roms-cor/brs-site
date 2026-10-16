@@ -1,5 +1,5 @@
 # BRS Connect
 
-> brsconnect.fr redirige pour l'instant vers la page opérateur de Borne Recharge Service : https://bornerecharge.fr/brs-connect/. Contact : contact@brsconnect.fr
+> brsconnect.fr redirige pour l'instant vers la page opérateur de Borne Recharge Service : https://bornerecharge.fr/brs-connect/. Contact : info@bornerecharge.fr
 
 Version minimale publiée pendant le mode préview. La page complète en chantier est sur /home/ (non indexée) ; la version complète de ce fichier est régénérée depuis content/site-content.json au go-live.
