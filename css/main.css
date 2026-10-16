@@ -150,8 +150,9 @@
 .nav a:hover,.nav a[aria-current="true"]{ color:var(--link); }
 
 .header-cta{ display:none; }
+/* Seuil de bascule burger → nav complète : 1120px (la nav, la marque et le CTA demandent ~1103px ; REV #31). */
 
-@media (min-width:1040px){
+@media (min-width:1120px){
   .nav{ display:block; }
   .header-cta{ display:inline-flex; }
 }
@@ -179,7 +180,7 @@
 .nav-toggle[aria-expanded="true"] .nav-toggle__bar{ background:transparent; }
 .nav-toggle[aria-expanded="true"] .nav-toggle__bar::before{ transform:translateY(6px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] .nav-toggle__bar::after{  transform:translateY(-6px) rotate(-45deg); }
-@media (min-width:1040px){ .nav-toggle{ display:none; } }
+@media (min-width:1120px){ .nav-toggle{ display:none; } }
 
 .nav-mobile{
   display:none;
@@ -198,7 +199,7 @@
   border-bottom:var(--hairline);
 }
 .nav-mobile li:last-child a{ border-bottom:0; }
-@media (min-width:1040px){ .nav-mobile{ display:none!important; } }
+@media (min-width:1120px){ .nav-mobile{ display:none!important; } }
 
 
 /* --------------------------------------------------------------------------
