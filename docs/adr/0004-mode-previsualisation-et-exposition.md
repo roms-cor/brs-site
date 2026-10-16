@@ -1,6 +1,6 @@
 # ADR-0004 : Mode préview, redirection de la racine et exposition du dépôt
 
-**Statut :** Proposé (les faits et garde-fous du mode préview sont en place ; l'exposition du dépôt et le workflow restent à trancher par Roms)
+**Statut :** Partiellement accepté (le mode préview et ses garde-fous sont en place ; l'exposition du dépôt (A) est tranchée le 2026-10-16 ; le workflow (B) et le plugin tiers (C) restent à trancher par Roms)
 **Date :** 2026-10-16
 **Décideurs :** Roms
 
@@ -40,19 +40,20 @@ Trois faits relevés par la revue de codebase du 2026-10-15 (projet Nifty REV) :
   la racine reçoit `noindex` (doublon complet de la page). Checklist dans `README.md` (« Go-live »).
 - **Le build se teste lui-même** : `build/selftest.mjs` rejoue le build sur des copies altérées.
 
-### À trancher par Roms
-
-**A. Exposition du dépôt.** Options :
+**A. Exposition du dépôt : tranchée le 2026-10-16 par Roms, option 1 (assumer l'exposition).**
+Pas de workflow de déploiement ; le README (« Déploiement ») le dit. Options examinées :
 
 | Option | Pour | Contre |
 |---|---|---|
-| 1. Assumer l'exposition (retenue provisoirement, par défaut) | Aucun changement ; le dépôt est public de toute façon | Copy, garde-fous et sources lisibles sur le domaine de production avant le go-live |
+| 1. Assumer l'exposition (retenue) | Aucun changement ; le dépôt est public de toute façon | Copy, garde-fous et sources lisibles sur le domaine de production avant le go-live |
 | 2. Publier un sous-ensemble (branche `gh-pages` ou workflow de déploiement qui ne copie que `home/`, `assets/` utiles, fichiers racine) | Rien d'interne servi ; domaine propre | Un workflow de déploiement à maintenir ; la source reste lisible sur github.com (dépôt public) |
 
 Le dépôt restant public sur github.com dans les deux cas, l'option 2 ne protège que le domaine de
 production, pas le contenu : elle ne se justifie que si la copy ne doit pas être lisible sur brsconnect.fr
 avant le go-live. Si l'option 2 est retenue : vérifier par `curl` (GET/HEAD) que les URLs ci-dessus renvoient
 404 et que `/` et `/home/` répondent toujours.
+
+### À trancher par Roms
 
 **B. Workflow de validation.** Fichier proposé : `.github/workflows/validate.yml` (rejoue
 `generate`, `validate`, `flatten`, vérifie que les fichiers générés commités sont identiques, contrôle les
@@ -68,4 +69,4 @@ de la configuration partagée. Réglage de configuration, hors dépôt public.
 - Une bascule par erreur ou un oubli de `home/` au go-live échoue au build, pas en production.
 - Les contrôles de `tools/check.sh` (dépôt privé) restent la barrière de départ ; le workflow, s'il est
   accepté, protège aussi les contributions qui ne passent pas par le dépôt privé.
-- L'exposition (A) reste un risque accepté tant qu'elle n'est pas tranchée.
+- L'exposition (A) est un risque accepté (2026-10-16) : rien de secret ne doit entrer dans le dépôt public.

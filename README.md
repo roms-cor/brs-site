@@ -253,3 +253,10 @@ Contexte et décision : [ADR-0001](docs/adr/0001-connexion-github-pages.md).
 Limites assumées de Pages : en-têtes HTTP non personnalisables (cache 10 min,
 pas de HSTS/CSP) — non notés par Lighthouse ; si besoin un jour, passer le DNS
 derrière Cloudflare (cf. `docs/plan-lighthouse-98.md`, annexe).
+
+**Exposition assumée (décision du 2026-10-16, [ADR-0004](docs/adr/0004-mode-previsualisation-et-exposition.md))** :
+Pages sert la racine du dépôt, donc `content/`, `templates/`, `build/`, `docs/`, `README.md`
+et les images sources répondent aussi sur `brsconnect.fr`. Le dépôt étant public sur
+github.com, publier un sous-ensemble ne cacherait que ces URLs, pas le contenu. Rien de
+secret ne doit donc entrer dans ce dépôt (le contrôle `tools/check.sh` du dépôt privé
+surveille le contenu interne, les adresses email et le volume de clés modifiées).
