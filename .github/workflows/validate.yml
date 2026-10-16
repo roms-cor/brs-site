@@ -1,0 +1,39 @@
+# Contrôle à chaque push et pull request sur main : le build se rejoue et doit redonner les fichiers commités.
+# Ne construit rien de déployé et n'a accès à aucun secret : GitHub Pages sert directement la branche main.
+# Proposition de l'ADR-0004 (à valider avant d'être poussée).
+name: validate
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # generate.mjs lit la date du dernier commit des sources
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Générer, valider, aplatir (zéro dépendance)
+        run: node build/generate.mjs && node build/validate.mjs && node build/flatten.mjs
+      - name: Les fichiers générés commités sont ceux que le build produit
+        run: git diff --exit-code -- home index.html index-flat.html sitemap.xml llms.txt robots.txt
+      - name: Images dérivées à jour (sans sharp)
+        run: node build/verify-images.mjs
+      - name: Le build refuse ce qu'il prétend contrôler
+        run: node build/selftest.mjs
+      - name: Aucun chemin local, clé privée ni jeton dans les fichiers suivis
+        run: |
+          if git ls-files -z | xargs -0 grep -IlE '/Users/|BEGIN (RSA |EC )?PRIVATE KEY|ghp_[A-Za-z0-9]{20}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30}'; then
+            echo "motif sensible trouvé dans les fichiers ci-dessus"; exit 1
+          fi
+      - name: Aucune adresse email autre que celle du site (domaines d'exemple RFC 2606 permis, comme dans tools/controle-emails-site.py)
+        run: |
+          if git ls-files -z | xargs -0 grep -IhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}' | grep -vxE 'contact@brsconnect\.fr|[^@]+@([A-Za-z0-9-]+\.)*(example\.(com|org|net)|invalid|test)'; then
+            echo "adresse email inattendue"; exit 1
+          fi
