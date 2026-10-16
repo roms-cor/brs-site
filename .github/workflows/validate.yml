@@ -29,7 +29,7 @@ jobs:
         run: node build/selftest.mjs
       - name: Aucun chemin local, clé privée ni jeton dans les fichiers suivis
         run: |
-          if git ls-files -z | xargs -0 grep -IlE '/Users/|BEGIN (RSA |EC )?PRIVATE KEY|ghp_[A-Za-z0-9]{20}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30}'; then
+          if git ls-files -z | xargs -0 grep -IlE '[/]Users/|BEGIN (RSA |EC )?PRIVATE KEY|ghp_[A-Za-z0-9]{20}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30}'; then
             echo "motif sensible trouvé dans les fichiers ci-dessus"; exit 1
           fi
       - name: Aucune adresse email autre que celle du site (domaines d'exemple RFC 2606 permis, comme dans tools/controle-emails-site.py)
