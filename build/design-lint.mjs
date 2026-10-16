@@ -2,9 +2,9 @@
 // Ne décide rien : il verrouille l'état actuel. Une règle de design change dans le canvas « BRS Connect - Design »,
 // puis ici ; les exceptions sont des listes d'autorisation commentées (aucune exception implicite).
 //   - pas de style="…" inline (template et page générée) ;
-//   - zéro gradient, sauf le masque de fondu du marquee ;
+//   - zéro gradient (aucune exception, y compris en masque) ;
 //   - zéro emoji ;
-//   - une seule famille (Inter) : font-family limité à Inter ; `code` seul peut prendre la police mono du navigateur ;
+//   - une seule famille (Inter) : font-family limité à Inter, aucune exception (pas de police mono) ;
 //   - aucun :hover qui déplace, agrandit, ombre ou redimensionne (la couleur seule bouge) ;
 //   - seules boucles : marquee partenaires et badge Qualifelec, chacune coupée sous prefers-reduced-motion ;
 //   - rayons : jetons uniquement (--radius-none 0, --radius-image 20px), plus la barre du burger.
@@ -12,12 +12,12 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
 export const ALLOW = {
-  // Gradient : uniquement le fondu aux bords du marquee (propriété mask-image, jamais une couleur de fond).
-  gradient: [{ selector: '.partner-marquee', props: ['mask-image', '-webkit-mask-image'] }],
+  // Gradient : aucune exception (décision de Romain, 2026-10-16 : le fondu du marquee est retiré).
+  gradient: [],
   // Boucles d'animation autorisées (DESIGN-GUIDE) : nom du @keyframes → sélecteurs à couper sous reduced-motion.
   loops: { 'marquee-scroll': ['.partner-marquee__track'], 'certif-spin': ['.certif-badge__ring'] },
-  // Police mono : seulement pour la balise `code` (jamais employée dans le template).
-  monoSelectors: ['code'],
+  // Police mono : aucune exception (la règle `code` n'était jamais employée, décision de Romain, 2026-10-16).
+  monoSelectors: [],
   // Rayons admis hors jetons : la barre du burger (2 px de haut, hors échelle de rayons).
   radiusLiteral: [{ selector: '.nav-toggle__bar', value: '2px' }],
 };
@@ -77,10 +77,10 @@ export function lintDesign({ root, html, template, content, fail }) {
   for (const [label, rs] of toutes) {
     for (const r of rs) {
       for (const d of r.decls) {
-        // 3. Zéro gradient, sauf le masque du marquee.
+        // 3. Zéro gradient.
         if (/gradient\(/i.test(d.value)) {
           const ok = ALLOW.gradient.some((a) => r.selectors.every((s) => s === a.selector) && a.props.includes(d.prop));
-          if (!ok) fail(`Design : gradient dans ${label} (« ${r.selectors.join(', ')} » { ${d.prop} }) : aucun gradient hors fondu du marquee (DESIGN-GUIDE).`);
+          if (!ok) fail(`Design : gradient dans ${label} (« ${r.selectors.join(', ')} » { ${d.prop} }) : aucun gradient (DESIGN-GUIDE).`);
         }
         // 4. Une seule famille.
         if (d.prop === 'font-family') {

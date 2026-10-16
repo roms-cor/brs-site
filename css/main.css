@@ -343,12 +343,10 @@
 
 /* Marquee partenaires — l'autre boucle assumée. Liste dupliquée dans le
    template (clones en aria-hidden) ; la piste défile d'une demi-largeur.
-   Fondu aux deux bords, comme le canvas. */
+   Bords nets : aucun gradient sur le site (DESIGN-GUIDE), pas de masque de fondu. */
 .partner-marquee{
   overflow:hidden;
   margin-top:56px;   /* valeur de la maquette, hors échelle 4px — assumé */
-  -webkit-mask-image:linear-gradient(90deg,transparent,black 8%,black 92%,transparent);
-  mask-image:linear-gradient(90deg,transparent,black 8%,black 92%,transparent);
 }
 .partner-marquee__track{
   display:flex; align-items:center; width:max-content;

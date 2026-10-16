@@ -60,7 +60,7 @@ Une page blanche réglée par des filets de 1px, ponctuée de bandes navy plates
 ## Imagerie
 
 - Froide et dominante bleue : schémas isométriques navy/ciel, screenshots du portail de supervision, photos de bornes en parkings et copropriétés. Pas de filtre chaud, pas de grain, pas de N&B, pas de personnes qui posent.
-- Toute image porte `--radius-image` 20px. **Écarts constatés le 2026-10-16, à arbitrer dans le canvas (REV #32)** : cinq images restent à 6px (hero, deux visuels d'en-tête de section, deux visuels de bénéfices) ; les mats `.media-frame` et `.team-visual` sont à 32px (20px + 12px) ; le fondu `mask-image` du marquee est un quatrième cas de transparence. Traitement `.team-visual` : mat `--muted`, padding 12px, hairline, légende (icône service 44px + une phrase). Grilles média : images arrondies sans bordure, légende label + détail dessous.
+- Toute image porte `--radius-image` 20px. **Écarts constatés le 2026-10-16, à arbitrer dans le canvas (REV #32)** : cinq images restent à 6px (hero, deux visuels d'en-tête de section, deux visuels de bénéfices) ; les mats `.media-frame` et `.team-visual` sont à 32px (20px + 12px). Le fondu `mask-image` du marquee est retiré (décision de Romain, 2026-10-16, REV #15 : aucun gradient, bords nets) ; le canvas est à aligner. Traitement `.team-visual` : mat `--muted`, padding 12px, hairline, légende (icône service 44px + une phrase). Grilles média : images arrondies sans bordure, légende label + détail dessous.
 - Logos références/partenaires : couleurs d'origine, max 30px de haut, boîte sans cadre, jamais en niveaux de gris, jamais de hover.
 
 ## Iconographie
