@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { PREVIEW, HTML_FILE, PAGE_PATH } from './config.mjs';
 import { checkHtmlRefs } from './refs.mjs';
+import { lintDesign } from './design-lint.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
@@ -208,6 +209,9 @@ for (const [fgName, bgName] of contrastPairs) {
   }
 }
 
+// 11 ter. Règles d'usage du DESIGN-GUIDE (style inline, gradient, emoji, famille, hover, boucles, rayons) : voir build/design-lint.mjs.
+lintDesign({ root: ROOT, html, template, content, fail });
+
 // 12. Bascule préview / go-live : le mode « go-live » doit être voulu deux fois (constante + GO_LIVE=1), home/ ne doit
 //     plus exister, et sitemap / robots / llms doivent dire la même chose que le mode.
 const domain = content.meta.domain;
@@ -232,6 +236,10 @@ if (PREVIEW) {
   if (/Disallow:\s*\/\s*$/m.test(robots)) fail('Hors préview : robots.txt interdit tout le site.');
   if (!llms.includes(domain)) fail(`Hors préview : llms.txt ne mentionne pas ${domain}.`);
   if (html.includes('<meta name="robots" content="noindex">')) fail('Hors préview : la page publiée porte encore noindex.');
+  // REV #28 : le widget Ybug charge un script tiers (widget.ybug.io) dès l'ouverture, sans consentement, et les pages légales
+  // de l'opérateur ne le citent pas : il ne part pas en production tant qu'une décision écrite n'a pas dit autre chose.
+  if (content.meta.feedbackWidget) fail('Hors préview : meta.feedbackWidget vaut true (widget Ybug, script tiers sans consentement) ; le passer à false avant le go-live (tâche REV #28).');
+  if (/ybug/i.test(html)) fail('Hors préview : la page publiée charge encore Ybug.');
 }
 
 // ---------------------------------------------------------------------------

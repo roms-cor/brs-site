@@ -85,15 +85,43 @@ scenario('« Quoi ? » et « 7 à 22 kW » reçoivent des espaces insécables, v
   const v = node(d, 'validate.mjs'); ko(v.ok, 'validate : ' + v.out.slice(0, 200));
 });
 scenario('l\'URL d\'un lien n\'est jamais « typographiée »', (d) => {
-  contenu(d, (c) => { c.nav.ctaHref = 'mailto:a@b.fr?subject=Devenir partenaire : test'; });
+  contenu(d, (c) => { c.nav.ctaHref = 'mailto:a@example.org?subject=Devenir partenaire : test'; });
   ko(node(d, 'generate.mjs').ok, 'generate'); ko(!lire(d, 'home/index.html').match(/href="mailto:[^"]*\u00a0/), 'NBSP dans une URL');
 });
+
+// -- 3 ter. Règles de design du DESIGN-GUIDE (build/design-lint.mjs) : chaque règle casse validate, l'exception documentée passe.
+const css = (d, ajout) => { ecrire(d, 'css/main.css', lire(d, 'css/main.css') + '\n' + ajout + '\n'); ko(node(d, 'generate.mjs').ok, 'generate'); };
+scenario('style="…" inline dans le template → validate échoue', (d) => { ecrire(d, 'templates/index.template.html', lire(d, 'templates/index.template.html').replace('class="eyebrow"', 'class="eyebrow" style="color:red"')); ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), 'style="', 'style inline'); });
+scenario('gradient de fond → validate échoue', (d) => { css(d, '.badge-pill{background:linear-gradient(red,blue)}'); doitEchouer(node(d, 'validate.mjs'), 'gradient', 'gradient'); });
+scenario('gradient dans le masque d\'un autre élément → validate échoue (seul .partner-marquee est autorisé)', (d) => { css(d, '.badge-pill{mask-image:linear-gradient(90deg,transparent,black)}'); doitEchouer(node(d, 'validate.mjs'), 'gradient', 'masque ailleurs'); });
+scenario('emoji dans le contenu → validate échoue', (d) => { contenu(d, (c) => { c.hero.lede = c.hero.lede + ' 🚀'; }); ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), 'emoji', 'emoji'); });
+scenario('pictogramme ✓ dans le contenu → validate échoue', (d) => { contenu(d, (c) => { c.hero.lede = c.hero.lede + ' ✓'; }); ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), 'emoji', 'dingbat'); });
+scenario('font-family hors Inter → validate échoue', (d) => { css(d, ".badge-pill{font-family:Georgia,serif}"); doitEchouer(node(d, 'validate.mjs'), 'font-family', 'police'); });
+scenario('@font-face d\'une autre famille → validate échoue', (d) => { ecrire(d, 'css/base.css', lire(d, 'css/base.css') + "\n@font-face{ font-family:'Autre'; src:url('../assets/fonts/NOPE.woff2'); }\n"); ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), 'Autre', '@font-face'); });
+scenario('transform dans un :hover → validate échoue', (d) => { css(d, '.btn-pill--primary:hover{transform:translateY(-2px)}'); doitEchouer(node(d, 'validate.mjs'), ':hover', 'hover'); });
+scenario('box-shadow dans un :hover → validate échoue', (d) => { css(d, '.badge-pill:hover{box-shadow:0 2px 4px red}'); doitEchouer(node(d, 'validate.mjs'), 'box-shadow', 'hover ombre'); });
+scenario('nouvelle animation infinie → validate échoue', (d) => { css(d, '@keyframes pulse{ to{ opacity:.5 } }\n.badge-pill{animation:pulse 1s infinite}'); doitEchouer(node(d, 'validate.mjs'), 'pulse', 'boucle'); });
+scenario('boucle du marquee non coupée sous reduced-motion → validate échoue', (d) => {
+  const f = lire(d, 'css/main.css'); ko(f.includes('.partner-marquee__track,\n  .certif-badge__ring{ animation:none; }'), 'main.css inattendu');
+  ecrire(d, 'css/main.css', f.replace('.partner-marquee__track,\n  .certif-badge__ring{ animation:none; }', '.certif-badge__ring{ animation:none; }'));
+  ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), 'marquee-scroll', 'reduced-motion');
+});
+scenario('border-radius en dur (12px) → validate échoue', (d) => { css(d, '.badge-pill{border-radius:12px}'); doitEchouer(node(d, 'validate.mjs'), 'border-radius', 'rayon'); });
+scenario('--radius-image modifié → validate échoue', (d) => { ecrire(d, 'css/tokens.css', lire(d, 'css/tokens.css').replace('--radius-image: 20px;', '--radius-image: 8px;')); ko(node(d, 'generate.mjs').ok, 'generate'); doitEchouer(node(d, 'validate.mjs'), '--radius-image', 'jeton'); });
 
 // -- 4. Bascule go-live.
 function golive(d) { const cfg = lire(d, 'build/config.mjs'); ko(cfg.includes('export const PREVIEW = true;'), 'config.mjs inattendu'); ecrire(d, 'build/config.mjs', cfg.replace('export const PREVIEW = true;', 'export const PREVIEW = false;')); }
 scenario('PREVIEW=false sans GO_LIVE=1 → generate et validate échouent', (d) => { golive(d); doitEchouer(node(d, 'generate.mjs'), 'GO_LIVE=1', 'generate'); doitEchouer(node(d, 'validate.mjs'), 'GO_LIVE=1', 'validate'); });
+scenario('PREVIEW=false + GO_LIVE=1 avec feedbackWidget (Ybug) → validate échoue', (d) => {
+  golive(d); const env = { GO_LIVE: '1' };
+  contenu(d, (c) => { c.meta.feedbackWidget = true; });
+  ko(node(d, 'generate.mjs', env).ok, 'generate go-live');
+  rmSync(path.join(d, 'home'), { recursive: true });
+  doitEchouer(node(d, 'validate.mjs', env), 'feedbackWidget', 'Ybug hors préview');
+});
 scenario('PREVIEW=false + GO_LIVE=1 : home/ à supprimer, puis build complet, flat noindex', (d) => {
   golive(d); const env = { GO_LIVE: '1' };
+  contenu(d, (c) => { c.meta.feedbackWidget = false; });
   ko(node(d, 'generate.mjs', env).ok, 'generate go-live');
   doitEchouer(node(d, 'validate.mjs', env), 'home/', 'home/ présent');
   rmSync(path.join(d, 'home'), { recursive: true });
